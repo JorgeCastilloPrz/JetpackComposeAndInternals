@@ -96,6 +96,38 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
+#### The **composer**
+
+* ⛓ Connects the code we write with the runtime
+* 🗣 Informs the runtime about the shape of the tree by executing the Composable functions
+
+---
+
+#### **Idempotent**
+
+* Executing a Composable multiple times should always produce the same result (if its inputs have not changed)
+* The Composition should not vary as a result
+* **Consistency**
+
+---
+
+**(Infix) recomposition**
+
+<img src="slides/images/recomposition.png" width=900 />
+
+---
+
+<img src="slides/images/composition_recomposition_Composition.png" width=900 />
+
+---
+
+#### **Idempotent**
+
+* Composable functions can also re-execute if their input didn't change
+* Frame based animations, 
+* The runtime needs to keep that ability
+
+---
 
 
 
