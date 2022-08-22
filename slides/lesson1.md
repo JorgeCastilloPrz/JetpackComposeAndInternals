@@ -50,51 +50,55 @@
 * 🌻 Automatically reacting to state updates
 ---
 
+#### **Composable** functions
 
-
-#### **Compiler** prepares the road
-
-* **Rewrites** the function IR
-* Wraps restartable funcs into **"restart groups"**
-* Teaches runtime how to restart them by...
-* Adding restart block at the end 👇
-
-```kotlin
-// Transforms this...
-@Composable fun A(x: Int) {
-  f(x)
-}
-// ...into this
-@Composable fun A(x: Int, ...) {
-  $composer.startRestartGroup()
-  // ...
-  f(x)
-  $composer.endRestartGroup()?.updateScope { next ->
-    A(x, next, $changed or 0b1)
-  }
-}
-```
+<img src="slides/images/composable_function.png" width=400 />
 
 ---
 
-#### **Compiler** prepares the road
+<img src="slides/images/composable_function_input_output.png" width=800 />
 
-* `endRestartGroup` returns **`null`** when the body doesn't read any State that might vary
-* No need to teach runtime how to recompose
-* Only re-executes **when state that is read varies**
+---
+
+#### **Properties** of Composable functions
+
+* Expected by the runtime
+* Unlock runtime optimizations
+
+---
+
+#### **Calling context**
 
 ```kotlin
-@Composable fun A(x: Int, ...) {
-  $composer.startRestartGroup()
-  // ...
-  f(x)
-  $composer.endRestartGroup()?.updateScope { next ->
-    A(x, next, $changed or 0b1)
-  }
+// Compiler rewrites this
+@Composable
+fun NamePlate(name: String) {
+  Text(text = name)
+}
+```
+```kotlin
+// Into this
+@Composable
+fun NamePlate(name: String, $composer: Composer) {
+  $composer.start(123) // Unique key generated
+  Text(text = name, $composer)
+  $composer.end()
 }
 ```
 
+* `Composer` injected in all Composable calls
+* Forwarded down the tree ⏬
+
+
 ---
+
+<img src="slides/images/calling_context.png" width=900 />
+
+---
+
+
+
+
 
 ### **Smart** recomposition
 
