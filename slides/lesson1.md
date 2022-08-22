@@ -1,224 +1,56 @@
-# State
+## **1. Essentials**
 
 ---
 
-**Source of truth** of our Composables
+#### Compose **architecture**
+
+<img src="slides/images/compose_architecture.png" width=400 />
 
 ---
 
-### **map** UI state to UI
+#### **compiler** 🕵
 
-![Map state to UI](slides/images/map_state_to_ui.png)
-
----
-
-### **Map** UI state to UI
-
-```kotlin
-@Composable fun NamePlate(name: String) {
-    Text(name)
-}
-```
-
-* `name` 👉 input UI state
-* `Text(name)` 👉 emitted UI
+* 🤓 Analyzes the sources
+* 🔍 Looks for **`@Composable`**
+* ✅ Static checks
+* ✍️ Generates code (replace IR)
 
 ---
 
-### To **update** UI 🔄
+#### **material** 🎨
 
-Re-execute the function with **different args**
+* 🖍 Material **themes**
+* 🧩 Material **components** (`Button`, `Text`, `FAB`, `TopAppBar`, `BottomNavigation`...)
 
-```kotlin
-NamePlate("John Doe")
-```
-
-![Passing different input states](slides/images/input_state1.png)
-
-```kotlin
-NamePlate("Jane Smith")
-```
-
-![Passing different input states](slides/images/input_state2.png)
+<img src="slides/images/material.png" width=300 />
 
 ---
 
-### Called **Recomposition**
+#### **foundation** 🏗
 
-* But how to trigger it? 🤔
-
----
-
-### Modeling state
-
-```kotlin
-@Composable fun ProfileScreen() {
-  val nameUiState = remember { mutableStateOf("John Doe") }
-  NamePlate(nameUiState.value)
-}
-
-@Composable fun NamePlate(name: String) {
-  Text(name)
-}
-```
-
-* Use **mutable** state so it can be updated.
-* The state model **can still be immutable**.
-* `remember`?
+* 📦 **Generic** components (`Box`, `Row`, `Column`, `BasicText`, `BasicTextField`...)
+* 🎨 Create **design systems** on top (material)
 
 ---
 
-### remember 🧠
+#### **UI** 👁
 
-* Cache state **across recompositions**.
-* Calculated on first execution (composition).
-* **Not calculated again** on every recomposition.
-* Forgotten if the Composable is removed/replaced.
-
-```kotlin
-@Composable fun ProfileScreen() {
-  // State holder will be created only the first time.
-  val nameUiState = remember { mutableStateOf("John Doe") }
-  NamePlate(nameUiState.value)
-}
-```
+* 📐 **`Layout`** Composable (measure, place)
+* ✂️ Modifier system
+* 👭 Multiplatform lib 👉 [Android & Desktop](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui/src/)
+* 🤝 Integration with the platform (Android: `View` interop, accessibility, keyboard)
 
 ---
 
-### Triggering recomposition
+#### **runtime** ⚙️
 
-* Simply **update** the mutable `State` 🤷‍♂️
-* Any Composable functions **reading from it** will automatically recompose (i.e: re-execute)
-
-```kotlin
-@Composable fun ProfileScreen() {
-  Column {
-    val nameUiState = remember { mutableStateOf("John Doe") }
-    NamePlate(nameUiState.value)
-
-    Button(onClick = { nameUiState.value = "New name" }) {
-      Text("Click to get ")
-    }
-  }
-}
-```
-
+* 🔄 Composition / recomposition
+* 🧠 Smart recomposition
+* 🎞 The state snapshot system
+* 🌻 Automatically reacting to state updates
 ---
 
-![State sample](slides/images/state_sample.gif)
 
----
-
-### State **syntax**
-
-```kotlin
-// Default
-val mutableState = remember { mutableStateOf("John Doe") }
-mutableState.value = "New name"
-
-// Alternative 1: Delegation
-var value by remember { mutableStateOf("John Doe") }
-value = "New name"
-
-// Alternative 2: Destructuring (React style)
-val (value, setValue) = remember { mutableStateOf("John Doe") }
-setValue("New name")
-```
-
----
-
-### State **hoisting**
-
-* ⏬ **State passed down** the tree as function args
-* ⏫ **Events propagated up** the tree via callbacks
-* Example: `TextField`
-
----
-
-### State **hoisting**
-
-```kotlin
-@Composable
-fun TextBox() {
-   OutlinedTextField(
-      value = "",
-      onValueChange = { },
-      label = { Text("Name") }
-  )
-}
-```
-
-* Will **not display** the inserted characters.
-
----
-
-<img src="slides/images/state_hoisting.gif" width="400">
-
----
-
-### State **hoisting**
-
-* `TextField` hoists its state.
-* We must create and pass state to it.
-
-```kotlin
-@Composable
-fun TextBox() {
-    val inputText = remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        modifier = Modifier.padding(16.dp),
-        value = inputText.value, // read
-        onValueChange = { inputText.value = it }, // write
-        label = { Text("Name") }
-    )
-}
-```
-
----
-
-<img src="slides/images/state_hoisting2.gif" width="400">
-
----
-
-### State **hoisting**
-
-* Makes Composables **dummy**.
-* Makes Composables **reusable**.
-* They simply display the state we pass to them.
-
----
-
-#### **Stateful** vs **Stateless** Composables
-
-* Stateful 👉 Creates & manages its own state.
-  * When caller doesn't need to manage it.
-  * **Less reusable**.
-  * More frequent at the **root of the tree**.
-* Stateless 👉 Hoists its state.
-  * More reusable.
-  * **Shareable and interceptable state**.
-
----
-
-### **Exercise 👩🏾‍💻**
-
- * 1. Create a mutable state to represent the name (String) in `NameGenerator`.
- * 2. Default the state value to the first generated name (`repo.next()`).
- * 2. Make the name text Composable read from the state just created.
- * 3. Update the name on button click. (`repo.next()` to generate a new name).
-
-* **Validate your implementation by running the provided NameGeneratorTest.**
-
----
-
-## **Smart** recomposition and Class **stability**
-
----
-
-## Recomposition ⚙️
-
----
 
 #### **Compiler** prepares the road
 
