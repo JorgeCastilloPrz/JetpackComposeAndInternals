@@ -25,7 +25,7 @@ This course is also a very good option for teams wanting to migrate their codeba
 
 ## Author / instructor 👨‍💻
 
-<img align="left" style="margin-right:20px" src=".slides/images/twitteravatar.png">
+<img align="left" style="margin-right:20px" src="slides/images/twitteravatar.png">
 
 I'm [Jorge Castillo](https://twitter.com/jorgecastillopr) 👋 Android & Kotlin **Google Developer Expert**, currently working at Twitter. I am the author of [Jetpack Compose Internals 📖](https://leanpub.com/composeinternals/). I created this course and I will be your instructor.
 
