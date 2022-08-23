@@ -246,6 +246,57 @@ fun EventFeed(events: List<Event>) {
 
 ---
 
+#### **5. Fast execution**
+
+---
+
+#### **5. Fast execution**
+
+* Declarative style 👉 describe UI
+
+* Designed to emit changes, not making them
+
+* Exec only writes data to a structure (Composition)
+
+* Materializing the changes is decoupled
+
+---
+
+<img src="slides/images/fastexecution.png" width=900 />
+
+---
+
+#### **6. Positional memoization**
+
+---
+
+#### **6. Positional memoization**
+
+* "Function memoization" 👉 ability of a function to **cache its result based on its inputs**
+
+* Composable functions have knowledge about **their location in the sources**
+
+* Compose assigns them unique ids based on that
+
+```kotlin
+@Composable
+fun MyComposable() {
+  Text("Hello") // id1
+  Text("Hello") // id2
+  Text("Hello") // id3
+}
+```
+
+---
+
+#### **6. Positional memoization**
+
+<img src="slides/images/positionalmemoization1.png" width=800 />
+
+---
+
+
+
 ### **Smart** recomposition
 
 * Avoid recomposing the entire UI
