@@ -65,6 +65,10 @@
 
 ---
 
+Exercise 1: Our first Composable function
+
+---
+
 #### **Properties** of Composable functions
 
 * Expected by the runtime
@@ -97,7 +101,6 @@ fun NamePlate(name: String, $composer: Composer) {
 
 * `Composer` injected in all Composable calls
 * Forwarded down the tree ⏬
-
 
 ---
 
