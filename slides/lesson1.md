@@ -65,7 +65,7 @@
 
 ---
 
-Exercise 1: Our first Composable function
+📝 Exercise 1: Our first Composable function & previews
 
 ---
 
