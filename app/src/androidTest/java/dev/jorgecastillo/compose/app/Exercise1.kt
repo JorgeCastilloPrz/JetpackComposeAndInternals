@@ -1,12 +1,12 @@
 package dev.jorgecastillo.compose.app
 
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
@@ -31,7 +31,7 @@ import org.junit.Test
 class Exercise1Test {
 
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule(ComponentActivity::class.java)
 
     @Test
     fun text_displayed_and_centered_within_the_box() {
@@ -42,10 +42,14 @@ class Exercise1Test {
             }
         }
 
-        // Assert for the names from the repo in order: "Jane Smith", "Aleesha Salgado",
-        // "Alayna Bradley", "Zunaira English", "Cassandra Higgins", then starts again from the
-        // beginning.
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
+
+        val screenWidth = composeTestRule.activity.resources.displayMetrics.widthPixels
+        val screenHeight = composeTestRule.activity.resources.displayMetrics.heightPixels
+        composeTestRule.onNodeWithText("John Doe").onParent().assert(
+            takesAllAvailableSpace(screenWidth, screenHeight)
+        )
+        composeTestRule.onNodeWithText("John Doe").assert(isCenteredInParent())
         composeTestRule.onRoot().printToLog("Exercise 1")
     }
 }
