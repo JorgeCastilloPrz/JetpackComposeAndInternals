@@ -8,7 +8,8 @@
 
 ---
 
-#### **compiler** 🕵
+<img src="slides/images/title_compiler.png" width=200 style="margin-top:-100px;" />
+<br/>
 
 * 🤓 Analyzes the sources
 * 🔍 Looks for **`@Composable`**
@@ -17,7 +18,8 @@
 
 ---
 
-#### **material** 🎨
+<img src="slides/images/title_material.png" width=200 />
+<br/>
 
 * 🖍 Material **themes**
 * 🧩 Material **components** (`Button`, `Text`, `FAB`, `TopAppBar`, `BottomNavigation`...)
@@ -26,14 +28,16 @@
 
 ---
 
-#### **foundation** 🏗
+<img src="slides/images/title_foundation.png" width=200 style="margin-top:-100px;" />
+<br/>
 
 * 📦 **Generic** components (`Box`, `Row`, `Column`, `BasicText`, `BasicTextField`...)
 * 🎨 Create **design systems** on top (material)
 
 ---
 
-#### **UI** 👁
+<img src="slides/images/title_ui.png" width=200 style="margin-top:-100px;" />
+<br/>
 
 * 📐 **`Layout`** Composable (measure, place)
 * ✂️ Modifier system
@@ -42,7 +46,8 @@
 
 ---
 
-#### **runtime** ⚙️
+<img src="slides/images/title_runtime.png" width=200 style="margin-top:-100px;" />
+<br/>
 
 * 🔄 Composition / recomposition
 * 🧠 Smart recomposition
@@ -67,7 +72,11 @@
 
 ---
 
-#### **Calling context**
+#### **1. Calling context**
+
+---
+
+#### **1. Calling context**
 
 ```kotlin
 // Compiler rewrites this
@@ -103,11 +112,19 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
-#### **Idempotent**
+#### **2. Idempotent**
 
-* Executing a Composable multiple times should always produce the same result (if its inputs have not changed)
+---
+
+#### **2. Idempotent**
+
+* Executing a Composable multiple times should produce **same result** (if its inputs have not changed)
 * The Composition should not vary as a result
 * **Consistency**
+
+---
+
+**Why** would it execute multiple times?
 
 ---
 
@@ -121,16 +138,113 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
-#### **Idempotent**
+**(Infix) other reasons to re-execute**
 
-* Composable functions can also re-execute if their input didn't change
-* Frame based animations, 
-* The runtime needs to keep that ability
+* Always re-execute (idempotence):
+  * Composables not returning `Unit` (not skippable)
+  ```kotlin
+  val a = remember { heavyCalculation() }
+  ```
+  * Unstable (unreliable) inputs
 
 ---
 
+#### **3. Free of side effects**
 
+---
 
+#### **3. Free of side effects**
+
+* Avoid side effects in Composable functions
+* ⚠️ Can execute multiple times
+* ⚠️ Cannot control when it runs
+* ⚠️ Cannot dispose / cancel it
+* ⚠️ Risk of relation of order
+* ⚠️ Risk of concurrency
+
+```kotlin
+@Composable
+fun SpeakersFeed(networkService: SpeakersService) {
+  val speakers = networkService.loadSpeakers() // side effect
+  Column {
+    speakers.forEach { SpeakerCard(it) }
+  }
+}
+```
+
+---
+
+#### **3. Free of side effects**
+
+Example of the risk of relation of order
+
+```kotlin
+@Composable
+fun MainScreen() {
+  Header() // sets some external state
+  ProfileCard() // reads from it ⚠️
+  Detail()
+}
+```
+
+They can run in any order or in parallel 🤷‍
+
+---
+
+#### **3. Free of side effects**
+
+* Example of the risk of concurrency
+* Setting external var holding state
+* Can run from different threads 👉 accessing var **not thread-safe**
+
+```kotlin
+@Composable
+fun EventFeed(events: List<Event>) {
+  var count = 0
+
+  Column {
+    Text(if (count == 0) "No events." else "$count")
+    events.forEach { event ->
+      Text("Item: ${event.name}")
+      count++ // 🔥
+    }
+  }
+}
+```
+
+---
+
+#### **3. Free of side effects**
+
+✅ Use **effect handlers** to keep effects under control
+
+(more later)
+
+---
+
+#### **4. Restartable**
+
+---
+
+#### **4. Restartable**
+
+<img src="slides/images/restartable1.png" width=900 />
+
+---
+
+#### **4. Restartable**
+
+<img src="slides/images/restartable2.png" width=900 />
+
+---
+
+#### **4. Restartable**
+
+* Compiler generates code to enable this
+
+* Teaches the runtime how to restart (re-execute) the function
+
+---
 
 ### **Smart** recomposition
 

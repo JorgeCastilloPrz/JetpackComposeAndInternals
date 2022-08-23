@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HelloWorld() {
+    rememberCoroutineScope()
     Text("Hello world!")
 }
 
