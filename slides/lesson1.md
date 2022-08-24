@@ -321,6 +321,7 @@ fun MyComposable() {
 * Stores **the data of the Composition**
 * A trace of everything that happened during composition
 * Optimized for **linear access**
+* Gap buffer
 
 ---
 
@@ -342,29 +343,44 @@ fun MyComposable() {
 
 #### The **Slot Table**
 
-* get, move, insert, and delete 👉 **constant time**
-* moving the gap 👉 O(n)
-* 💡 Comp hierarchies rarely change in structure, mostly in terms of values
+* Ops done via injected `$composer`
 
+* get, move, insert, delete 👉 **constant time**
 
----
+* moving the gap 👉 **O(n)**
 
-* Done via the injected `Composer`
-* Optimized for rapid linear access
-* Gap buffer (common in text editors)
-* Implemented with a flat array larger than the collection of elements it represents
+* 💡 Comp hierarchies **rarely change in structure**, mostly in terms of values
 
 ---
 
-#### The **Slot Table**
+#### **Slot Table** with code
 
-* Compiler wraps Composable bodies so they emit a "group"
-* Generates a unique key for the group
-* The group identifies the Composable once stored in the table
-* Children are stored within the group
-* Group types: Restartable, movable, replaceable, reusable...
+Compiler translates this
 
- with a generated unique key instead
-* The group is written into the slot table and it can be identified by that key later
-* It groups all the Composables called inside.
-* Those Composables will be stored within that group in the table so they can be referenced together.
+```kotlin
+@Composable
+fun Counter() {
+ var count by remember { mutableStateOf(0) }
+ Button(text="Count: $count", onPress={ count += 1 })
+}
+```
+
+into
+
+```kotlin
+fun Counter($composer: Composer) {
+ $composer.start(123)
+ var count by remember($composer) { mutableStateOf(0) }
+ Button(
+   $composer,
+   text="Count: $count",
+   onPress={ count += 1 },
+ )
+ $composer.end()
+}
+```
+
+---
+
+<img src="slides/images/slottable5.png" width=1000 />
+
