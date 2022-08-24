@@ -67,7 +67,11 @@
 ---
 <!-- .slide: data-scene="Coding" -->
 
-📝 Exercise 1: Our first Composable function & previews
+📝 Exercise 1: Our first Composable function
+
+---
+
+📝 Exercise 1b: Showcase Compose Previews
 
 ---
 <!-- .slide: data-scene="Slides" -->
@@ -298,3 +302,13 @@ fun MyComposable() {
 #### **6. Positional memoization**
 
 <img src="slides/images/positionalmemoization1.png" width=800 />
+
+---
+
+<!-- .slide: data-scene="Coding" -->
+
+📝 Exercise 2: Button and user interaction
+
+---
+
+#### The **Slot Table**

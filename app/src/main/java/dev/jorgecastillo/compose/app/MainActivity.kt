@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import dev.jorgecastillo.compose.app.ui.composables.NamePlate
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,12 +21,5 @@ class MainActivity : ComponentActivity() {
                 NamePlate("John Doe")
             }
         }
-    }
-}
-
-@Composable
-fun NamePlate(name: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(name)
     }
 }
