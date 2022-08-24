@@ -298,17 +298,73 @@ fun MyComposable() {
 ```
 
 ---
-
+<!-- .slide: data-scene="Slides" -->
 #### **6. Positional memoization**
 
 <img src="slides/images/positionalmemoization1.png" width=800 />
 
 ---
-
 <!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 2: Button and user interaction
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### The **Slot Table**
+
+---
+
+#### The **Slot Table**
+
+* In-memory structure
+* Stores **the data of the Composition**
+* A trace of everything that happened during composition
+* Optimized for **linear access**
+
+---
+
+<img src="slides/images/slottable1.png" width=1000 />
+
+---
+
+<img src="slides/images/slottable2.png" width=1000 />
+
+---
+
+<img src="slides/images/slottable3.png" width=1000 />
+
+---
+
+<img src="slides/images/slottable4.png" width=1000 />
+
+---
+
+#### The **Slot Table**
+
+* get, move, insert, and delete 👉 **constant time**
+* moving the gap 👉 O(n)
+* 💡 Comp hierarchies rarely change in structure, mostly in terms of values
+
+
+---
+
+* Done via the injected `Composer`
+* Optimized for rapid linear access
+* Gap buffer (common in text editors)
+* Implemented with a flat array larger than the collection of elements it represents
+
+---
+
+#### The **Slot Table**
+
+* Compiler wraps Composable bodies so they emit a "group"
+* Generates a unique key for the group
+* The group identifies the Composable once stored in the table
+* Children are stored within the group
+* Group types: Restartable, movable, replaceable, reusable...
+
+ with a generated unique key instead
+* The group is written into the slot table and it can be identified by that key later
+* It groups all the Composables called inside.
+* Those Composables will be stored within that group in the table so they can be referenced together.
