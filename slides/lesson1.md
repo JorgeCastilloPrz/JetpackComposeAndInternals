@@ -60,14 +60,17 @@
 <img src="slides/images/composable_function.png" width=400 />
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 <img src="slides/images/composable_function_input_output.png" width=800 />
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 1: Our first Composable function & previews
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Properties** of Composable functions
 
