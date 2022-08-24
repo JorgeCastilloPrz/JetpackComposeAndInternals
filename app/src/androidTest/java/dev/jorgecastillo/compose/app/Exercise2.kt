@@ -27,9 +27,9 @@ import org.junit.Test
  * To complete this exercise:
  *
  * 1. Use the Text Composable twice, one for the name and another one for the location.
- * 2. Use the Column Composable to align them vertically, the one below the other.
+ * 2. Use the Column Composable to align the two texts vertically, the one below the other.
  * 3. Use a Row to align horizontally the two buttons (already aligned vertically) with a new Button
- *    you must add with the "Follow" text.
+ *    that you must add. Add the "Follow" text to the Button.
  * 4. Add a click listener to the button that calls the provided callback for it.
  * 5. Run the test.
  */
