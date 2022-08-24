@@ -4,53 +4,58 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
 import dev.jorgecastillo.compose.app.ui.composables.NamePlate
+import dev.jorgecastillo.compose.app.ui.composables.SocialNetworkUser
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 
 /**
  * ### Exercise 2 👩🏾‍💻
  *
- * This UI test runs the NamePlate Composable within an empty Activity and asserts over the value of
- * the displayed name, and its alignment within the parent.
+ * This UI test runs the [SocialNetworkUser] Composable within an empty Activity and asserts over
+ * the value of the displayed name, location, text of the button, and button click interaction.
  *
  * To complete this exercise:
  *
- * 1. Use a Box that fills the complete screen (width and height). To achieve that you can pass a
- *    modifier = Modifier.fillMaxSize() to it. We will learn modifiers later in this course, but for
- *    now we can think of them as the View attributes we are familiar with. They allow to tweak how
- *    Composables look and behave.
- * 2. Fit a Text inside with the provided text. Center it within the Box using the Box configuration
- *    options.
- * 3. Run the test.
+ * 1. Use the Text Composable twice, one for the name and another one for the location.
+ * 2. Use the Column Composable to align them vertically, the one below the other.
+ * 3. Use a Row to align horizontally the two buttons (already aligned vertically) with a new Button
+ *    you must add with the "Follow" text.
+ * 4. Add a click listener to the button that calls the provided callback for it.
+ * 5. Run the test.
  */
 class Exercise2Test {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule(ComponentActivity::class.java)
+    val composeTestRule = createComposeRule()
 
     @Test
     fun text_displayed_and_centered_within_the_box() {
+        // Becomes true once the follow button is clicked in order to assert later
+        var isClicked = false
+
         // Start the app
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                NamePlate("John Doe")
+                SocialNetworkUser("John Doe", "New York City") {
+                    isClicked = true
+                }
             }
         }
 
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-
-        val screenWidth = composeTestRule.activity.resources.displayMetrics.widthPixels
-        val screenHeight = composeTestRule.activity.resources.displayMetrics.heightPixels
-        composeTestRule.onNodeWithText("John Doe").onParent().assert(
-            takesAllAvailableSpace(screenWidth, screenHeight)
-        )
-        composeTestRule.onNodeWithText("John Doe").assert(isCenteredInParent())
-        composeTestRule.onRoot().printToLog("Exercise 1")
+        composeTestRule.onNodeWithText("New York City").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Follow").assertIsDisplayed().performClick()
+        assertThat(isClicked, `is`(true))
+        composeTestRule.onRoot().printToLog("Exercise 2")
     }
 }

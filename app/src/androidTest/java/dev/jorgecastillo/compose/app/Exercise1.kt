@@ -16,7 +16,7 @@ import org.junit.Test
 /**
  * ### Exercise 1 👩🏾‍💻
  *
- * This UI test runs the NamePlate Composable within an empty Activity and asserts over the value of
+ * This UI test runs the [NamePlate] Composable within an empty Activity and asserts over the value of
  * the displayed name, and its alignment within the parent.
  *
  * To complete this exercise:
