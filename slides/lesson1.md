@@ -384,3 +384,23 @@ fun Counter($composer: Composer) {
 
 <img src="slides/images/slottable5.png" width=1000 />
 
+---
+
+📝 Exercise 3: Scaffold and TopAppBar
+
+---
+
+📝 Exercise 4: Adding logic to our Composable (conditions, control flow)
+
+---
+
+* Integration points for Jetpack Compose in Android
+* How changes are materialized
+
+---
+
+📝 Exercise 5: Creating a list of elements. Column and scrolling modifier
+
+---
+
+📝 Exercise 6: Making the list dynamic and lazy. LazyColumn and LazyRow
