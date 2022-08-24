@@ -24,6 +24,9 @@
                         For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
                     -->
 				</section>
+				<section data-scene="Coding">
+					<h1>Exercise 1</h1>
+				</section>
 				<section data-markdown="slides/lesson2.md"
 						 data-separator-notes="^Note:"
 						 data-charset="UTF-8">
@@ -39,13 +42,11 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
+		<script type='text/javascript' src='./node_modules/obs-websocket-js/dist/obs-websocket.js'></script>
+		<script src='../plugin/obs/obs.js'></script>
+		<script type="module">
 			Reveal.initialize({
 				hash: true,
-
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			});
