@@ -1,0 +1,56 @@
+package dev.jorgecastillo.compose.app.data
+
+import dev.jorgecastillo.compose.app.models.Speaker
+
+class FakeSpeakerRepository {
+
+    fun getSpeakers(): List<Speaker> = listOf(
+        Speaker("1", "John Doe"),
+        Speaker("2", "Sylvia Lotte"),
+        Speaker("3", "Apis Anoubis"),
+        Speaker("4", "Aeolus Phrixos"),
+        Speaker("5", "Oz David"),
+        Speaker("6", "Jagoda Viktorija"),
+        Speaker("7", "Dympna Bride"),
+        Speaker("8", "Senan Donncha"),
+        Speaker("9", "Dzidra Zoja"),
+        Speaker("10", "Magdalena Renata"),
+        Speaker("11", "Mladenka Doris"),
+        Speaker("12", "Pooja Shanta"),
+        Speaker("13", "Joana Martina"),
+        Speaker("14", "Mumbi Aminatou"),
+        Speaker("15", "Rustam Temir"),
+        Speaker("16", "Akinyi Aaminata"),
+        Speaker("17", "Xenofon Kostakis"),
+        Speaker("18", "Margarida Xoana"),
+        Speaker("19", "Giustina Samanta"),
+        Speaker("20", "Julia Fernandez"),
+        Speaker("21", "Iida Kielo"),
+        Speaker("22", "Sofia Darja"),
+        Speaker("23", "Arild Aksel"),
+        Speaker("24", "Tigran Areg"),
+        Speaker("25", "Hilmar Birgir"),
+        Speaker("26", "Teca Bea"),
+        Speaker("27", "Lehua Malia"),
+        Speaker("28", "Sajra Hatidža"),
+        Speaker("29", "Vardo Rusudan"),
+        Speaker("30", "Zorka Snežana"),
+        Speaker("31", "Ana Leocadia"),
+        Speaker("32", "Celino Joaquín"),
+        Speaker("33", "Adedayo Thabo"),
+        Speaker("34", "Palesa Mojisola"),
+        Speaker("35", "Rehema Chisom"),
+        Speaker("36", "Lindiwe Nosipho"),
+        Speaker("37", "Funmilayo Oluwaseun"),
+        Speaker("38", "Yejide Bose"),
+        Speaker("39", "Efua Ola"),
+        Speaker("40", "Tiwonge Olusola"),
+        Speaker("41", "Sílvia Roser"),
+        Speaker("42", "Tadeu Josué"),
+        Speaker("43", "Morteza Shahram"),
+        Speaker("44", "Burhanuddin Javed"),
+        Speaker("45", "Iniobong Chidi"),
+        Speaker("46", "Nanabah Kimimela"),
+        Speaker("47", "Walela Chidiebele")
+    )
+}
