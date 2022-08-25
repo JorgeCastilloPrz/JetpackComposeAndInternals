@@ -1,3 +1,3 @@
 package dev.jorgecastillo.compose.app.models
 
-data class Speaker(val id: String, val name: String)
+data class Speaker(val id: String, val name: String, val company: String)
