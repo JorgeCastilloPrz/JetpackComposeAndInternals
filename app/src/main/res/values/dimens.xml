@@ -5,5 +5,5 @@
     <dimen name="spacing_regular">16dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_xlarge">32dp</dimen>
-    <dimen name="avatar_size">72dp</dimen>
+    <dimen name="avatar_size">102dp</dimen>
 </resources>

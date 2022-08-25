@@ -386,11 +386,13 @@ fun Counter($composer: Composer) {
 
 ---
 
-📝 Exercise 3: Scaffold and TopAppBar
+📝 Exercise 3
 
----
+* Scaffold and TopAppBar
 
-📝 Exercise 4: Adding logic to our Composable (conditions, control flow)
+* Adding logic to our Composable (conditions, control flow)
+
+* Creating a list of elements. Column and scrolling modifier
 
 ---
 
@@ -399,8 +401,4 @@ fun Counter($composer: Composer) {
 
 ---
 
-📝 Exercise 5: Creating a list of elements. Column and scrolling modifier
-
----
-
-📝 Exercise 6: Making the list dynamic and lazy. LazyColumn and LazyRow
+📝 Exercise 4: Making the list dynamic and lazy. LazyColumn and LazyRow

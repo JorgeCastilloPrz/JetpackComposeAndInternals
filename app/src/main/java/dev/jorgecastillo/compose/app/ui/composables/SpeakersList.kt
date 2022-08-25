@@ -1,5 +1,6 @@
 package dev.jorgecastillo.compose.app.ui.composables
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,7 +67,7 @@ fun SpeakerCard(speaker: Speaker) {
     ) {
         Row(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
             Image(
-                painter = painterResource(R.drawable.avatar_1),
+                painter = painterResource(avatarResForId(speaker.id)),
                 contentDescription = stringResource(
                     id = R.string.content_desc_speaker_avatar,
                     speaker.name
@@ -83,9 +85,17 @@ fun SpeakerCard(speaker: Speaker) {
     }
 }
 
+@SuppressLint("DiscouragedApi")
+@Composable
+private fun avatarResForId(id: String): Int {
+    val localContext = LocalContext.current
+    return localContext.resources
+        .getIdentifier("avatar_$id", "drawable", localContext.packageName)
+}
+
 @Composable
 @Preview(showBackground = true)
-fun SpeakersScreenPreview() {
+private fun SpeakersScreenPreview() {
     ComposeAndInternalsTheme {
         SpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers())
     }
