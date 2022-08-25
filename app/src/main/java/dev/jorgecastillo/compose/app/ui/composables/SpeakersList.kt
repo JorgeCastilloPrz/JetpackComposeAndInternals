@@ -1,11 +1,18 @@
 package dev.jorgecastillo.compose.app.ui.composables
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -13,7 +20,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +44,11 @@ fun SpeakersScreen(speakers: List<Speaker>) {
             )
         }
     }, content = { contentPadding ->
-        Box(Modifier.padding(contentPadding)) {
+        Column(
+            Modifier
+                .padding(contentPadding)
+                .verticalScroll(rememberScrollState())
+        ) {
             speakers.forEach { speaker ->
                 SpeakerCard(speaker)
             }
@@ -44,14 +58,28 @@ fun SpeakersScreen(speakers: List<Speaker>) {
 
 @Composable
 fun SpeakerCard(speaker: Speaker) {
-    Card {
-        Image(
-            painter = painterResource(id = R.drawable.avatar_1),
-            contentDescription = stringResource(
-                id = R.string.content_desc_speaker_avatar,
-                speaker.name
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(id = R.dimen.spacing_small))
+    ) {
+        Row(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
+            Image(
+                painter = painterResource(R.drawable.avatar_1),
+                contentDescription = stringResource(
+                    id = R.string.content_desc_speaker_avatar,
+                    speaker.name
+                ),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(dimensionResource(id = R.dimen.avatar_size))
+                    .clip(CircleShape)
             )
-        )
+            Column(Modifier.padding(start = dimensionResource(id = R.dimen.spacing_regular))) {
+                Text(text = speaker.name, style = MaterialTheme.typography.h6)
+                Text(text = speaker.company, style = MaterialTheme.typography.caption)
+            }
+        }
     }
 }
 
