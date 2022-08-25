@@ -381,10 +381,12 @@ fun Counter($composer: Composer) {
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 <img src="slides/images/slottable5.png" width=1000 />
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 3
 
@@ -395,9 +397,40 @@ fun Counter($composer: Composer) {
 * Creating a list of elements. Column and scrolling modifier
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
-* Integration points for Jetpack Compose in Android
-* How changes are materialized
+#### **Integration points**
+
+`ComponentActivity.setContent`
+
+```kotlin
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ComposeAndInternalsTheme {
+                // Composables
+            }
+        }
+    }
+}
+```
+
+**Adds a `ComposeView`** at the root of the `View` hierarchy (`android.R.id.content`)
+
+---
+
+#### **Integration points**
+
+`ComposeView`
+
+---
+
+* `AndroidView`
+
+---
+
+* How changes are materialized (invalidate owner etc)
 
 ---
 
