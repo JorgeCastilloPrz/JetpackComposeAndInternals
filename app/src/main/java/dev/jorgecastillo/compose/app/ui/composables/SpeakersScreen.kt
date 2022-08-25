@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +51,7 @@ fun SpeakersScreen(speakers: List<Speaker>) {
             Modifier
                 .padding(contentPadding)
                 .verticalScroll(rememberScrollState())
+                .testTag("SpeakersList")
         ) {
             speakers.forEach { speaker ->
                 SpeakerCard(speaker)

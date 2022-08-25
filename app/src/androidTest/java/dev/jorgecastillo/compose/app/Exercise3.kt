@@ -1,12 +1,16 @@
 package dev.jorgecastillo.compose.app
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.printToLog
-import dev.jorgecastillo.compose.app.ui.composables.SocialNetworkUser
+import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
 import dev.jorgecastillo.compose.app.ui.composables.SpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.hamcrest.CoreMatchers.`is`
@@ -53,6 +57,9 @@ import org.junit.Test
  *    This is true for all modifiers, and I recommend you to do it from now on wherever you have
  *    more than one modifier in a Composable.
  *
+ *    Add a testTag to it called "SpeakersList" like Modifier.testTag("SpeakersList"). This is
+ *    really important, since the test needs this to find the list and interact with it.
+ *
  * 6. Let's add some logic to our Composable now. Since Composables are plain Kotlin functions, we
  *    can use any Kotlin goodies inside, like any of the collection apis. forEach {} speaker on the
  *    list provided as a parameter, add a SpeakerCard to the column to draw the Speaker.
@@ -94,7 +101,7 @@ import org.junit.Test
  *           SpeakersScreen(speakers = speakersRepository.getSpeakers())
  *         }
  *       }
-*      }
+ *      }
  *
  *    The fake repository will provide the speakers we need.
  *
@@ -107,22 +114,53 @@ class Exercise3Test {
 
     @Test
     fun text_displayed_and_centered_within_the_box() {
-        // Becomes true once the follow button is clicked in order to assert later
-        var isClicked = false
-
         // Start the app
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                SocialNetworkUser("John Doe", "New York City") {
-                    isClicked = true
-                }
+                SpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(7))
             }
         }
 
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("John Doe"))
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("New York City").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Follow").assertIsDisplayed().performClick()
-        assertThat(isClicked, `is`(true))
-        composeTestRule.onRoot().printToLog("Exercise 2")
+        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
+        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
+        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
+        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
+        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Jagoda Viktorija"))
+        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
+        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 3")
     }
 }
