@@ -522,7 +522,12 @@ DisposeOnViewTreeLifecycleDestroyed
 
 #### ComposeView.setContent
 
-
+* Creates a Composition that lives until disposed following `ViewCompositionStrategy`
+* Each `ComposeView` has a Composition associated.
+* Starts observing snapshot state writes.
+* Composition is wrapped for Android.
+* Waits until the lifecycle owner is on `CREATED` state
+* Starts suspend effects to listen to keyboard and accessibility events
 
 ---
 
