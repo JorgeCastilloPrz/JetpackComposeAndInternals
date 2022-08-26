@@ -523,6 +523,7 @@ DisposeOnViewTreeLifecycleDestroyed
 <img src="slides/images/composeview_setcontent.png" width=800 />
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### Sharing UI between Compose and Views
 
@@ -544,5 +545,6 @@ class CallToActionViewButton @JvmOverloads constructor(
 ```
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 4: Making the list dynamic and lazy. LazyColumn and LazyRow
