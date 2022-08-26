@@ -545,12 +545,4 @@ class CallToActionViewButton @JvmOverloads constructor(
 
 ---
 
-* `AndroidView`
-
----
-
-* How changes are materialized (invalidate owner etc)
-
----
-
 📝 Exercise 4: Making the list dynamic and lazy. LazyColumn and LazyRow
