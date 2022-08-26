@@ -424,6 +424,127 @@ class MainActivity : ComponentActivity() {
 
 `ComposeView`
 
+```kotlin
+class ExampleFragment : Fragment() {
+    override fun onCreateView(...): View {
+        return ComposeView(requireContext()).apply {
+            // Dispose Composition when view's
+            // LifecycleOwner destroyed
+            setViewCompositionStrategy(
+              DisposeOnViewTreeLifecycleDestroyed
+            )
+            setContent {
+                MaterialTheme {
+                    Text("Hello Compose!")
+                }
+            }
+        }
+    }
+}
+```
+
+`ViewGroup` (Composables into Views)
+
+---
+
+#### **Integration points**
+
+ComposeView within layout
+
+```xml
+<...>
+<androidx.compose.ui.platform.ComposeView
+    android:id="@+id/greeting"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+</...>
+```
+
+```kotlin
+class MyActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // ...
+
+        val greeting = findViewById(R.id.greeting)
+        greeting.setContent {
+            MdcTheme { // or AppCompatTheme
+                Greeting()
+            }
+        }
+    }
+}
+```
+
+A `ViewGroup`. Adding Composables to Views.
+
+---
+
+#### **Integration points**
+
+ComposeView in RecyclerView
+
+```kotlin
+class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
+
+    override fun onCreateViewHolder(...): MyViewHolder {
+        return MyViewHolder(ComposeView(parent.context))
+    }
+
+    override fun onBindViewHolder(...) {
+        holder.bind("$position")
+    }
+}
+
+class MyViewHolder(
+    val composeView: ComposeView
+) : RecyclerView.ViewHolder(composeView) {
+    fun bind(input: String) {
+        composeView.setContent {
+            MdcTheme {
+                Text(input)
+            }
+        }
+    }
+}
+```
+
+---
+
+#### **ViewCompositionStrategy**
+
+DisposeOnDetachedFromWindowOrReleasedFromPool
+DisposeOnDetachedFromWindow
+DisposeOnLifecycleDestroyed
+DisposeOnViewTreeLifecycleDestroyed
+
+---
+
+#### ComposeView.setContent
+
+
+
+---
+
+#### Sharing UI between Compose and Views
+
+```kotlin
+class CallToActionViewButton @JvmOverloads constructor(
+    ...
+) : AbstractComposeView(context, attrs, defStyle) {
+
+    var text by mutableStateOf<String>("")
+    var onClick by mutableStateOf<() -> Unit>({})
+
+    @Composable
+    override fun Content() {
+        YourAppTheme {
+            CallToActionButton(text, onClick)
+        }
+    }
+}
+```
+
 ---
 
 * `AndroidView`
