@@ -3,14 +3,50 @@
 
 ---
 
-#### Modifiers
+#### **Modifiers**
 
+Tweak how a Composable **looks and behaves**
 
+```kotlin
+Image(
+  painter = painterResource(R.drawable.avatar_1),
+  contentDescription = "user 1 avatar",
+  contentScale = ContentScale.Crop,
+  modifier = Modifier
+    .padding(16.dp)
+    .size(102.dp)
+    .shadow(elevation = 8.dp, clip = true, shape = CircleShape)
+    .clickable { onAvatarClick() }
+)
+```
+
+<img src="slides/images/modifiers.gif" width=200 />
 
 ---
 
+#### ⚠️ **Order of precedence**
 
+```kotlin
+// Move clickable modifier from
+modifier = Modifier
+    .padding(16.dp)
+    .size(102.dp)
+    .shadow(elevation = 8.dp, shape = CircleShape)
+    .clickable { onAvatarClick() } // 👈
 
+// To
+modifier = Modifier
+    .clickable { onAvatarClick() } // 👈
+    .padding(16.dp)
+    .size(102.dp)
+    .shadow(elevation = 8.dp, shape = CircleShape)
+```
+
+<img src="slides/images/modifiers.gif" width=200 />
+👉
+<img src="slides/images/modifiers2.gif" width=200 />
+
+---
 
 
 
