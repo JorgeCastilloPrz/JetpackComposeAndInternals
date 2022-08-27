@@ -119,6 +119,87 @@ class CombinedModifier(
 
 ---
 
+#### **Setting modifiers to the node**
+
+* When emitting a layout
+* Creates a new chain of modifiers that **reuses as many as possible from the previous chain**
+
+```kotlin
+@Composable fun MyBox() {
+    // these always stay the same
+    val modifier = Modifier
+        .padding(16.dp)
+        .size(102.dp)
+        .shadow(elevation = 8.dp, shape = CircleShape)
+
+    // this one might not be there yet
+    if (clickable) {
+        modifier.clickable { onAvatarClick() }
+    }
+
+    Box(modifier) { ... }
+}
+```
+
+---
+
+#### **custom modifiers**
+
+---
+
+#### **custom modifiers**
+
+* Let's create a custom `layout` modifier
+* Use `layout` modifier to modify how **a single element** is measured and laid out (placed).
+
+```kotlin
+fun Modifier.customLayoutModifier(...) =
+  this.layout { measurable, constraints ->
+    ...
+  })
+```
+
+---
+
+#### **custom modifiers**
+
+```kotlin
+Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
+    Button(
+      modifier = Modifier.takeHalfParentWidthAndCenter(),
+      onClick = {}
+    ) {
+        Text("Hello world!")
+    }
+}
+```
+```
+fun Modifier.takeHalfParentWidthAndCenter(): Modifier =
+  this.layout { measurable, constraints ->
+    val maxWidthAllowedByParent = constraints.maxWidth
+    val placeable = measurable.measure(
+      constraints.copy(minWidth = maxWidthAllowedByParent / 2))
+
+    layout(placeable.width, placeable.height) {
+      placeable.placeRelative(
+        maxWidthAllowedByParent / 2 - placeable.width / 2,
+        0
+      )
+    }
+  }
+```
+
+---
+
+<img src="slides/images/custom_modifiers.png" width=300 />
+
+---
+
+#### Custom layouts
+
+We can also use the `Layout` Composable if we want to modify how the layout and/or any of its children are measured and placed.
+
+---
 
 # State
 
