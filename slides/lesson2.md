@@ -48,6 +48,21 @@ modifier = Modifier
 
 ---
 
+#### Multiple **types**
+
+* layout
+* alignment (within `Box`, `Row`, `Column`)
+* draw (alpha, bg, clip, canvas, indication, shadows)
+* focus
+* graphics (draw into draw layer - performance)
+* border
+* animations
+* semantics (test / tooling / accessibility)
+* interactions (click, scroll, drag, zoom, select, swipe)
+* padding
+* **...**
+
+---
 
 
 # State
