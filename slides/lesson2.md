@@ -293,6 +293,20 @@ StairedBox {
 
 ---
 
+#### **Invalidating** a node
+
+* 1. Node **requests remeasure** (e.g: child attached, detached, moved)
+* 2. Node added to list of nodes to remeasure and relayout
+* `Owner` is flagged as dirty (invalidate).
+* Next drawing pass 👉 `AndroidComposeView#dispatchDraw`
+* `AndroidComposeView` iterates over the list and:
+  * Measures node
+  * Layout if needed
+  * Schedules remeasure for next pass for postponed measure requests
+* Measuring is delegated to the outer `LayoutNodeWrapper`
+
+---
+
 * In Compose, nodes know how to measure themselves
 * `LayoutNode` (`Layout`) uses `LayoutNodeWrapper` for this
 * `LayoutNodeWrapper` represents a node that can be measured and placed in a position
