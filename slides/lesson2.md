@@ -313,15 +313,9 @@ StairedBox {
 
 ---
 
-#### **Invalidating** a node
+#### **Measure & layout delegates**
 
-* `Owner` is flagged as dirty (invalidate).
-* Next drawing pass 👉 `AndroidComposeView#dispatchDraw`
-* `AndroidComposeView` iterates over the list and:
-  * Measures node
-  * Layout if needed
-  * Schedules remeasure for next pass for postponed measure requests
-* Measuring is delegated to the outer `LayoutNodeWrapper`
+<img src="slides/images/layoutnodewrappers.png" width="800">
 
 ---
 
