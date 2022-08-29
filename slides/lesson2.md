@@ -319,12 +319,9 @@ StairedBox {
 
 ---
 
+* Note: The above is not only `Layout`s but also `layout` modifiers.
 * In Compose, nodes know how to measure themselves
-* `LayoutNode` (`Layout`) uses `LayoutNodeWrapper` for this
-* `LayoutNodeWrapper` represents a node that can be measured and placed in a position
-* Note: That is not only `Layout`s but also `layout` modifiers.
 * It wraps the node and points to the next in the chain (wrapped)
-
 
 ---
 
