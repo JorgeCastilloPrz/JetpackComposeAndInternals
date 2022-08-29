@@ -163,16 +163,8 @@ fun Modifier.customLayoutModifier(...) =
 
 #### **custom modifiers**
 
-```kotlin
-Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
-    Button(
-      modifier = Modifier.takeHalfParentWidthAndCenter(),
-      onClick = {}
-    ) {
-        Text("Hello world!")
-    }
-}
-```
+<img src="slides/images/custom_modifiers.png" width=400 />
+
 ```
 fun Modifier.takeHalfParentWidthAndCenter(): Modifier =
   this.layout { measurable, constraints ->
@@ -190,16 +182,47 @@ fun Modifier.takeHalfParentWidthAndCenter(): Modifier =
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
-<img src="slides/images/custom_modifiers.png" width=300 />
+#### **custom modifiers**
+
+```kotlin
+Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
+    Button(
+      modifier = Modifier.takeHalfParentWidthAndCenter(),
+      onClick = {}
+    ) {
+        Text("Hello world!")
+    }
+}
+```
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
-#### Custom layouts
+📝 Exercise 5: Writing a custom layout modifier
+
+---
+<!-- .slide: data-scene="Slides" -->
+
+#### **Custom layouts**
 
 We can also use the `Layout` Composable if we want to modify how the layout and/or any of its children are measured and placed.
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # State
 
