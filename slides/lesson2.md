@@ -207,10 +207,74 @@ Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
 
 #### **Custom layouts**
 
-We can also use the `Layout` Composable if we want to modify how the layout and/or any of its children are measured and placed.
+* Use `Layout` Composable to measure and layout **multiple Composables**
+* All high level UI Composables are defined as `Layout`s
+
+```kotlin
+@Composable
+fun MyCustomLayout(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        modifier = modifier,
+        content = content
+    ) { measurables, constraints ->
+        // measure and position children
+    }
+}
+```
 
 ---
 
+```kotlin
+@Composable
+fun StairedBox(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Layout(modifier = modifier, content = content) {
+            measurables, constraints ->
+        // measure children, don't constraint them further
+        val placeables = measurables.map { measurable ->
+            measurable.measure(constraints)
+        }
+
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            // Track the x and y coord
+            var xPosition = 0
+            var yPosition = 0
+            // place children
+            placeables.forEach { placeable ->
+                placeable.placeRelative(
+                  x = xPosition,
+                  y = yPosition
+                )
+
+                xPosition += placeable.width
+                yPosition += placeable.height
+            }
+        }
+    }
+}
+```
+
+---
+
+```kotlin
+StairedBox {
+    Text("Text 1")
+    Text("Text 2")
+    Text("Text 3")
+    Text("Text 4")
+    Text("Text 5")
+    Text("Text 6")
+}
+```
+
+<img src="slides/images/custom_layout.png" width="400">
+
+---
 
 
 
