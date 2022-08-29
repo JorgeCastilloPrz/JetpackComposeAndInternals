@@ -39,7 +39,7 @@ class Exercise2Test {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun text_displayed_and_centered_within_the_box() {
+    fun required_information_is_displayed() {
         // Becomes true once the follow button is clicked in order to assert later
         var isClicked = false
 

@@ -1,17 +1,21 @@
 package dev.jorgecastillo.compose.app
 
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.activity.ComponentActivity
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.printToLog
-import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
-import dev.jorgecastillo.compose.app.ui.composables.LazySpeakersScreen
-import dev.jorgecastillo.compose.app.ui.composables.SpeakerCard
-import dev.jorgecastillo.compose.app.ui.composables.SpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
 import org.junit.Test
@@ -19,78 +23,148 @@ import org.junit.Test
 /**
  * ### Exercise 5 👩🏾‍💻
  *
- * In this exercise we must implement a custom [Modifier.layout].
- *
- * Please use the same exercise3.png image from the screenshots directory at the root of this
- * project as a reference for this exercise. It should look exactly the same than exercise 3.
+ * In this exercise we must create a custom [Modifier.layout] using the function
+ * [Modifier.alignToCorner] defined in this same test class.
  *
  * To complete this exercise:
  *
- * 1. Feel free to copy the body of the [SpeakersScreen] Composable from exercise 3 into the
- * [LazySpeakersScreen] one. Do not copy anything else. This Composable will reuse the [SpeakerCard]
- * from the previous exercise as is.
+ * 1. Use [Modifier.layout] to place the modified node (FloatingActionButton) at the corresponding
+ *    corner given by its single argument. Remember to use [Pleaceable.placeRelative] in order to
+ *    place the node (once measured) in x and y coordinates relative to its parent.
  *
- * 2. Replace the Column used to list the Speakers by a LazyColumn. You should be able to remove
- * the verticalScroll modifier now. DO NOT remove the testTag, that is still needed for the test
- * validation.
- *
- * 3. Run the test.
+ * 2. Run the test.
  */
-class Exercise4Test {
+class Exercise5Test {
 
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule(ComponentActivity::class.java)
 
     @Test
-    fun text_displayed_and_centered_within_the_box() {
+    fun composable_aligned_top_left() {
         // Start the app
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                LazySpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(7))
+                Box(Modifier.fillMaxSize()) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .alignToCorner(Corner.TopLeft)
+                            .testTag("FAB"),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            contentDescription = ""
+                        )
+                    }
+                }
             }
         }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("John Doe"))
-        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("FAB").assert(isAlignedToCorner(Corner.TopLeft))
+        composeTestRule.onRoot().printToLog("Exercise 5")
+    }
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+    @Test
+    fun composable_aligned_top_right() {
+        // Start the app
+        composeTestRule.setContent {
+            ComposeAndInternalsTheme {
+                Box(Modifier.fillMaxSize()) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .alignToCorner(Corner.TopRight)
+                            .testTag("FAB"),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+        }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
-        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("FAB").assert(isAlignedToCorner(Corner.TopRight))
+        composeTestRule.onRoot().printToLog("Exercise 5")
+    }
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+    @Test
+    fun composable_aligned_bottom_left() {
+        // Start the app
+        composeTestRule.setContent {
+            ComposeAndInternalsTheme {
+                Box(Modifier.fillMaxSize()) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .alignToCorner(Corner.BottomLeft)
+                            .testTag("FAB"),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+        }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
-        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("FAB").assert(isAlignedToCorner(Corner.BottomLeft))
+        composeTestRule.onRoot().printToLog("Exercise 5")
+    }
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+    @Test
+    fun composable_aligned_bottom_right() {
+        // Start the app
+        composeTestRule.setContent {
+            ComposeAndInternalsTheme {
+                Box(Modifier.fillMaxSize()) {
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .alignToCorner(Corner.BottomRight)
+                            .testTag("FAB"),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(
+                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+        }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
-        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("FAB").assert(isAlignedToCorner(Corner.BottomRight))
+        composeTestRule.onRoot().printToLog("Exercise 5")
+    }
+}
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+enum class Corner {
+    TopLeft, TopRight, BottomLeft, BottomRight
+}
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
-        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList")
-            .performScrollToNode(hasText("Jagoda Viktorija"))
-        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
-        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
+fun Modifier.alignToCorner(corner: Corner) = layout { measurable, constraints ->
+    // Measure the composable
+    val placeable = measurable.measure(constraints)
+    layout(constraints.maxWidth, constraints.maxHeight) {
+        // Where the composable gets placed
+        when (corner) {
+            Corner.TopLeft -> {
+                placeable.placeRelative(0, 0)
+            }
+            Corner.TopRight -> {
+                placeable.placeRelative(constraints.maxWidth - placeable.width, 0)
+            }
+            Corner.BottomLeft -> {
+                placeable.placeRelative(0, constraints.maxHeight - placeable.height)
+            }
+            Corner.BottomRight -> {
+                placeable.placeRelative(
+                    constraints.maxWidth - placeable.width,
+                    constraints.maxHeight - placeable.height
+                )
+            }
+        }
     }
 }

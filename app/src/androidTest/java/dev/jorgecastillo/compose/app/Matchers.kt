@@ -1,7 +1,9 @@
 package dev.jorgecastillo.compose.app
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
+import dev.jorgecastillo.compose.app.Corner.*
 
 fun takesAllAvailableSpace(screenWidth: Int, screenHeight: Int): SemanticsMatcher =
     SemanticsMatcher(
@@ -12,7 +14,7 @@ fun takesAllAvailableSpace(screenWidth: Int, screenHeight: Int): SemanticsMatche
 
 fun isCenteredInParent(): SemanticsMatcher =
     SemanticsMatcher(
-        "${SemanticsProperties.Text.name} takes all available size"
+        "${SemanticsProperties.Text.name} is centered in parent"
     ) {
         val parent = it.parent
         return@SemanticsMatcher if (parent == null) {
@@ -28,5 +30,32 @@ fun isCenteredInParent(): SemanticsMatcher =
 
             (startMargin == endMargin || startMargin == endMargin - 1 || startMargin == endMargin + 1) &&
                 topMargin == bottomMargin
+        }
+    }
+
+
+fun isAlignedToCorner(corner: Corner): SemanticsMatcher =
+    SemanticsMatcher(
+        "${SemanticsProperties.Text.name} is aligned to $corner"
+    ) {
+        val parent = it.parent
+        return@SemanticsMatcher if (parent == null) {
+            false
+        } else {
+            when (corner) {
+                TopLeft -> it.positionInRoot == Offset(0f, 0f)
+                TopRight -> it.positionInRoot == Offset(
+                    (parent.size.width - it.size.width).toFloat(),
+                    0f
+                )
+                BottomLeft -> it.positionInRoot == Offset(
+                    0f,
+                    (parent.size.height - it.size.height).toFloat()
+                )
+                BottomRight -> it.positionInRoot == Offset(
+                    (parent.size.width - it.size.width).toFloat(),
+                    (parent.size.height - it.size.height).toFloat()
+                )
+            }
         }
     }

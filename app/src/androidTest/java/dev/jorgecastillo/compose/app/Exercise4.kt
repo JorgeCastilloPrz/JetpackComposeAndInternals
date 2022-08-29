@@ -42,7 +42,7 @@ class Exercise4Test {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun text_displayed_and_centered_within_the_box() {
+    fun all_speakers_are_displayed() {
         // Start the app
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
@@ -54,43 +54,43 @@ class Exercise4Test {
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
         composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
         composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
         composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
         composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
         composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
         composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
         composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
         composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
         composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList")
             .performScrollToNode(hasText("Jagoda Viktorija"))
         composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
         composeTestRule.onNodeWithText("Google").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
 
         composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
         composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
         composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 3")
+        composeTestRule.onRoot().printToLog("Exercise 4")
     }
 }

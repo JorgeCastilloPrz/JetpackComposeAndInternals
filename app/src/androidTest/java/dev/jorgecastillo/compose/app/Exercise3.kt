@@ -113,7 +113,7 @@ class Exercise3Test {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun text_displayed_and_centered_within_the_box() {
+    fun all_speakers_are_displayed() {
         // Start the app
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
