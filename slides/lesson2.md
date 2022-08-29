@@ -293,10 +293,28 @@ StairedBox {
 
 ---
 
+<img src="slides/images/request_remeasure1.png" width="700">
+
+---
+
+<img src="slides/images/request_remeasure2.png" width="900">
+
+---
+
+<img src="slides/images/request_remeasure3.png" width="900">
+
+---
+
+<img src="slides/images/request_remeasure4.png" width="600">
+
+---
+
+<img src="slides/images/request_remeasure5.png" width="800">
+
+---
+
 #### **Invalidating** a node
 
-* 1. Node **requests remeasure** (e.g: child attached, detached, moved)
-* 2. Node added to list of nodes to remeasure and relayout
 * `Owner` is flagged as dirty (invalidate).
 * Next drawing pass 👉 `AndroidComposeView#dispatchDraw`
 * `AndroidComposeView` iterates over the list and:
