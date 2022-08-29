@@ -280,6 +280,28 @@ StairedBox {
 
 ---
 
+<img src="slides/images/compose_phases.png" width="600">
+
+---
+
+#### The **LayoutNode tree** 🌲
+
+* `Layout`s emit a node of type **`LayoutNode`**
+* It is a representation of the node in memory
+
+<img src="slides/images/layout_node_tree.png" width="600">
+
+---
+
+* In Compose, nodes know how to measure themselves
+* `LayoutNode` (`Layout`) uses `LayoutNodeWrapper` for this
+* `LayoutNodeWrapper` represents a node that can be measured and placed in a position
+* Note: That is not only `Layout`s but also `layout` modifiers.
+* It wraps the node and points to the next in the chain (wrapped)
+
+
+---
+
 
 
 
