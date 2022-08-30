@@ -408,6 +408,30 @@ Layout(
 
 ---
 
+#### **Constraints**
+
+* minWidth <= chosenWidth <= maxWidth
+* minHeight <= chosenHeight <= maxHeight
+
+```kotlin
+value class Constraints(val value: Long) {
+    val minWidth: Int
+    val maxWidth: Int
+    val minHeight: Int
+    val maxHeight: Int
+    val hasBoundedWidth: Boolean // if maxWidth != Infinity
+    val hasBoundedHeight: Boolean // if maxHeight != Infinity
+    fun hasFixedWidth(): Boolean // maxWidth == minWidth
+    fun hasFixedHeight(): Boolean // maxHeight == minHeight
+
+    fun fixed(width: Int, height: Int): Constraints
+    fun fixedWidth(width: Int): Constraints
+    fun fixedHeight(height: Int): Constraints
+}
+```
+
+---
+
 #### Intrinsics
 
 ---
