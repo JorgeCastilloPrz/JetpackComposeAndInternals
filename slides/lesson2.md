@@ -342,7 +342,8 @@ Box(
 
 #### **MeasurePolicy**
 
-* The lambda we pass to `Modifier.layout` or `Layout`
+* How to measure and place the node
+* The lambda we pass to **`Modifier.layout {}`** or to **`Layout {}`**
 
 ```kotlin
 Modifier.layout { measurable, constraints ->
@@ -372,18 +373,20 @@ interface MeasureResult {
 }
 ```
 
-* `layout()` creates a `MeasureResult`
+* Created via **`layout()`** call
 
 ```kotlin
 fun Modifier.customLayoutModifier(...) =
   this.layout { measurable, constraints ->
     // Measure and place node
     //...
-    layout(placeable.width, placeable.height) {
+    layout(placeable.width, placeable.height) { // 👈
       // ...place node
     }
   })
 ```
+
+* Same for `Layout` Composable
 
 
 ---
@@ -392,7 +395,16 @@ fun Modifier.customLayoutModifier(...) =
 
 * In Compose, measuring goes from **top to bottom**
 * Parent imposes measure constraints to its children
-* Not only parent! also `Modifier.layout`
+* Also `Modifier.layout`
+
+```kotlin
+Layout(
+    modifier = modifier,
+    content = content
+) { measurables, constraints ->
+    // measure node and children using constraints
+}
+```
 
 ---
 
