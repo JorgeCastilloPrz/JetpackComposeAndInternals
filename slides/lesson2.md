@@ -321,7 +321,18 @@ StairedBox {
 
 🚨 **Layout modifiers** also affect measure / layout 🚨
 
-* 👉 They are also wrapped
+```kotlin
+Box(
+  modifier = Modifier
+    .padding(16.dp) // layout modifier
+    .size(72.dp) // layout modifier
+) {
+    Image(...)
+}
+```
+
+* Measure the node + its layout modifiers
+* 👉 They are **also wrapped**
 
 ---
 
