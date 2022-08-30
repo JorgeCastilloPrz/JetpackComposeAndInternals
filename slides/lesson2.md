@@ -342,8 +342,8 @@ Box(
 
 #### **MeasurePolicy**
 
-* How to measure and place the node
-* The lambda we pass to **`Modifier.layout {}`** or to **`Layout {}`**
+* `LayoutNodeWrapper` relies on the provided `MeasurePolicy` to measure a node
+* How to measure and place the node 📐 📌
 
 ```kotlin
 Modifier.layout { measurable, constraints ->
@@ -421,8 +421,8 @@ value class Constraints(val value: Long) {
     val maxHeight: Int
     val hasBoundedWidth: Boolean // if maxWidth != Infinity
     val hasBoundedHeight: Boolean // if maxHeight != Infinity
-    fun hasFixedWidth(): Boolean // maxWidth == minWidth
-    fun hasFixedHeight(): Boolean // maxHeight == minHeight
+    val hasFixedWidth: Boolean // maxWidth == minWidth
+    val hasFixedHeight: Boolean // maxHeight == minHeight
 
     fun fixed(width: Int, height: Int): Constraints
     fun fixedWidth(width: Int): Constraints
@@ -431,6 +431,36 @@ value class Constraints(val value: Long) {
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
+
+#### **Constraints**
+
+* Example: `Spacer`
+
+```kotlin
+fun Spacer(modifier: Modifier) {
+  // No measurables since Spacer has no children
+  Layout({}, modifier) { _, constraints ->
+    with(constraints) {
+      val width = if (hasFixedWidth) maxWidth else 0
+      val height = if (hasFixedHeight) maxHeight else 0
+
+      layout(width, height) {}
+    }
+  }
+}
+```
+
+* If no fixed dimensions, it takes no space (0)
+* `Spacer` always needs constraints imposed, via parent or layout modifier
+
+---
+<!-- .slide: data-scene="Coding" -->
+
+📝 Exercise 6: Go over `Box` measure policy together
+
+---
+<!-- .slide: data-scene="Slides" -->
 
 #### Intrinsics
 
