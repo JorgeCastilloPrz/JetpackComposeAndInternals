@@ -340,7 +340,69 @@ Box(
 
 ---
 
+#### **MeasurePolicy**
 
+* The lambda we pass to `Modifier.layout` or `Layout`
+
+```kotlin
+Modifier.layout { measurable, constraints ->
+  // measure and place this node
+}
+
+Layout(
+    modifier = modifier,
+    content = content
+) { measurables, constraints ->
+    // measure and place this node and children
+}
+```
+
+Must return a **`MeasureResult`**
+
+---
+
+#### **MeasureResult**
+
+```kotlin
+interface MeasureResult {
+    val width: Int
+    val height: Int
+    val alignmentLines: Map<AlignmentLine, Int>
+    fun placeChildren()
+}
+```
+
+* `layout()` creates a `MeasureResult`
+
+```kotlin
+fun Modifier.customLayoutModifier(...) =
+  this.layout { measurable, constraints ->
+    // Measure and place node
+    //...
+    layout(placeable.width, placeable.height) {
+      // ...place node
+    }
+  })
+```
+
+
+---
+
+#### **Constraints**
+
+* In Compose, measuring goes from **top to bottom**
+* Parent imposes measure constraints to its children
+* Not only parent! also `Modifier.layout`
+
+---
+
+#### Intrinsics
+
+---
+
+#### Drawing (Canvas, RenderNodes)
+
+---
 
 
 
