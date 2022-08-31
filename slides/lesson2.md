@@ -516,11 +516,13 @@ fun DropdownMenuContent(...) {
 
 ---
 
+<img src="slides/images/compose_phases2.png" width="600">
 
+---
 
+#### **Drawing** in Compose
 
-
-
+---
 
 
 
