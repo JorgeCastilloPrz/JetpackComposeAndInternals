@@ -393,9 +393,9 @@ fun Modifier.customLayoutModifier(...) =
 
 #### **Constraints**
 
-* In Compose, measuring goes from **top to bottom**
-* Parent imposes measure constraints to its children
-* Also `Modifier.layout`
+* Measuring goes **from top to bottom** ⏬
+* Parent imposes constraints to children
+* **Also `Modifier.layout`**
 
 ```kotlin
 Layout(
@@ -410,8 +410,8 @@ Layout(
 
 #### **Constraints**
 
-* minWidth <= chosenWidth <= maxWidth
-* minHeight <= chosenHeight <= maxHeight
+* **minWidth** <= chosenWidth <= **maxWidth**
+* **minHeight** <= chosenHeight <= **maxHeight**
 
 ```kotlin
 value class Constraints(val value: Long) {
@@ -462,11 +462,57 @@ fun Spacer(modifier: Modifier) {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### Intrinsics
+#### **Intrinsics**
+
+* Estimate dimens of child **before it can be measured**
+* Set width of all children to match the widest one 👇
+
+<video width="640" height="480" autoplay muted loop>
+  <source src="slides/images/dropdown.mp4" type="video/mp4">
+</video>
 
 ---
 
-#### Drawing (Canvas, RenderNodes)
+#### **Intrinsics**
+
+* Measure twice? 💥 Compose throws `RuntimeException` (performance)
+
+* Use intrinsics: Estimate size of layout **when constraints are not available**
+
+---
+
+#### **Intrinsics 🤯**
+
+* **`minIntrinsicWidth`**: min width given specific height so content is painted properly
+
+* **`maxIntrinsicWidth`**: max width given specific height so content is painted properly
+
+* **`minIntrinsicHeight`**: min height given specific width so content is painted properly
+
+* **`maxIntrinsicHeight`**: max height given specific width so content is painted properly
+
+---
+
+#### Yeah but, **how to use them?** 😆
+
+Intrinsic versions of `width` and `height` modifiers
+
+```kotlin
+// Part of the DropdownMenu Material Composable impl
+@Composable
+fun DropdownMenuContent(...) {
+  Column(
+    modifier = modifier
+      .padding(vertical = DropdownMenuVerticalPadding)
+      .width(IntrinsicSize.Max)
+      .verticalScroll(rememberScrollState()),
+    content = content
+  )
+  // ...
+}
+```
+
+* Tells `Column` to measure children using the maximum intrinsic width among all the children
 
 ---
 
