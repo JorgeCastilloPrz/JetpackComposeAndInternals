@@ -108,9 +108,9 @@ fun BoxWithConstraints(...) {
 
 ---
 
-#### **Why** to model them this way?
+#### **Why?**
 
-* **State change propagation** must be notified to child compositions also (they might also need to recompose)
+* **State change propagation** must be notified to child compositions also (they might need to recompose)
 
 * **Propagating CompositionLocals** down the tree, so they are accessible from child compositions also
 
@@ -118,9 +118,11 @@ fun BoxWithConstraints(...) {
 
 #### **`CompositionLocal`**
 
-* Make **implicit** parameters available to a subtree
+* Make **implicit** params available to a subtree
 
-* Like implicit DI
+* Avoids flooding function params transitively
+
+* Implicit DI scoped to a subtree
 
 * Some of them built-in in Compose UI
 
@@ -143,4 +145,71 @@ fun FruitText(fruitSize: Int) {
 
 ---
 
-#### Custom **`CompositionLocal`**
+#### `CompositionLocal` **in themes**
+
+* `MaterialTheme` provides `LocalColors`, `LocalShapes`, `LocalTypography`
+
+```kotlin
+@Composable
+fun MyApp() {
+  // Provides a Theme whose values are propagated down
+  MaterialTheme {
+    // Local values for colors, typography, shapes
+  }
+}
+
+// Somewhere deep in the hierarchy
+@Composable
+fun SomeTextLabel(labelText: String) {
+  Text(
+    text = labelText,
+    // primary obtained from LocalColors CompositionLocal
+    color = MaterialTheme.colors.primary
+  )
+}
+```
+
+---
+
+#### `CompositionLocal` **by Material**
+
+* **material** provides some built-in ones
+
+* `LocalAbsoluteElevation`
+* `LocalContentAlpha`
+* `LocalContentColor`
+* `LocalElevationOverlay`
+* `LocalMinimumTouchTargetEnforcement`
+* `LocalTextStyle`
+
+---
+
+#### Overriding **`CompositionLocal`**
+
+```kotlin
+@Composable
+fun CompositionLocalExample() {
+  MaterialTheme { // Sets ContentAlpha.high as default
+    Column {
+      Text("Uses default provided alpha")
+      CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+        Text("Uses medium alpha")
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
+          DescendantExample()
+        }
+      }
+    }
+  }
+}
+```
+```kotlin
+@Composable
+fun DescendantExample() {
+  // Also works across composable functions
+  Text("This Text uses the disabled alpha now")
+}
+```
+
+---
+
+<img src="slides/images/composition_locals2.png" width=500 />
