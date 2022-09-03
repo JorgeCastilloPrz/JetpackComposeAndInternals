@@ -213,3 +213,16 @@ fun DescendantExample() {
 ---
 
 <img src="slides/images/composition_locals2.png" width=500 />
+
+---
+
+#### **Custom** `CompositionLocal`
+
+* Not recommended 👉 Composables harder to reason about
+
+* Callers need to ensure the values are provided
+
+* Harder debugging 👉 Not a single source of truth for its value (can be overriden)
+
+---
+
