@@ -121,3 +121,26 @@ fun BoxWithConstraints(...) {
 * Make **implicit** parameters available to a subtree
 
 * Like implicit DI
+
+* Some of them built-in in Compose UI
+
+```kotlin
+@Composable
+fun FruitText(fruitSize: Int) {
+  // Access the host context
+  val resources = LocalContext.current.resources
+
+  val fruitText = resources
+    .getQuantityString(R.plurals.fruit_title, fruitSize)
+
+  Text(text = fruitText)
+}
+```
+
+---
+
+<img src="slides/images/composition_locals.png" width=900 />
+
+---
+
+#### Custom **`CompositionLocal`**
