@@ -92,9 +92,18 @@ fun BoxWithConstraints(...) {
 
 ---
 
-#### Composition trees
+#### **Composition trees** 🌲
 
 * Subcomposition is a **child composition**
 
+* Created inline for **independent invalidation** 🔄
+
+* Allows to change node type (not only `LayoutNode`)
+
 * Compositions are connected as a tree
 
+---
+
+<img src="slides/images/composition_trees.png" width=550 />
+
+---
