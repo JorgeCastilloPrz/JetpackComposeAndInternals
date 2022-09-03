@@ -599,8 +599,28 @@ fun AnimatedText() {
 
 ```kotlin
 @Composable
-
+Box(
+    // blur is built on top of graphicsLayer
+    modifier = Modifier.blur(2.dp),
+    contentAlignment = Alignment.Center
+) {
+    Image(
+        painter = painterResource(R.drawable.avatar_1),
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.size(102.dp)
+    )
+}
 ```
+
+<img src="slides/images/blur.png" width=150 />
+
+---
+
+#### Drawing **layer** 👩‍🎨
+
+* Modifiers like `alpha`, `rotate`, `clip`, `scale`, `clipToBounds` are built on top of `Modifier.graphicsLayer`
+
+* There are many more
 
 ---
 
@@ -615,3 +635,69 @@ fun AnimatedText() {
   * **RenderNodeLayer**: Most efficient. `RenderNode`: draw once, redraw cheap multiple times.
 
   * **ViewLayer**: Fallback when direct access to RenderNodes not supported. Uses Android Views as holders of RenderNodes (More like a hack).
+
+---
+
+#### **Canvas** 🖌
+
+* `Canvas` interface (MPP - Android, Desktop)
+
+* Android **delegates to native `Canvas`**
+
+* More ergonomic api than native 👉 its functions do not accept `Paint` anymore, create once and reuse
+
+* `Canvas` as a Composable 😲
+
+---
+
+#### **Canvas** 🖌
+
+```kotlin
+Canvas(modifier = Modifier.fillMaxSize()) {
+    val canvasWidth = size.width
+    val canvasHeight = size.height
+
+    drawLine(
+        start = Offset(x = canvasWidth, y = 0f),
+        end = Offset(x = 0f, y = canvasHeight),
+        color = Color.Blue
+    )
+}
+```
+
+Equivalent apis than native canvas
+
+---
+
+#### Canvas **via modifiers**
+
+* Canvas is actually `Spacer` + `Modifier.drawBehind` 🤯
+
+```kotlin
+@Composable
+fun Canvas(modifier: Modifier, onDraw: DrawScope.() -> Unit) =
+    Spacer(modifier.drawBehind(onDraw))
+```
+
+---
+
+#### **DrawScope**
+
+* Canvas **provides a `DrawScope` in the lambda**
+
+* Gives access to all the drawing apis
+
+* Also available via drawing modifiers like `Modifier.drawBehind`
+
+```kotlin
+Box(
+    modifier = Modifier
+        .size(100.dp)
+        .drawBehind { // draw behind the Box
+            drawRect(
+                color = Color.Blue,
+                size = size
+            )
+        }
+)
+```
