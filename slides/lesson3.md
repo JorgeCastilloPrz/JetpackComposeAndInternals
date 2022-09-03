@@ -49,6 +49,7 @@ interface BoxWithConstraintsScope : BoxScope {
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **BoxWithConstraints**
 
@@ -61,10 +62,12 @@ interface BoxWithConstraintsScope : BoxScope {
 * This is done via ✨ **Subcomposition** ✨
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 7: Use BoxWithConstraints to write our Composable
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Subcomposition**
 
