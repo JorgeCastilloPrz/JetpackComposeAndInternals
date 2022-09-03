@@ -62,6 +62,10 @@ interface BoxWithConstraintsScope : BoxScope {
 
 ---
 
+📝 Exercise 7: Use BoxWithConstraints to write our Composable
+
+---
+
 #### **Subcomposition**
 
 * Creator of a subcomposition can control when the initial composition process happens
