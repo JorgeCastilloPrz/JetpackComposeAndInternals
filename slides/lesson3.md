@@ -107,3 +107,17 @@ fun BoxWithConstraints(...) {
 <img src="slides/images/composition_trees.png" width=550 />
 
 ---
+
+#### **Why** to model them this way?
+
+* **State change propagation** must be notified to child compositions also (they might also need to recompose)
+
+* **Propagating CompositionLocals** down the tree, so they are accessible from child compositions also
+
+---
+
+#### **`CompositionLocal`**
+
+* Make **implicit** parameters available to a subtree
+
+* Like implicit DI
