@@ -15,3 +15,7 @@ Advanced animations
 ---
 
 Drag and swipe gestures
+
+---
+
+Vectors in Compose (maybe move?)
