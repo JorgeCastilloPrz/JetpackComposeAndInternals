@@ -160,7 +160,23 @@ fun Path(
 
 ---
 
-Node types used by the runtime. LayoutNode and VNode.
+#### List of changes
+
+* Nodes are not really added right away
+* Emitting a node 👉 create an operation to add it (change)
+* The composition process creates a list of changes yet to be applied
+
+---
+
+#### Closing the circle
+
+1. How nodes are fed (changes and types of changes - insert, move, delete, replace nodes, remember values, etc)
+2. Applying the list of changes
+3. Materializing the node tree
+
+---
+
+Appliers and how they are picked (when creating Composition)
 
 ---
 
