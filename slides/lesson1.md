@@ -525,7 +525,7 @@ DisposeOnViewTreeLifecycleDestroyed
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### Sharing UI between Compose and Views
+#### Sharing UI between **Compose and Views**
 
 ```kotlin
 class CallToActionViewButton @JvmOverloads constructor(

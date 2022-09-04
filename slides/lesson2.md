@@ -3,7 +3,7 @@
 
 ---
 
-#### **Modifiers**
+#### **Modifiers** 🛠
 
 Tweak how a Composable **looks and behaves**
 
@@ -145,10 +145,6 @@ class CombinedModifier(
 
 #### **custom modifiers**
 
----
-
-#### **custom modifiers**
-
 * Let's create a custom `layout` modifier
 * Use `layout` modifier to modify how **a single element** is measured and laid out (placed).
 
@@ -208,7 +204,7 @@ Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
 #### **Custom layouts**
 
 * Use `Layout` Composable to measure and layout **multiple Composables**
-* All high level UI Composables are defined as `Layout`s
+* All UI Composables are defined as `Layout`s
 
 ```kotlin
 @Composable
@@ -276,7 +272,7 @@ StairedBox {
 
 ---
 
-#### **Measuring** in-depth
+#### **Measuring** in Compose
 
 ---
 
@@ -340,7 +336,7 @@ Box(
 
 ---
 
-#### **MeasurePolicy**
+#### **`MeasurePolicy`**
 
 * `LayoutNodeWrapper` relies on the provided `MeasurePolicy` to measure a node
 * How to measure and place the node 📐 📌
@@ -452,7 +448,7 @@ fun Spacer(modifier: Modifier) {
 ```
 
 * If no fixed dimensions, it takes no space (0)
-* `Spacer` always needs constraints imposed, via parent or layout modifier
+* `Spacer` always needs constraints imposed, **via parent or layout modifier**
 
 ---
 <!-- .slide: data-scene="Coding" -->
@@ -464,8 +460,8 @@ fun Spacer(modifier: Modifier) {
 
 #### **Intrinsics**
 
-* Estimate dimens of child **before it can be measured**
-* Set width of all children to match the widest one 👇
+* Estimate child size **before it can be measured**
+* E.g: Width of all children equal to widest one 👇
 
 <video width="640" height="480" autoplay muted loop>
   <source src="slides/images/dropdown.mp4" type="video/mp4">
@@ -473,23 +469,23 @@ fun Spacer(modifier: Modifier) {
 
 ---
 
-#### **Intrinsics**
+#### **Solution?**
 
 * Measure twice? 💥 Compose throws `RuntimeException` (performance)
 
-* Use intrinsics: Estimate size of layout **when constraints are not available**
+* Use intrinsics: Estimate size of layout **when constraints are not available** 👍🏾
 
 ---
 
 #### **Intrinsics 🤯**
 
-* **`minIntrinsicWidth`**: min width given specific height so content is painted properly
+* **`minIntrinsicWidth`**: min width given specific height (so content is painted properly)
 
-* **`maxIntrinsicWidth`**: max width given specific height so content is painted properly
+* **`maxIntrinsicWidth`**: max width given specific height (so content is painted properly)
 
-* **`minIntrinsicHeight`**: min height given specific width so content is painted properly
+* **`minIntrinsicHeight`**: min height given specific width (so content is painted properly)
 
-* **`maxIntrinsicHeight`**: max height given specific width so content is painted properly
+* **`maxIntrinsicHeight`**: max height given specific width (so content is painted properly)
 
 ---
 
@@ -512,7 +508,7 @@ fun DropdownMenuContent(...) {
 }
 ```
 
-* Tells `Column` to measure children using the maximum intrinsic width among all the children
+* Tells `Column` to measure children using the max intrinsic width among the children
 
 ---
 
@@ -528,13 +524,13 @@ fun DropdownMenuContent(...) {
 
 * For each wrapper:
 
-  * Offsets drawing to match layout definition
+  1. Offsets drawing to match layout definition
 
-  * Checks if **drawing layer** available, draws it
+  2. Checks if **drawing layer** available, draws it
 
-  * Checks if **`DrawModifiers`** available, draws them (in order)
+  3. Checks if **`DrawModifiers`** available, draws them (in order)
 
-  * Calls `draw()` on the next wrapper
+  4. Calls `draw()` on the next wrapper
 
 ---
 
@@ -598,7 +594,6 @@ fun AnimatedText() {
 #### Drawing **layer** 👩‍🎨
 
 ```kotlin
-@Composable
 Box(
     // blur is built on top of graphicsLayer
     modifier = Modifier.blur(2.dp),
@@ -618,17 +613,34 @@ Box(
 
 #### Drawing **layer** 👩‍🎨
 
+* Also supports Android `RenderEffect`
+
+```kotlin
+@Immutable
+internal class AndroidRenderEffect(
+    val androidRenderEffect: android.graphics.RenderEffect
+) : RenderEffect() {
+    override fun createRenderEffect() = androidRenderEffect
+}
+```
+
+---
+
+#### Drawing **layer** 👩‍🎨
+
 * Modifiers like `alpha`, `rotate`, `clip`, `scale`, `clipToBounds` are built on top of `Modifier.graphicsLayer`
 
 * There are many more
+
+* Use to update Composable properties efficiently
 
 ---
 
 #### **Drawing layer types**
 
-* Both of them identical from high level use
+* Both identical from high level use
 
-* Both of them **hardware accelerated**
+* Both **hardware accelerated** ⏭
 
 * Transparent for the user (decided by Compose)
 
@@ -646,11 +658,9 @@ Box(
 
 * More ergonomic api than native 👉 its functions do not accept `Paint` anymore, create once and reuse
 
-* `Canvas` as a Composable 😲
-
 ---
 
-#### **Canvas** 🖌
+#### The **Canvas Composable** 🖌
 
 ```kotlin
 Canvas(modifier = Modifier.fillMaxSize()) {
@@ -700,4 +710,28 @@ Box(
             )
         }
 )
+```
+
+---
+
+#### **DrawScope**
+
+* `Modifier.drawWithContent` to draw **behind or over content** 👇
+
+```kotlin
+internal fun Modifier.drawIndicatorLine(indicatorBorder: BorderStroke): Modifier {
+    val strokeWidthDp = indicatorBorder.width
+    return drawWithContent {
+        drawContent()
+        if (strokeWidthDp == Dp.Hairline) return@drawWithContent
+        val strokeWidth = strokeWidthDp.value * density
+        val y = size.height - strokeWidth / 2
+        drawLine(
+            indicatorBorder.brush,
+            Offset(0f, y), // start
+            Offset(size.width, y), // end
+            strokeWidth
+        )
+    }
+}
 ```
