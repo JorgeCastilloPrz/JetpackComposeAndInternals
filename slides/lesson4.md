@@ -200,20 +200,8 @@ Invalidate owner to ensure measure / layout / draw
 
 ---
 
-Appliers and how they are picked (when creating Composition)
-
----
-
-Recap on the LayoutNode tree and the concept of Owner
-
----
-
-Invalidation to reflect changes
-
----
-
-How changes to add, move, replace, or remove nodes from tree are materialized
-
----
-
 The different types of Appliers provided by client libraries
+
+---
+
+Appliers and how they are picked (when creating Composition)
