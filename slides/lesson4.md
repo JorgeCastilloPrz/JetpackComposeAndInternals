@@ -25,7 +25,8 @@ fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
   val layoutDirection = LocalLayoutDirection.current
   val viewConfiguration = LocalViewConfiguration.current
   val materialized = currentComposer.materialize(modif)
-  
+
+  // LayoutNode is a child of ComposeUiNode
   ReusableComposeNode<ComposeUiNode, Applier<Any>>(
     factory = ComposeUiNode.Constructor,
     update = {
@@ -37,6 +38,28 @@ fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
     },
   )
 }
+```
+
+---
+
+#### **`ComposeUiNode`** and **`LayoutNode`**
+
+```kotlin
+@PublishedApi
+internal interface ComposeUiNode {
+    var measurePolicy: MeasurePolicy
+    var layoutDirection: LayoutDirection
+    var density: Density
+    var modifier: Modifier
+    var viewConfiguration: ViewConfiguration
+    // ...
+}
+```
+
+Represents a Compose UI `Layout` for the runtime
+
+```kotlin
+internal class LayoutNode(...)) : ComposeUiNode, ...
 ```
 
 ---
