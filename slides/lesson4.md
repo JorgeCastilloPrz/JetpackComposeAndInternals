@@ -14,7 +14,7 @@
 
 ---
 
-#### **Picking the node type**
+#### **Feeding the node type**
 
 * Done when emitting the node
 * Teaches the runtime **how to create & initialize** it
@@ -84,6 +84,8 @@ sealed class VNode {
 <img src="slides/images/vnode.png" width=550 />
 
 ---
+
+#### **Feeding the node type**
 
 ```kotlin
 @Composable
