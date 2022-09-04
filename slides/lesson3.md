@@ -126,17 +126,15 @@ fun BoxWithConstraints(...) {
 #### **`CompositionLocal`**
 
 * Make **implicit** params available to a subtree
-
 * Avoids flooding function params transitively
-
 * Implicit DI scoped to a subtree
-
 * Some of them built-in in Compose UI
 
 ```kotlin
 @Composable
 fun FruitText(fruitSize: Int) {
-  // Access the host context
+  // Access host context via LocalContext CompositionLocal
+  // Use `current` to access its current value
   val resources = LocalContext.current.resources
 
   val fruitText = resources
@@ -159,9 +157,8 @@ fun FruitText(fruitSize: Int) {
 ```kotlin
 @Composable
 fun MyApp() {
-  // Provides a Theme whose values are propagated down
-  MaterialTheme {
-    // Local values for colors, typography, shapes
+  MaterialTheme { // local values provided
+    // Composables here
   }
 }
 
@@ -170,7 +167,7 @@ fun MyApp() {
 fun SomeTextLabel(labelText: String) {
   Text(
     text = labelText,
-    // primary obtained from LocalColors CompositionLocal
+    // val colors: Colors get() = LocalColors.current
     color = MaterialTheme.colors.primary
   )
 }
@@ -225,11 +222,8 @@ fun DescendantExample() {
 
 #### **Custom** `CompositionLocal`
 
-* Not recommended 👉 Composables harder to reason about
-
-* Callers need to ensure the values are provided
-
-* Harder debugging 👉 Not a single source of truth for its value (can be overriden)
-
----
-
+* Not recommended 🙅🏼
+* Composables harder to reason about
+* Callers need to ensure values are provided
+* Harder debugging 👉 (not a single source of truth)
+* Do only for very good reasons
