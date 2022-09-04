@@ -17,13 +17,13 @@ if (maxWidth < 560.dp) { // not available in this phase
 }
 ```
 
-* **Can't do with custom layout** 👉 we are still building up the Composition!
+* **Can't do with custom layout** 👉 we are still building up the Composition! 🤔
 
 ---
 
 #### A **solution** 🤩
 
-* **Delaying Composition** until data is available
+* **Delay Composition** until data is available
 * **`BoxWithConstraints`** 👇
 
 ```kotlin
@@ -51,15 +51,15 @@ interface BoxWithConstraintsScope : BoxScope {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### **BoxWithConstraints**
+#### **`BoxWithConstraints`**
 
 * Doesn't compose children during composition
 
 * Delays it until measure/layout phase
 
-* **It is not as efficient** ⚠️
+* **Not as efficient** as normal Composition ⚠️
 
-* This is done via ✨ **Subcomposition** ✨
+* Achieved via ✨ **Subcomposition** ✨
 
 ---
 <!-- .slide: data-scene="Coding" -->
