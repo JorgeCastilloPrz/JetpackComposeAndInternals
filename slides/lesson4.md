@@ -160,19 +160,43 @@ fun Path(
 
 ---
 
-#### List of changes
+#### **List of changes**
 
-* Nodes are not really added right away
-* Emitting a node 👉 create an operation to add it (change)
+* Nodes are not really inserted right away
+* Emitting a node 👉 **records an operation to add it**
 * The composition process creates a list of changes yet to be applied
+
+<img src="slides/images/closing_the_circle_1.png" width=1000 />
 
 ---
 
-#### Closing the circle
+#### **Types of changes**
 
-1. How nodes are fed (changes and types of changes - insert, move, delete, replace nodes, remember values, etc)
-2. Applying the list of changes
-3. Materializing the node tree
+* Insert nodes
+* Remove nodes
+* Move nodes (reorg children)
+* Replace nodes
+* Save values (`remember`)
+...
+
+---
+
+#### **Applying the changes**
+
+* Once composition is done (or recomposition), the list of changes is fed to the `Applier`.
+* The **`Applier`** applies the changes 👉 materializes them
+
+---
+
+<img src="slides/images/closing_the_circle_2.png" width=1000 />
+
+---
+
+#### **Final step**
+
+Invalidate owner to ensure measure / layout / draw
+
+<img src="slides/images/closing_the_circle_3.png" width=1000 />
 
 ---
 
