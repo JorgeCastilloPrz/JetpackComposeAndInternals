@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
+import dev.jorgecastillo.compose.app.ui.composables.LazySpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 class MainActivity : ComponentActivity() {
