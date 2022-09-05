@@ -200,8 +200,118 @@ Invalidate owner to ensure measure / layout / draw
 
 ---
 
-The different types of Appliers provided by client libraries
+#### **`Applier<N>`**
+
+* Abstraction to keep runtime agnostic of node type
+* Impl provided by clients of the runtime
+
+```kotlin
+interface Applier<N> {
+    val current: N // (visitor)
+    fun onBeginChanges() {}
+    fun onEndChanges() {}
+    fun down(node: N)
+    fun up()
+
+    // Can build the tree top-down or bottom-up
+    fun insertTopDown(index: Int, instance: N)
+    fun insertBottomUp(index: Int, instance: N)
+
+    fun remove(index: Int, count: Int)
+    fun move(from: Int, to: Int, count: Int)
+    fun clear()
+}
+```
 
 ---
 
-Appliers and how they are picked (when creating Composition)
+#### **`UiApplier (LayoutNode)`**
+
+* Builds up UI tree bottom-up
+* Inserts, removes, moves `LayoutNode`s
+
+```kotlin
+internal class UiApplier(root: LayoutNode) : AbstractApplier<LayoutNode>(root) {
+
+  override fun insertTopDown(index: Int, instance: LayoutNode) {
+    // Ignored. Insert is performed in [insertBottomUp]
+    // to build the tree bottom-up to avoid duplicate
+    // notification when the child nodes enter the tree.
+  }
+
+  override fun insertBottomUp(index: Int, instance: LayoutNode) {
+    current.insertAt(index, instance)
+  }
+
+  override fun remove(index: Int, count: Int) {
+    current.removeAt(index, count)
+  }
+
+  override fun move(from: Int, to: Int, count: Int) {
+    current.move(from, to, count)
+  }
+
+  override fun onClear() {
+    root.removeAll()
+  }
+
+  // ...
+}
+```
+
+---
+
+#### **`VectorApplier (VNode)`**
+
+* Builds up UI tree top-down (no reason)
+* Inserts, removes, moves `VNode`s
+
+```kotlin
+class VectorApplier(root: VNode) : AbstractApplier<VNode>(root) {
+    override fun insertTopDown(index: Int, instance: VNode) {
+        current.asGroup().insertAt(index, instance)
+    }
+
+    override fun insertBottomUp(index: Int, instance: VNode) {
+        // Ignored as the tree is built top-down.
+    }
+
+    override fun remove(index: Int, count: Int) {
+        current.asGroup().remove(index, count)
+    }
+
+    override fun onClear() {
+        root.asGroup().let { it.remove(0, it.numChildren) }
+    }
+
+    override fun move(from: Int, to: Int, count: Int) {
+        current.asGroup().move(from, to, count)
+    }
+
+    // ...
+}
+```
+
+---
+
+#### **Creating the `Applier`**
+
+* Appliers are created when creating the Composition
+
+```kotlin
+// Integration point with the platform
+private fun ComposeView.setContent(...): Composition {
+    // We pick applier and the layout type here
+    val original = Composition(UiApplier(owner.root), parent)
+    val wrapped = WrappedComposition(...)
+    wrapped.setContent(content)
+    return wrapped
+}
+```
+```kotlin
+// Or when creating a Subcomposition
+internal actual fun createSubcomposition(
+    container: LayoutNode,
+    parent: CompositionContext
+): Composition = Composition(UiApplier(container), parent)
+```
