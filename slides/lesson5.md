@@ -72,6 +72,25 @@ public val Icons.Filled.Add: ImageVector
 
 ---
 
+#### **Vectors in Compose**
+
+```kotlin
+// Load the animated vector drawable
+val image = AnimatedImageVector.
+      animatedVectorResource(R.drawable.animated_vector)
+
+val atEnd by remember { mutableStateOf(false) }
+Icon(
+    // paint it
+    painter = rememberAnimatedVectorPainter(image, atEnd),
+    contentDescription = null // decorative element
+)
+```
+
+<img src="slides/images/animatedvectordrawable.gif" width=200 />
+
+---
+
 Theming. Material and custom themes. Making our app material
 
 ---
