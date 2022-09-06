@@ -1,4 +1,4 @@
-## **Advanced UI - part II**
+## **5. Advanced UI - part II**
 
 ---
 
@@ -91,7 +91,93 @@ Icon(
 
 ---
 
-Theming. Material and custom themes. Making our app material
+#### **Theming** 🎨
+
+---
+
+#### **Material Design** 🎨
+
+* A **design system**
+* Theming and components
+
+```groovy
+dependencies {
+    implementation "androidx.compose.material:material:$version"
+}
+```
+
+---
+
+#### **Material Design** 🎨
+
+* Applying material to a subtree
+
+```kotlin
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            val speakersRepository = FakeSpeakerRepository()
+            MaterialTheme {
+              // Any composables here
+              LazySpeakersScreen(speakers)
+            }
+        }
+    }
+}
+```
+
+---
+
+#### **Material** 🎨
+
+* Material components built on top of it
+* `TextField`, `TopAppBar`, `Card`, `Button`, `Scaffold`, `FloatingActionButton`...
+
+---
+
+```kotlin
+MaterialTheme { // colors, typographies, shapes provided 👇
+  Scaffold(
+    topBar = { TopAppBar(title = { Text("My app") }) },
+    content = { contentPadding ->
+      Column(Modifier.padding(contentPadding)) {
+        TextField(
+          value = "",
+          label = { Text("Insert some text") },
+          onValueChange = {})
+        Button(onClick = { /*TODO*/ }) {
+          Text("Click me!")
+        }
+      }
+    }
+  )
+}
+```
+
+---
+
+<img src="slides/images/material2.png" width=300 />
+
+---
+
+#### **`MaterialTheme`**
+
+Exposes colors, typography & shapes to the subtree
+
+```kotlin
+MaterialTheme(
+    colors = …,
+    typography = …,
+    shapes = …
+) {
+    // app content (can read from those)
+}
+```
+
+---
+
+Custom themes. Making our app material
 
 ---
 
@@ -107,4 +193,4 @@ Drag and swipe gestures
 
 ---
 
-Vectors in Compose (maybe move?)
+resources
