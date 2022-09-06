@@ -303,16 +303,16 @@ class Colors(
 private val Yellow200 = Color(0xffffeb46)
 private val Blue200 = Color(0xff91a4fc)
 
+// We can only override some of them
 private val DarkColors = darkColors(
     primary = Yellow200,
     secondary = Blue200,
-    // ...
 )
+
 private val LightColors = lightColors(
     primary = Yellow500,
     primaryVariant = Yellow400,
     secondary = Blue700,
-    // ...
 )
 ```
 
@@ -353,7 +353,258 @@ val rgbaWhiteInt = Color(
 
 ---
 
-Custom themes. Making our app material
+#### **Overriding theme values** ✍️
+
+* Since they are `CompositionLocal`, you can **override them for a nested subtree**
+* Example with content alpha 👇
+
+```kotlin
+// De-emphasize content by setting content alpha
+// (default is ContentAlpha.high)
+CompositionLocalProvider(
+  LocalContentAlpha provides ContentAlpha.medium
+) {
+    Text(/*...*/)
+}
+CompositionLocalProvider(
+  LocalContentAlpha provides ContentAlpha.disabled
+) {
+    Icon(/*...*/)
+    Text(/*...*/)
+}
+```
+
+---
+
+#### **Dark mode** 🌙
+
+```kotlin
+@Composable
+fun MyTheme(
+                         // 👇 follow device theme setting
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colors = if (darkTheme) DarkColors else LightColors,
+        /*...*/
+        content = content
+    )
+}
+```
+
+---
+
+#### **Dark mode** 🌙
+
+Checking from Composables down the tree
+
+```kotlin
+val isLightTheme = MaterialTheme.colors.isLight
+Icon(
+    painterResource(
+        id = if (isLightTheme) {
+          R.drawable.ic_sun_24dp
+        } else {
+          R.drawable.ic_moon_24dp
+        }
+    ),
+    contentDescription = "Theme"
+)
+```
+
+---
+
+#### **Dark mode** 🌙
+
+* **Elevation overlays** determined by elevation
+
+```kotlin
+Surface(
+    elevation = 2.dp,
+    // color is automatically adjusted for elevation
+    color = MaterialTheme.colors.surface,
+    // ...
+) { /*...*/ }
+```
+
+---
+
+<img src="slides/images/elevation_overlays.png" width=300 />
+
+---
+
+#### **Typography** 📝
+
+```kotlin
+class Typography internal constructor(
+    val h1: TextStyle,
+    val h2: TextStyle,
+    val h3: TextStyle,
+    val h4: TextStyle,
+    val h5: TextStyle,
+    val h6: TextStyle,
+    val subtitle1: TextStyle,
+    val subtitle2: TextStyle,
+    val body1: TextStyle,
+    val body2: TextStyle,
+    val button: TextStyle,
+    val caption: TextStyle,
+    val overline: TextStyle
+) { ... }
+```
+
+---
+
+#### **Typography defaults**
+
+```kotlin
+h1: TextStyle = TextStyle(
+    fontWeight = FontWeight.Light,
+    fontSize = 96.sp,
+    letterSpacing = (-1.5).sp
+),
+h2: TextStyle = TextStyle(
+    fontWeight = FontWeight.Light,
+    fontSize = 60.sp,
+    letterSpacing = (-0.5).sp
+),
+h3: TextStyle = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 48.sp,
+    letterSpacing = 0.sp
+),
+...
+subtitle1: TextStyle = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    letterSpacing = 0.15.sp
+),
+subtitle2: TextStyle = TextStyle(
+    fontWeight = FontWeight.Medium,
+    fontSize = 14.sp,
+    letterSpacing = 0.1.sp
+),
+body1: TextStyle = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    letterSpacing = 0.5.sp
+),
+body2: TextStyle = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    letterSpacing = 0.25.sp
+),
+button: TextStyle = TextStyle(
+    fontWeight = FontWeight.Medium,
+    fontSize = 14.sp,
+    letterSpacing = 1.25.sp
+),
+caption: TextStyle = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 12.sp,
+    letterSpacing = 0.4.sp
+),
+...
+```
+
+---
+
+#### **Typography** 📝
+
+* We can override only some of them
+
+```kotlin
+val Typography = Typography(
+    body1 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    ),
+    /* Other default text styles to override
+    button = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp
+    ),
+    ... */
+)
+```
+
+---
+
+#### **Colors and Typography**
+
+Example: An average theme for an app
+
+```kotlin
+@Composable
+fun ComposeAndInternalsTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette // defined via darkColors()
+    } else {
+        LightColorPalette // defined via lightColors()
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
+```
+
+---
+
+#### **`MaterialTheme` shapes**
+
+```kotlin
+val Shapes = Shapes(
+    small = RoundedCornerShape(percent = 50),
+    medium = RoundedCornerShape(0f),
+    large = CutCornerShape(
+        topStart = 16.dp,
+        topEnd = 0.dp,
+        bottomEnd = 0.dp,
+        bottomStart = 16.dp
+    )
+)
+
+MaterialTheme(shapes = Shapes, /*...*/)
+```
+
+---
+
+#### **Default shapes**
+
+```kotlin
+class Shapes(
+  /**
+   * small components like Button or Snackbar
+   */
+  val small: CornerBasedShape = RoundedCornerShape(4.dp),
+  /**
+   * medium comps like Card or AlertDialog
+   */
+  val medium: CornerBasedShape = RoundedCornerShape(4.dp),
+  /**
+   * large comps like ModalDrawer or ModalBottomSheetLayout
+   */
+  val large: CornerBasedShape = RoundedCornerShape(0.dp)
+)
+```
+
+---
+
+Custom themes
+
+---
+
+Theme adapters for MDC and AppCompat
 
 ---
 
