@@ -38,6 +38,10 @@ Icon(
 
 ---
 
+<img src="slides/images/material_icons.png" width=900 />
+
+---
+
 #### **Vectors in Compose**
 
 * `ImageVector`s are created with a DSL
@@ -131,7 +135,7 @@ class MainActivity : ComponentActivity() {
 
 #### **Material** 🎨
 
-* Material components built on top of it
+* Material components are built on top of it
 * `TextField`, `TopAppBar`, `Card`, `Button`, `Scaffold`, `FloatingActionButton`...
 
 ---
@@ -178,7 +182,7 @@ MaterialTheme(
 ---
 
 * Also provides default ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
-* Everything **via `CompositionLocal`**
+* Everything **via `CompositionLocal`** ⏬ ⏬ ⏬
 
 ```kotlin
 @Composable
@@ -233,6 +237,56 @@ object MaterialTheme {
         @ReadOnlyComposable
         get() = LocalShapes.current
 }
+```
+
+---
+
+#### **Reading colors** from `Composable` functions
+
+```kotlin
+@Composable
+fun buttonColors(
+    backgroundColor: Color = MaterialTheme.colors.primary,
+    contentColor: Color = contentColorFor(backgroundColor),
+    disabledBackgroundColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+        .compositeOver(MaterialTheme.colors.surface),
+    disabledContentColor: Color = MaterialTheme.colors.onSurface
+        .copy(alpha = ContentAlpha.disabled)
+): ButtonColors = DefaultButtonColors(
+    backgroundColor = backgroundColor,
+    contentColor = contentColor,
+    disabledBackgroundColor = disabledBackgroundColor,
+    disabledContentColor = disabledContentColor
+)
+```
+
+```kotlin
+@Composable
+fun contentColorFor(backgroundColor: Color) =
+    MaterialTheme.colors.contentColorFor(backgroundColor)
+      .takeOrElse { LocalContentColor.current }
+```
+
+---
+
+#### Material **colors**
+
+```kotlin
+class Colors(
+    primary: Color,
+    primaryVariant: Color,
+    secondary: Color,
+    secondaryVariant: Color,
+    background: Color,
+    surface: Color,
+    error: Color,
+    onPrimary: Color,
+    onSecondary: Color,
+    onBackground: Color,
+    onSurface: Color,
+    onError: Color,
+    isLight: Boolean
+)
 ```
 
 ---
