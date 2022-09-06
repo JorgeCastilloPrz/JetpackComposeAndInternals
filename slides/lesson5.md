@@ -600,6 +600,10 @@ class Shapes(
 
 ---
 
+📝 Exercise 8: Create a custom theme for an app
+
+---
+
 Custom themes
 
 ---
