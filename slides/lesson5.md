@@ -87,7 +87,7 @@ val atEnd by remember { mutableStateOf(false) }
 Icon(
     // paint it
     painter = rememberAnimatedVectorPainter(image, atEnd),
-    contentDescription = null // decorative element
+    contentDescription = null
 )
 ```
 
@@ -241,27 +241,28 @@ object MaterialTheme {
 
 ---
 
-#### **Reading colors** from `Composable` functions
+#### **Reading from Composable functions**
 
 ```kotlin
 @Composable
 fun buttonColors(
     bgColor: Color = MaterialTheme.colors.primary,
-    contentColor: Color = contentColorFor(backgroundColor),
-    disabledBgColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+    contentColor: Color = contentColorFor(bgColor),
+    disabledBgColor: Color = MaterialTheme.colors
+        .onSurface.copy(alpha = 0.12f)
         .compositeOver(MaterialTheme.colors.surface),
-    disabledContentColor: Color = MaterialTheme.colors.onSurface
-        .copy(alpha = ContentAlpha.disabled)
+    disabledContentColor: Color = MaterialTheme.colors
+        .onSurface.copy(alpha = ContentAlpha.disabled)
 ): ButtonColors = DefaultButtonColors(
     backgroundColor = backgroundColor,
     contentColor = contentColor,
-    disabledBackgroundColor = disabledBackgroundColor,
-    disabledContentColor = disabledContentColor
+    // ...
 )
 ```
 
 ```kotlin
 // primary -> onPrimary, secondary -> onSecondary...
+// Public, you can also use it
 @Composable
 fun contentColorFor(backgroundColor: Color) =
     MaterialTheme.colors.contentColorFor(backgroundColor)
@@ -270,7 +271,7 @@ fun contentColorFor(backgroundColor: Color) =
 
 ---
 
-#### Material **colors**
+#### **Material color system**
 
 ```kotlin
 class Colors(
@@ -289,6 +290,66 @@ class Colors(
     isLight: Boolean
 )
 ```
+
+* Do we need to define all of them? 🤔
+
+---
+
+#### **Color builders**
+
+* Dark 🌙 / Light 🌞
+
+```kotlin
+private val Yellow200 = Color(0xffffeb46)
+private val Blue200 = Color(0xff91a4fc)
+
+private val DarkColors = darkColors(
+    primary = Yellow200,
+    secondary = Blue200,
+    // ...
+)
+private val LightColors = lightColors(
+    primary = Yellow500,
+    primaryVariant = Yellow400,
+    secondary = Blue700,
+    // ...
+)
+```
+
+```kotlin
+MaterialTheme(
+    colors = if (darkTheme) DarkColors else LightColors
+) {
+    // app content
+}
+```
+
+---
+
+#### **Defining Colors**
+
+```kotlin
+// RGBA+color space. Alpha and ColorSpace optional
+val rgbaWhiteFloat = Color(
+      red = 1f, green = 1f, blue = 1f,
+      alpha = 1f, ColorSpace.get(ColorSpaces.Srgb)
+)
+
+// 32-bit SRGB color int
+val fromIntWhite = Color(android.graphics.Color.WHITE)
+val fromLongBlue = Color(0xFF0000FF)
+
+// from SRGB integer component values. Alpha is optional
+val rgbaWhiteInt = Color(
+      red = 0xFF, green = 0xFF, blue = 0xFF, alpha = 0xFF)
+```
+
+---
+
+#### **Where** to define them?
+
+* Close to your theme!
+* **Access them only by theme** to ensure dark mode / multi-theme support ✅
 
 ---
 
