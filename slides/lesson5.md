@@ -246,9 +246,9 @@ object MaterialTheme {
 ```kotlin
 @Composable
 fun buttonColors(
-    backgroundColor: Color = MaterialTheme.colors.primary,
+    bgColor: Color = MaterialTheme.colors.primary,
     contentColor: Color = contentColorFor(backgroundColor),
-    disabledBackgroundColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+    disabledBgColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
         .compositeOver(MaterialTheme.colors.surface),
     disabledContentColor: Color = MaterialTheme.colors.onSurface
         .copy(alpha = ContentAlpha.disabled)
@@ -261,6 +261,7 @@ fun buttonColors(
 ```
 
 ```kotlin
+// primary -> onPrimary, secondary -> onSecondary...
 @Composable
 fun contentColorFor(backgroundColor: Color) =
     MaterialTheme.colors.contentColorFor(backgroundColor)
