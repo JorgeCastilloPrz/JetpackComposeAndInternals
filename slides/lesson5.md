@@ -177,6 +177,66 @@ MaterialTheme(
 
 ---
 
+* Also provides default ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
+* Everything **via `CompositionLocal`**
+
+```kotlin
+@Composable
+fun MaterialTheme(
+    colors: Colors = MaterialTheme.colors,
+    typography: Typography = MaterialTheme.typography,
+    shapes: Shapes = MaterialTheme.shapes,
+    content: @Composable () -> Unit
+) {
+    val rememberedColors = remember { colors.copy() }
+      .apply { updateColorsFrom(colors) }
+
+    val rippleIndication = rememberRipple()
+    val selectionColors = rememberTextSelectionColors(rememberedColors)
+
+    CompositionLocalProvider(
+        LocalColors provides rememberedColors,
+        LocalContentAlpha provides ContentAlpha.high,
+        LocalIndication provides rippleIndication,
+        LocalRippleTheme provides MaterialRippleTheme,
+        LocalShapes provides shapes,
+        LocalTextSelectionColors provides selectionColors,
+        LocalTypography provides typography
+    ) {
+        ProvideTextStyle(value = typography.body1) {
+            PlatformMaterialTheme(content)
+        }
+    }
+}
+```
+
+---
+
+#### **`MaterialTheme`**
+
+Shortcuts for colors, typography and shapes
+
+```kotlin
+object MaterialTheme {
+    val colors: Colors
+        @Composable
+        @ReadOnlyComposable // optimize for reading only
+        get() = LocalColors.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
+
+    val shapes: Shapes
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalShapes.current
+}
+```
+
+---
+
 Custom themes. Making our app material
 
 ---
