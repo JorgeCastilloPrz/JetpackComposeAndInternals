@@ -604,11 +604,356 @@ class Shapes(
 
 ---
 
-Custom themes
+#### **Custom themes**
+
+Our own design systems like `material`
+
+---
+
+#### **Extending material palettes**
+
+* Extend `Colors`, `Typography`, or `Shapes` via **extensions properties**
+
+* 🙅🏽‍♀️ Doesn't work for different themes (static)
+
+```kotlin
+// Use with MaterialTheme.colors.snackbarAction
+val Colors.snackbarAction: Color
+    get() = if (isLight) Red300 else Red700
+
+// Use with MaterialTheme.typography.textFieldInput
+val Typography.textFieldInput: TextStyle
+    get() = TextStyle(/* ... */)
+
+// Use with MaterialTheme.shapes.card
+val Shapes.card: Shape
+    get() = RoundedCornerShape(size = 20.dp)
+```
+
+---
+
+#### **Extending material palettes++**
+
+* Wrapping `MaterialTheme`
+
+* Supports multiple themes (via theme nesting)
+
+```kotlin
+// 1. Create a class to wrap the new colors
+@Immutable
+data class ExtendedColors(
+    val tertiary: Color,
+    val onTertiary: Color
+)
+
+// 2. Create a CompositionLocal to provide it down the tree
+val LocalExtendedColors = staticCompositionLocalOf {
+    ExtendedColors(
+        tertiary = Color.Unspecified,
+        onTertiary = Color.Unspecified
+    )
+}
+```
+
+---
+
+```kotlin
+// 3. Wrap the MaterialTheme with `CompositionLocalProvider`
+@Composable
+fun ExtendedTheme(..., content: @Composable () -> Unit) {
+    val extendedColors = ExtendedColors(
+        tertiary = Color(0xFFA8EFF0),
+        onTertiary = Color(0xFF002021)
+    )
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+        MaterialTheme(content = content)
+    }
+}
+```
+
+```kotlin
+// 4. (Optional) Shortcut for better ergonomics
+// Use like ExtendedTheme.colors.tertiary
+object ExtendedTheme {
+    val colors: ExtendedColors
+        @Composable
+        get() = LocalExtendedColors.current
+}
+```
+
+---
+
+#### **Extending material palettes++**
+
+* Wrap material components to use the new values
+
+```kotlin
+@Composable
+fun ExtendedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = ExtendedTheme.colors.tertiary,
+            contentColor = ExtendedTheme.colors.onTertiary
+            /* Other colors use values from MaterialTheme */
+        ),
+        onClick = onClick,
+        modifier = modifier,
+        content = content
+    )
+}
+```
+
+---
+
+#### **Replacing material systems**
+
+* E.g: replacing typography, colors or shapes
+* Same system than the above
+
+```kotlin
+@Immutable
+data class ReplacementTypography(
+    val body: TextStyle,
+    val title: TextStyle
+)
+
+val LocalReplacementTypography = staticCompositionLocalOf {
+    ReplacementTypography(
+        body = TextStyle.Default,
+        title = TextStyle.Default
+    )
+}
+```
+
+---
+
+#### **Replacing material systems**
+
+```kotlin
+@Composable
+fun ReplacementTheme(..., content: @Composable () -> Unit) {
+    val replacementTypography = ReplacementTypography(
+        body = TextStyle(fontSize = 16.sp),
+        title = TextStyle(fontSize = 32.sp)
+    )
+
+    CompositionLocalProvider(
+        LocalReplacementTypography provides replacementTypography
+    ) {
+        MaterialTheme(content = content)
+    }
+}
+```
+```kotlin
+// Use with eg. ReplacementTheme.typography.body
+object ReplacementTheme {
+    val typography: ReplacementTypography
+        @Composable
+        get() = LocalReplacementTypography.current
+}
+```
+
+---
+
+#### **And from material components?** 🤔
+
+* One more time, wrap them and replace defaults
+* Wrap content lambdas with provider funcs for values not exposed as params
+
+```kotlin
+@Composable
+fun ReplacementButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Button(
+        shape = ReplacementTheme.shapes.component,
+        onClick = onClick,
+        modifier = modifier,
+        content = {
+            // When no utility functions available
+            ProvideTextStyle(
+                value = ReplacementTheme.typography.body
+            ) {
+                content()
+            }
+        }
+    )
+}
+```
+
+---
+
+#### Fully custom design systems ✨
+
+* Beware of material components (they expect the systems provided by material)
+* E.g: a system that provides colors, typography and elevation
+* 1st, create the classes to model the systems 👇
+
+```kotlin
+@Immutable
+data class CustomColors(
+    val content: Color,
+    val component: Color,
+    val background: List<Color> // gradient
+)
+
+@Immutable
+data class CustomTypography(
+    val body: TextStyle,
+    val title: TextStyle
+)
+
+@Immutable
+data class CustomElevation(
+    val default: Dp,
+    val pressed: Dp
+)
+```
+
+---
+
+#### Fully custom design systems ✨
+
+* 2nd, create the `CompositionLocal` to provide them down the tree
+
+```kotlin
+val LocalCustomColors = staticCompositionLocalOf {
+    CustomColors(
+        content = Color.Unspecified,
+        component = Color.Unspecified,
+        background = emptyList()
+    )
+}
+val LocalCustomTypography = staticCompositionLocalOf {
+    CustomTypography(
+        body = TextStyle.Default,
+        title = TextStyle.Default
+    )
+}
+val LocalCustomElevation = staticCompositionLocalOf {
+    CustomElevation(
+        default = Dp.Unspecified,
+        pressed = Dp.Unspecified
+    )
+}
+```
+
+---
+
+#### Fully custom design systems ✨
+
+* 3rd, wrap the content with `CompositionLocalProvider`
+
+```kotlin
+@Composable
+fun CustomTheme(..., content: @Composable () -> Unit) {
+    val customColors = CustomColors(
+        content = Color(0xFFDD0D3C),
+        component = Color(0xFFC20029),
+        background = listOf(Color.White, Color(0xFFF8BBD0))
+    )
+    val customTypography = CustomTypography(
+        body = TextStyle(fontSize = 16.sp),
+        title = TextStyle(fontSize = 32.sp)
+    )
+    val customElevation = CustomElevation(
+        default = 4.dp,
+        pressed = 8.dp
+    )
+    CompositionLocalProvider(
+        LocalCustomColors provides customColors,
+        LocalCustomTypography provides customTypography,
+        LocalCustomElevation provides customElevation,
+        content = content
+    )
+}
+```
+
+---
+
+#### Fully custom design systems ✨
+
+* 4th (optional), provide shortcuts
+
+```kotlin
+// Use with eg. CustomTheme.elevation.small
+object CustomTheme {
+    val colors: CustomColors
+        @Composable
+        get() = LocalCustomColors.current
+    val typography: CustomTypography
+        @Composable
+        get() = LocalCustomTypography.current
+    val elevation: CustomElevation
+        @Composable
+        get() = LocalCustomElevation.current
+}
+```
+
+---
+
+#### And for material components? 🤔
+
+* Forward the values from your `CustomTheme` where possible
+* Set values for the missing systems manually
+
+```kotlin
+@Composable
+fun CustomButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = CustomTheme.colors.component,
+            contentColor = CustomTheme.colors.content,
+            disabledBackgroundColor = CustomTheme.colors.content
+                .copy(alpha = 0.12f)
+                .compositeOver(CustomTheme.colors.component),
+            disabledContentColor = CustomTheme.colors.content
+                .copy(alpha = ContentAlpha.disabled)
+        ),
+        shape = ButtonShape,
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = CustomTheme.elevation.default,
+            pressedElevation = CustomTheme.elevation.pressed
+            /* disabledElevation = 0.dp */
+        ),
+        onClick = onClick,
+        modifier = modifier,
+        content = {
+            ProvideTextStyle(
+                value = CustomTheme.typography.body
+            ) {
+                content()
+            }
+        }
+    )
+}
+```
 
 ---
 
 Theme adapters for MDC and AppCompat
+
+---
+
+Default indication (ripple)
+
+https://developer.android.com/jetpack/compose/themes/material
+
+---
+
+Material Design 3 and Material You
+
+https://developer.android.com/jetpack/compose/themes/material#material3
 
 ---
 
