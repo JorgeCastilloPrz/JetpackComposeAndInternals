@@ -696,7 +696,7 @@ fun ReplacementButton(
 
 ---
 
-#### Fully custom design systems ✨
+#### **Fully custom design systems** ✨
 
 * Beware of material components (they expect the systems provided by material)
 * E.g: a system that provides colors, typography and elevation
@@ -725,7 +725,7 @@ data class CustomElevation(
 
 ---
 
-#### Fully custom design systems ✨
+#### **Fully custom design systems** ✨
 
 * 2nd, create the `CompositionLocal` to provide them down the tree
 
@@ -753,7 +753,7 @@ val LocalCustomElevation = staticCompositionLocalOf {
 
 ---
 
-#### Fully custom design systems ✨
+#### **Fully custom design systems** ✨
 
 * 3rd, wrap the content with `CompositionLocalProvider`
 
@@ -784,7 +784,7 @@ fun CustomTheme(..., content: @Composable () -> Unit) {
 
 ---
 
-#### Fully custom design systems ✨
+#### **Fully custom design systems** ✨
 
 * 4th (optional), provide shortcuts
 
@@ -805,7 +805,7 @@ object CustomTheme {
 
 ---
 
-#### And for material components? 🤔
+#### **And for material components?** 🤔
 
 * Forward the values from your `CustomTheme` where possible
 * Set values for the missing systems manually
@@ -848,7 +848,7 @@ fun CustomButton(
 
 ---
 
-#### Bridging XML themes
+#### **Bridging XML themes**
 
 * Make `MaterialTheme` inherit the values from your MaterialComponents XML theme
 
@@ -876,7 +876,7 @@ MdcTheme {
 
 ---
 
-#### Bridging XML themes
+#### **Bridging XML themes**
 
 * For `AppCompat` XML themes, use Accompanist AppCompat Theme Adapter instead
 
@@ -893,12 +893,38 @@ AppCompatTheme {
 
 ---
 
-Default indication (ripple)
+**Material Design 3 and Material You**
 
-https://developer.android.com/jetpack/compose/themes/material
+```gradle
+implementation "androidx.compose.material3:material3:$version"
+```
+
+* Provides MD3 versions of all material components
+* Its own `MaterialTheme` 👇
+
+```kotlin
+MaterialTheme(
+    colorScheme = …,
+    typography = …
+    // Updates to shapes coming soon
+) {
+    // M3 app content (and M3 components)
+}
+```
 
 ---
 
-Material Design 3 and Material You
+**Material Design 3 and Material You**
 
-https://developer.android.com/jetpack/compose/themes/material#material3
+```kotlin
+// Dynamic color available on Android 12+
+val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+val colorScheme = when {
+    dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
+    dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
+    darkTheme -> DarkColorScheme
+    else -> LightColorScheme
+}
+```
+
+<img src="slides/images/material_you.png" width=600 />

@@ -398,7 +398,9 @@ Layout(
     modifier = modifier,
     content = content
 ) { measurables, constraints ->
-    // measure node and children using constraints
+    // 1. measure children using constraints
+    // 2. call layout() passing total width / height
+    // 3. place children
 }
 ```
 
@@ -647,6 +649,63 @@ internal class AndroidRenderEffect(
   * **RenderNodeLayer**: Most efficient. `RenderNode`: draw once, redraw cheap multiple times.
 
   * **ViewLayer**: Fallback when direct access to RenderNodes not supported. Uses Android Views as holders of RenderNodes (More like a hack).
+
+---
+
+#### **Draw modifiers**
+
+* `alpha`, `rotate`, `clip`, `scale`, `clipToBounds`, `drawBehind`, `drawWithContent`...
+
+---
+
+#### **When are actual nodes drawn? 🤔**
+
+* Everything is a `graphicsLayer` and / or `DrawModifier`s.
+* E.g: `BasicText` is graphicsLayer + drawBehind
+
+```kotlin
+private fun Modifier.drawTextAndSelectionBehind(): Modifier =
+    this.graphicsLayer().drawBehind {
+      // graphicsLayer is an optimization
+      //
+      // Text is heavy to draw. Layer allows to avoid
+      // redrawing it when nothing changed. If parent
+      // needs to redraw, only layer gets redrawn, not
+      // the text. A cached drawing of the text is used
+    }
+```
+
+---
+
+#### **(infix) `graphicsLayer` optimization**
+
+* `LazyColumn` draws all children with an empty layer to avoid real redrawing when we need to just offset the items (cached drawings used on scroll)
+
+* Compose adds layers where it makes sense 👉 **where drawing is expensive**
+
+---
+
+#### **More examples 🤔**
+
+Canvas is a Spacer with a drawBehind modifier
+
+```kotlin
+@Composable
+fun Canvas(mod: Modifier, onDraw: DrawScope.() -> Unit) =
+    Spacer(mod.drawBehind(onDraw))
+```
+
+Surface is a Box with a Modifier.surface
+
+```kotlin
+fun Modifier.surface(shape: Shape,
+    bgColor: Color, border: BorderStroke?,
+    elevation: Dp
+) = this.shadow(...)
+    .then(if (border != null) Modifier.border(border, ...) else Modifier)
+    .background(color = bgColor, shape = shape)
+    .clip(shape)
+```
 
 ---
 

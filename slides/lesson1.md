@@ -85,10 +85,6 @@
 
 #### **1. Calling context**
 
----
-
-#### **1. Calling context**
-
 ```kotlin
 // Compiler rewrites this
 @Composable
@@ -124,10 +120,6 @@ fun NamePlate(name: String, $composer: Composer) {
 
 #### **2. Idempotent**
 
----
-
-#### **2. Idempotent**
-
 * Executing a Composable multiple times should produce **same result** (if its inputs have not changed)
 * The Composition should not vary as a result
 * **Consistency**
@@ -156,10 +148,6 @@ fun NamePlate(name: String, $composer: Composer) {
   val a = remember { heavyCalculation() }
   ```
   * Unstable (unreliable) inputs
-
----
-
-#### **3. Free of side effects**
 
 ---
 
@@ -234,10 +222,6 @@ fun EventFeed(events: List<Event>) {
 
 #### **4. Restartable**
 
----
-
-#### **4. Restartable**
-
 <img src="slides/images/restartable1.png" width=900 />
 
 ---
@@ -258,10 +242,6 @@ fun EventFeed(events: List<Event>) {
 
 #### **5. Fast execution**
 
----
-
-#### **5. Fast execution**
-
 * Declarative style 👉 describe UI
 
 * Designed to emit changes, not making them
@@ -273,10 +253,6 @@ fun EventFeed(events: List<Event>) {
 ---
 
 <img src="slides/images/fastexecution.png" width=900 />
-
----
-
-#### **6. Positional memoization**
 
 ---
 
@@ -310,10 +286,6 @@ fun MyComposable() {
 
 ---
 <!-- .slide: data-scene="Slides" -->
-
-#### The **Slot Table**
-
----
 
 #### The **Slot Table**
 
