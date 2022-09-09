@@ -160,11 +160,7 @@ fun buttonColors(
         .compositeOver(MaterialTheme.colors.surface),
     disabledContentColor: Color = MaterialTheme.colors
         .onSurface.copy(alpha = ContentAlpha.disabled)
-): ButtonColors = DefaultButtonColors(
-    backgroundColor = backgroundColor,
-    contentColor = contentColor,
-    // ...
-)
+): ButtonColors = DefaultButtonColors(...)
 ```
 
 ```kotlin
@@ -256,14 +252,13 @@ val rgbaWhiteInt = Color(
 #### **Where** to define them?
 
 * Close to your theme!
-* **Access them only by theme** to ensure dark mode / multi-theme support ✅
+* **Access them only by theme** to ensure dark mode / dynamic theme support ✅
 
 ---
 
 #### **Overriding theme values** ✍️
 
-* Since they are `CompositionLocal`, you can **override them for a nested subtree**
-* Example with content alpha 👇
+* They are `CompositionLocal`: we can **override them for a nested subtree** 👇
 
 ```kotlin
 // De-emphasize content by setting content alpha
