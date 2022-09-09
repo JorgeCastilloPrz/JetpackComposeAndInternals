@@ -150,7 +150,7 @@ fun FruitText(fruitSize: Int) {
 
 ---
 
-#### `CompositionLocal` **in themes**
+#### **Themes are `CompositionLocal`s** 😲
 
 * `MaterialTheme` provides `LocalColors`, `LocalShapes`, `LocalTypography`
 
@@ -175,9 +175,7 @@ fun SomeTextLabel(labelText: String) {
 
 ---
 
-#### `CompositionLocal` **by Material**
-
-* **material** provides some built-in ones
+#### Additional ones **by Material**
 
 * `LocalAbsoluteElevation`
 * `LocalContentAlpha`
