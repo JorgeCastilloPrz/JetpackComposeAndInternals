@@ -9,11 +9,11 @@
 #### **Material Design** 🎨
 
 * A **design system**
-* Theming and components
+* Theming and UI components
 
 ```groovy
 dependencies {
-    implementation "androidx.compose.material:material:$version"
+  implementation "androidx.compose.material:material:$version"
 }
 ```
 
@@ -148,7 +148,7 @@ object MaterialTheme {
 
 ---
 
-#### **Reading from Composable functions**
+#### **Reading from Composable funcs**
 
 ```kotlin
 @Composable

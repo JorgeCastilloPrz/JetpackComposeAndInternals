@@ -25,7 +25,6 @@ fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
   val density = LocalDensity.current
   val layoutDirection = LocalLayoutDirection.current
   val viewConfiguration = LocalViewConfiguration.current
-  val materialized = currentComposer.materialize(modif)
 
   // LayoutNode is a child of ComposeUiNode
   ReusableComposeNode<ComposeUiNode, Applier<Any>>(
@@ -35,7 +34,7 @@ fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
       set(density, ComposeUiNode.SetDensity)
       set(layoutDirection, ComposeUiNode.SetLayoutDirection)
       set(viewConfiguration, ComposeUiNode.SetViewConfiguration)
-      set(materialized, ComposeUiNode.SetModifier)
+      set(modif, ComposeUiNode.SetModifier)
     },
   )
 }
