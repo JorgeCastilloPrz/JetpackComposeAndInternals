@@ -33,27 +33,25 @@ The **source of truth** of our Composables
 
 ---
 
-### remember 🧠
-
-* Cache state **across recompositions**.
-* Calculated on first execution (composition).
-* **Not calculated again** on every recomposition.
-* Forgotten if the Composable is removed/replaced.
+### **`remember`** 🧠
 
 ```kotlin
 @Composable fun ProfileScreen() {
-  // State holder will be created only the first time.
   val nameUiState = remember { mutableStateOf("John Doe") }
   NamePlate(nameUiState.value)
 }
 ```
 
+* Cache state **across recompositions**
+* Calculated on 1st execution (composition)
+* Reused cached value after recomposition/s
+* Forgotten if Composable removed/replaced, or host `ComposeView` detached
+
 ---
 
-### Triggering recomposition
+#### **Triggering recomposition**
 
-* Simply **update** the mutable `State` 🤷‍♂️
-* Any Composable functions **reading from it** will automatically recompose (i.e: re-execute)
+* Just write to the state 🤷‍♂️
 
 ```kotlin
 @Composable fun ProfileScreen() {
@@ -70,29 +68,29 @@ The **source of truth** of our Composables
 
 ---
 
-![State sample](slides/images/state_sample.gif)
+<img src="slides/images/state_sample.gif" width="400">
 
 ---
 
-### State **syntax**
+#### **syntax**
 
 ```kotlin
 // Default
-val mutableState = remember { mutableStateOf("John Doe") }
+val mutableState = remember { mutableStateOf("John") }
 mutableState.value = "New name"
 
 // Alternative 1: Delegation
-var value by remember { mutableStateOf("John Doe") }
+var value by remember { mutableStateOf("John") }
 value = "New name"
 
 // Alternative 2: Destructuring (React style)
-val (value, setValue) = remember { mutableStateOf("John Doe") }
+val (value, setValue) = remember { mutableStateOf("John") }
 setValue("New name")
 ```
 
 ---
 
-### State **hoisting**
+#### State **hoisting**
 
 * ⏬ **State passed down** the tree as function args
 * ⏫ **Events propagated up** the tree via callbacks
