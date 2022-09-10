@@ -2,22 +2,28 @@
 
 ---
 
-#### Android **Resources** in Compose
+#### Android **Resources**
 
 Utility functions to load them
 
 ```kotlin
 // Strings
-stringResource(R.string.compose)
-stringResource(R.string.congratulate, "New Year", 2021)
-pluralStringResource(
-  R.plurals.runtime_format, quantity, quantity)
+Text(text = stringResource(R.string.compose))
 
+Text(text = stringResource(
+    R.string.congratulate, "New Year", 2021))
+
+Text(text = pluralStringResource(
+    R.plurals.numberOfSongsAvailable, quantity, quantity))
+```
+```kotlin
 // Dimens
-dimensionResource(R.dimen.padding_small)
-
+val smallPadding = dimensionResource(R.dimen.padding_small)
+Text(text = "...", modifier = Modifier.padding(smallPadding))
+```
+```kotlin
 // Colors (prefer reading them from theme!)
-colorResource(R.color.colorGrey)
+Divider(color = colorResource(R.color.colorGrey))
 ```
 
 ---
