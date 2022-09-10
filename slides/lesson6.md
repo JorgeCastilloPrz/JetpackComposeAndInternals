@@ -146,9 +146,10 @@ fun TextBox() {
 
 ### State **hoisting**
 
-* Makes Composables **dummy**.
-* Makes Composables **reusable**.
-* They simply display the state we pass to them.
+* Makes Composables **dummy**
+* Makes Composables **reusable**
+* They simply display the state we pass to them
+* Makes state shareable, interceptable, decoupled
 
 ---
 
