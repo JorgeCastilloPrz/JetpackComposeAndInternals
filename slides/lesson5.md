@@ -77,7 +77,7 @@ setContent {
 
 ---
 
-#### **`MaterialTheme` explicit config**
+#### **Explicit config**
 
 * Colors, typography & shapes
 
@@ -93,7 +93,7 @@ MaterialTheme(
 
 ---
 
-#### **`MaterialTheme` implicit config (defaults)**
+#### **implicit config (defaults)**
 
 * Ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
 * Via **`CompositionLocal`** ⏬
@@ -113,8 +113,10 @@ fun MaterialTheme(/*colors, typography, shapes*/) {
       LocalTextSelectionColors provides selectionColors,
       LocalTypography provides typography
   ) {
+      // Overrides LocalTextStyle to merge text style
+      // with current one (might be nested theme)
       ProvideTextStyle(value = typography.body1) {
-          PlatformMaterialTheme(content)
+          content()
       }
   }
 }
@@ -147,7 +149,7 @@ object MaterialTheme {
 
 ---
 
-#### **Reading from Composable funcs**
+#### **Reading the values**
 
 ```kotlin
 @Composable
@@ -159,7 +161,7 @@ fun buttonColors(
         .compositeOver(MaterialTheme.colors.surface),
     disabledContentColor: Color = MaterialTheme.colors
         .onSurface.copy(alpha = ContentAlpha.disabled)
-): ButtonColors = DefaultButtonColors(...)
+): ButtonColors = ...
 ```
 
 ```kotlin
@@ -171,9 +173,11 @@ fun contentColorFor(backgroundColor: Color) =
       .takeOrElse { LocalContentColor.current }
 ```
 
+<img src="slides/images/button.png" width=350 />
+
 ---
 
-#### **Material color system**
+#### **Material color system** 🖍
 
 ```kotlin
 class Colors(
@@ -199,19 +203,17 @@ class Colors(
 
 #### **Color builders**
 
-* Dark 🌙 / Light 🌞
-
 ```kotlin
 private val Yellow200 = Color(0xffffeb46)
 private val Blue200 = Color(0xff91a4fc)
 
 // We can only override some of them
-private val DarkColors = darkColors(
+private val DarkColors = darkColors( // 🌙
     primary = Yellow200,
     secondary = Blue200,
 )
 
-private val LightColors = lightColors(
+private val LightColors = lightColors( // 🌞
     primary = Yellow500,
     primaryVariant = Yellow400,
     secondary = Blue700,
@@ -250,7 +252,8 @@ val rgbaWhiteInt = Color(
 
 #### **Where** to define them?
 
-* Close to your theme!
+* Close to your theme! (private if possible)
+* **Avoid direct access at all costs**
 * **Access them only by theme** to ensure dark mode / dynamic theme support ✅
 
 ---
