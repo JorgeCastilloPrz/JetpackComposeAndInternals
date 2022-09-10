@@ -476,6 +476,7 @@ class Shapes(
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Our final theme**
 
@@ -503,10 +504,12 @@ fun ComposeAndInternalsTheme(
 ```
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
-📝 Exercise 8: Add PinkTheme to Lyft speakers (in lib module!)
+📝 Exercise 8: Add PinkTheme to Lyft speakers
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Custom themes**
 
