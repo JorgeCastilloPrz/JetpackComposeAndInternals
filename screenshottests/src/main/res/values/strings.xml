@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">app</string>
+    <string name="content_desc_fab_add_speaker">Button to add a new speaker</string>
+    <string name="content_desc_speaker_avatar">%1$s avatar</string>
+</resources>

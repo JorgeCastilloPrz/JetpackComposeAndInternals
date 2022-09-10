@@ -504,7 +504,7 @@ fun ComposeAndInternalsTheme(
 
 ---
 
-📝 Exercise 8: Create a custom theme for an app
+📝 Exercise 8: Add PinkTheme to Lyft speakers (in lib module!)
 
 ---
 

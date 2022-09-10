@@ -56,7 +56,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version_alpha"
-
     // Test rules and transitive dependencies:
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version_alpha")
     // Needed for createComposeRule, but not createAndroidComposeRule:
