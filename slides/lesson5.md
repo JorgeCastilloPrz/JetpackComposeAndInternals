@@ -437,33 +437,6 @@ val Typography = Typography(
 
 ---
 
-#### **Colors and Typography**
-
-Example: An average theme for an app
-
-```kotlin
-@Composable
-fun ComposeAndInternalsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val colors = if (darkTheme) {
-        DarkColorPalette // defined via darkColors()
-    } else {
-        LightColorPalette // defined via lightColors()
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}
-```
-
----
-
 #### **`MaterialTheme` shapes**
 
 ```kotlin
@@ -500,6 +473,33 @@ class Shapes(
    */
   val large: CornerBasedShape = RoundedCornerShape(0.dp)
 )
+```
+
+---
+
+#### **Our final theme**
+
+An average theme for an app
+
+```kotlin
+@Composable
+fun ComposeAndInternalsTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette // defined via darkColors()
+    } else {
+        LightColorPalette // defined via lightColors()
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
 ```
 
 ---
