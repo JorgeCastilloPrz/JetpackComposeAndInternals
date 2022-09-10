@@ -618,8 +618,8 @@ fun ExtendedButton(
 
 #### **Replacing material systems**
 
-* E.g: replacing typography, colors or shapes
-* Same system than the above
+* Replace typography, colors or shapes
+* Same approach
 
 ```kotlin
 @Immutable
@@ -668,8 +668,8 @@ object ReplacementTheme {
 
 #### **And from material components?** 🤔
 
-* One more time, wrap them and replace defaults
-* Wrap content lambdas with provider funcs for values not exposed as params
+* Again, wrap them & replace defaults
+* Wrap `content` lambdas with provider funcs for values not exposed as params
 
 ```kotlin
 @Composable
@@ -683,7 +683,7 @@ fun ReplacementButton(
         onClick = onClick,
         modifier = modifier,
         content = {
-            // When no utility functions available
+            // When no params available to set it
             ProvideTextStyle(
                 value = ReplacementTheme.typography.body
             ) {
@@ -699,7 +699,12 @@ fun ReplacementButton(
 #### **Fully custom design systems** ✨
 
 * Beware of material components (they expect the systems provided by material)
-* E.g: a system that provides colors, typography and elevation
+* E.g: A system that provides colors, typography and elevation
+
+---
+
+#### **Fully custom design systems** ✨
+
 * 1st, create the classes to model the systems 👇
 
 ```kotlin
@@ -807,78 +812,69 @@ object CustomTheme {
 
 #### **And for material components?** 🤔
 
-* Forward the values from your `CustomTheme` where possible
-* Set values for the missing systems manually
+* Read from your `CustomTheme` where possible
+* Set values for missing systems manually
 
 ```kotlin
 @Composable
-fun CustomButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
-) {
-    Button(
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = CustomTheme.colors.component,
-            contentColor = CustomTheme.colors.content,
-            disabledBackgroundColor = CustomTheme.colors.content
-                .copy(alpha = 0.12f)
-                .compositeOver(CustomTheme.colors.component),
-            disabledContentColor = CustomTheme.colors.content
-                .copy(alpha = ContentAlpha.disabled)
-        ),
-        shape = ButtonShape,
-        elevation = ButtonDefaults.elevation(
-            defaultElevation = CustomTheme.elevation.default,
-            pressedElevation = CustomTheme.elevation.pressed
-            /* disabledElevation = 0.dp */
-        ),
-        onClick = onClick,
-        modifier = modifier,
-        content = {
-            ProvideTextStyle(
-                value = CustomTheme.typography.body
-            ) {
-                content()
-            }
-        }
-    )
+fun CustomButton(/*...*/) {
+  Button(
+    colors = ButtonDefaults.buttonColors(
+      backgroundColor = CustomTheme.colors.component,
+      contentColor = CustomTheme.colors.content,
+      disabledBackgroundColor = CustomTheme.colors.content
+        .copy(alpha = 0.12f)
+        .compositeOver(CustomTheme.colors.component),
+      disabledContentColor = CustomTheme.colors.content
+        .copy(alpha = ContentAlpha.disabled)
+    ),
+    shape = ButtonShape,
+    elevation = ButtonDefaults.elevation(
+      defaultElevation = CustomTheme.elevation.default,
+      pressedElevation = CustomTheme.elevation.pressed
+      /* disabledElevation = 0.dp */
+    ),
+    onClick = onClick,
+    modifier = modifier,
+    content = {
+      ProvideTextStyle(value = CustomTheme.typography.body) {
+        content()
+      }
+    }
+  )
 }
 ```
 
 ---
 
-#### **Bridging XML themes**
+#### **Bridging XML themes** 🌉
 
-* Make `MaterialTheme` inherit the values from your MaterialComponents XML theme
+* Make `MaterialTheme` inherit values from MaterialComponents XML theme
 
 ```xml
 <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
-    <!-- Material 2 color attributes -->
-    <item name="colorPrimary">@color/purple_500</item>
-    <item name="colorSecondary">@color/green_200</item>
+  <item name="colorPrimary">@color/purple_500</item>
+  <item name="colorSecondary">@color/green_200</item>
 
-    <!-- Material 2 type attributes-->
-    <item name="textAppearanceBody1">@style/TextAppearance.MyApp.Body1</item>
-    <item name="textAppearanceBody2">@style/TextAppearance.MyApp.Body2</item>
+  <item name="textAppearanceBody1">@style/TextAppearance.MyApp.Body1</item>
+  <item name="textAppearanceBody2">@style/TextAppearance.MyApp.Body2</item>
 
-    <!-- Material 2 shape attributes-->
-    <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent</item>
+  <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent</item>
 </style>
 ```
 
 ```kotlin
 MdcTheme {
-    // MaterialTheme.colors, MaterialTheme.typography, MaterialTheme.shapes
-    // will now contain copies of the Context's theme
+  // MaterialTheme Colors, Typography and Shapes will now
+  // contain copies of the Context's theme
 }
 ```
 
 ---
 
-#### **Bridging XML themes**
+#### **Bridging XML themes** 🌉
 
-* For `AppCompat` XML themes, use Accompanist AppCompat Theme Adapter instead
+* For `AppCompat`, use **Accompanist** AppCompat Theme Adapter instead
 
 ```gradle
 implementation "com.google.accompanist:accompanist-appcompat-theme:<version>"
@@ -886,20 +882,20 @@ implementation "com.google.accompanist:accompanist-appcompat-theme:<version>"
 
 ```kotlin
 AppCompatTheme {
-    // MaterialTheme.colors, MaterialTheme.shapes, MaterialTheme.typography
-    // will now contain copies of the context's theme
+  // MaterialTheme Colors, Typography and Shapes will now
+  // contain copies of the Context's theme
 }
 ```
 
 ---
 
-**Material Design 3 and Material You**
+**Material Design 3 & Material You**
 
 ```gradle
 implementation "androidx.compose.material3:material3:$version"
 ```
 
-* Provides MD3 versions of all material components
+* MD3 versions of all material components
 * Its own `MaterialTheme` 👇
 
 ```kotlin
