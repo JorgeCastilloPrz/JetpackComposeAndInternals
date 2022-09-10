@@ -1,15 +1,14 @@
-## **5. Theming**
+## **5. Theming** 🎨
 
 ---
 
-#### **Theming** 🎨
-
----
-
-#### **Material Design** 🎨
+#### **Material Design**
 
 * A **design system**
-* Theming and UI components
+* Color palette
+* Typography
+* Shapes
+* Material components
 
 ```groovy
 dependencies {
@@ -19,22 +18,21 @@ dependencies {
 
 ---
 
-#### **Material Design** 🎨
+#### **Using material**
 
-* Applying material to a subtree
+* Applying material to a subtree 🌲
 
 ```kotlin
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            val speakersRepository = FakeSpeakerRepository()
-            MaterialTheme {
-              // Any composables here
-              LazySpeakersScreen(speakers)
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+        MaterialTheme {
+          // Any composables here will be themed
+          MyApp()
         }
     }
+  }
 }
 ```
 
