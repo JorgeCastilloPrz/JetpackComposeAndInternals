@@ -77,9 +77,9 @@ setContent {
 
 ---
 
-#### **`MaterialTheme`**
+#### **`MaterialTheme` explicit config**
 
-Exposes colors, typography & shapes to the subtree
+* Colors, typography & shapes
 
 ```kotlin
 MaterialTheme(
@@ -93,36 +93,30 @@ MaterialTheme(
 
 ---
 
-* Also provides default ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
-* Everything **via `CompositionLocal`** ⏬ ⏬ ⏬
+#### **`MaterialTheme` implicit config (defaults)**
+
+* Ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
+* Via **`CompositionLocal`** ⏬
 
 ```kotlin
 @Composable
-fun MaterialTheme(
-    colors: Colors = MaterialTheme.colors,
-    typography: Typography = MaterialTheme.typography,
-    shapes: Shapes = MaterialTheme.shapes,
-    content: @Composable () -> Unit
-) {
-    val rememberedColors = remember { colors.copy() }
-      .apply { updateColorsFrom(colors) }
+fun MaterialTheme(/*colors, typography, shapes*/) {
+  val rippleIndication = rememberRipple()
+  val selectionColors = rememberTextSelectionColors(colors)
 
-    val rippleIndication = rememberRipple()
-    val selectionColors = rememberTextSelectionColors(rememberedColors)
-
-    CompositionLocalProvider(
-        LocalColors provides rememberedColors,
-        LocalContentAlpha provides ContentAlpha.high,
-        LocalIndication provides rippleIndication,
-        LocalRippleTheme provides MaterialRippleTheme,
-        LocalShapes provides shapes,
-        LocalTextSelectionColors provides selectionColors,
-        LocalTypography provides typography
-    ) {
-        ProvideTextStyle(value = typography.body1) {
-            PlatformMaterialTheme(content)
-        }
-    }
+  CompositionLocalProvider(
+      LocalColors provides colors,
+      LocalContentAlpha provides ContentAlpha.high,
+      LocalIndication provides rippleIndication,
+      LocalRippleTheme provides MaterialRippleTheme,
+      LocalShapes provides shapes,
+      LocalTextSelectionColors provides selectionColors,
+      LocalTypography provides typography
+  ) {
+      ProvideTextStyle(value = typography.body1) {
+          PlatformMaterialTheme(content)
+      }
+  }
 }
 ```
 
