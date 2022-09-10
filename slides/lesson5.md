@@ -38,35 +38,42 @@ class MainActivity : ComponentActivity() {
 
 ---
 
-#### **Material** 🎨
-
-* Material components are built on top of it
-* `TextField`, `TopAppBar`, `Card`, `Button`, `Scaffold`, `FloatingActionButton`...
-
----
+#### **Nested themes**
 
 ```kotlin
-MaterialTheme { // colors, typographies, shapes provided 👇
-  Scaffold(
-    topBar = { TopAppBar(title = { Text("My app") }) },
-    content = { contentPadding ->
-      Column(Modifier.padding(contentPadding)) {
-        TextField(
-          value = "",
-          label = { Text("Insert some text") },
-          onValueChange = {})
-        Button(onClick = { /*TODO*/ }) {
-          Text("Click me!")
-        }
-      }
+// MainActivity.kt
+setContent {
+    MyAppTheme { // Our app MaterialTheme
+        LazySpeakersScreen(someSpeakers())
     }
-  )
+}
+```
+```kotlin
+@Composable fun LazySpeakersScreen(...) {
+    LazyColumn {
+        items(speakers) { speaker ->
+            if (speaker.company == "Lyft") {
+                PinkTheme { // 👈 different colors!
+                    SpeakerCard(speaker)
+                }
+            } else {
+                SpeakerCard(speaker)
+            }
+        }
+    }
 }
 ```
 
 ---
 
-<img src="slides/images/material2.png" width=300 />
+<img src="slides/images/nested_themes.png" width=317 />
+
+---
+
+#### **Material components**
+
+* They read colors, typography and shapes from it
+* `Text`, `TextField`, `TopAppBar`, `Card`, `Button`, `Scaffold`, `FloatingActionButton`...
 
 ---
 

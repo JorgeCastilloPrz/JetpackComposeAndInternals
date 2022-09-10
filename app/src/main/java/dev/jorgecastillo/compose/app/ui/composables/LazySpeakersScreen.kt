@@ -20,6 +20,7 @@ import dev.jorgecastillo.compose.app.R
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
 import dev.jorgecastillo.compose.app.models.Speaker
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
+import dev.jorgecastillo.compose.app.ui.theme.PinkTheme
 
 @Composable
 fun LazySpeakersScreen(speakers: List<Speaker>) {
@@ -39,7 +40,13 @@ fun LazySpeakersScreen(speakers: List<Speaker>) {
                 .testTag("SpeakersList")
         ) {
             items(speakers) { speaker ->
-                SpeakerCard(speaker)
+                if (speaker.company == "Lyft") {
+                    PinkTheme {
+                        SpeakerCard(speaker)
+                    }
+                } else {
+                    SpeakerCard(speaker)
+                }
             }
         }
     })
