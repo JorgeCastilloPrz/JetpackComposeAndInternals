@@ -14,7 +14,7 @@ The **source of truth** of our Composables
 
 ---
 
-### Modeling state
+#### **Modeling state**
 
 ```kotlin
 @Composable fun ProfileScreen() {
@@ -27,9 +27,9 @@ The **source of truth** of our Composables
 }
 ```
 
-* Use **mutable** state so it can be updated.
-* The state model **can still be immutable**.
-* `remember`?
+* **mutable** state (so it can be updated)
+* The state model **can still be immutable**
+* Will trigger recomposition when it changes
 
 ---
 
