@@ -254,29 +254,29 @@ val rgbaWhiteInt = Color(
 
 * Close to your theme! (private if possible)
 * **Avoid direct access at all costs**
-* **Access them only by theme** to ensure dark mode / dynamic theme support ✅
+* **Access them only by theme** to ensure dark/light and dynamic theme support ✅
 
 ---
 
 #### **Overriding theme values** ✍️
 
-* They are `CompositionLocal`: we can **override them for a nested subtree** 👇
+* `CompositionLocal`s allow this
+* **Override for a nested subtree** 👇
 
 ```kotlin
-// De-emphasize content by setting content alpha
-// (default is ContentAlpha.high)
-CompositionLocalProvider(
-  LocalContentAlpha provides ContentAlpha.medium
-) {
-    Text(/*...*/)
-}
-CompositionLocalProvider(
-  LocalContentAlpha provides ContentAlpha.disabled
-) {
-    Icon(/*...*/)
-    Text(/*...*/)
+MaterialTheme { // provides ContentAlpha.high
+  // ...
+  // Somewhere down the tree
+  CompositionLocalProvider(
+    LocalContentAlpha provides ContentAlpha.disabled
+  ) {
+      Icon(/*...*/)
+      Text(/*...*/)
+  }
 }
 ```
+
+De-emphasize content via content alpha
 
 ---
 
