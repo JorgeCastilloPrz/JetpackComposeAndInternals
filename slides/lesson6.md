@@ -2,6 +2,26 @@
 
 ---
 
+#### Android **Resources** in Compose
+
+Utility functions to load them
+
+```kotlin
+// Strings
+stringResource(R.string.compose)
+stringResource(R.string.congratulate, "New Year", 2021)
+pluralStringResource(
+  R.plurals.runtime_format, quantity, quantity)
+
+// Dimens
+dimensionResource(R.dimen.padding_small)
+
+// Colors (prefer reading them from theme!)
+colorResource(R.color.colorGrey)
+```
+
+---
+
 #### **Vectors in Compose**
 
 * `painterResource`
@@ -95,8 +115,6 @@ Icon(
 
 ---
 
----
-
 Writing our first animation
 
 ---
@@ -106,7 +124,3 @@ Advanced animations
 ---
 
 Drag and swipe gestures
-
----
-
-resources
