@@ -92,13 +92,57 @@ setValue("New name")
 
 #### State **hoisting**
 
-* ⏬ **State passed down** the tree as function args
-* ⏫ **Events propagated up** the tree via callbacks
-* Example: `TextField`
+* ⏬ **State passed down** (function args)
+* ⏫ **Events propagated up** (callbacks)
+
+---
+
+<img src="slides/images/speakerpanel.png" width="400">
+
+```kotlin
+@Composable
+fun SpeakerPanel(speaker: Speaker, onFollow: (SpeakerId) -> Unit) {
+    Card(/* modifiers */) {
+        Row(/* modifiers */) {
+            CircledImage(speaker.image) 👈
+            SpeakerDetails(
+                name = speaker.name, 👈
+                company = speaker.company, 👈
+                onFollow = { onFollow(speaker.id) }) 👈
+        }
+    }
+}
+
+@Composable
+fun CircledImage(@DrawableRes imageRes: Int) {
+  Image(
+    painter = painterResource(imageRes), 👈
+    contentScale = ContentScale.Crop,
+    modifier = Modifier.size(102.dp).clip(CircleShape)
+  )
+}
+
+@Composable
+fun SpeakerDetails(name: String, company: String, onFollow: () -> Unit) {
+    Column(/* modifiers */) {
+        Text(text = name, /* style... */) 👈
+        Text(text = company, /* style... */) 👈
+        Button(onClick = onFollow) { 👈
+            Text("Follow")
+        }
+    }
+}
+```
+
+---
+
+<img src="slides/images/state_hoisting.png" width="800">
 
 ---
 
 ### State **hoisting**
+
+Another example: `TextField`
 
 ```kotlin
 @Composable
@@ -111,7 +155,7 @@ fun TextBox() {
 }
 ```
 
-* Will **not display** the inserted characters.
+Will **not display** the inserted characters 😲
 
 ---
 
@@ -121,8 +165,8 @@ fun TextBox() {
 
 ### State **hoisting**
 
-* `TextField` hoists its state.
-* We must create and pass state to it.
+* `TextField` hoists its state
+* We create and pass the state to it
 
 ```kotlin
 @Composable
