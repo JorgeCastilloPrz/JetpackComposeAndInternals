@@ -8,6 +8,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import dev.jorgecastillo.screenshottests.theme.Pink200
+import dev.jorgecastillo.screenshottests.theme.Pink500
+import dev.jorgecastillo.screenshottests.theme.Pink700
+import dev.jorgecastillo.screenshottests.theme.Purple200
+import dev.jorgecastillo.screenshottests.theme.Purple500
+import dev.jorgecastillo.screenshottests.theme.Purple700
+import dev.jorgecastillo.screenshottests.theme.Teal200
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,

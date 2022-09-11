@@ -28,20 +28,6 @@ private val LightColorPalette = lightColors(
     */
 )
 
-private val DarkPinkColorPalette = darkColors(
-    primary = Pink200,
-    primaryVariant = Pink700,
-    secondary = Teal200,
-    surface = Pink200
-)
-
-private val LightPinkColorPalette = lightColors(
-    primary = Pink500,
-    primaryVariant = Pink700,
-    secondary = Teal200,
-    surface = Pink700
-)
-
 @Composable
 fun ComposeAndInternalsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -51,25 +37,6 @@ fun ComposeAndInternalsTheme(
         DarkColorPalette
     } else {
         LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}
-
-@Composable
-fun PinkTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val colors = if (darkTheme) {
-        DarkPinkColorPalette
-    } else {
-        LightPinkColorPalette
     }
 
     MaterialTheme(
