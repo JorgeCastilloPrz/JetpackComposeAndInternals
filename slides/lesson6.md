@@ -204,13 +204,14 @@ fun TextBox() {
 
 ---
 
-#### **Stateful** vs **Stateless** Composables
-
-* Stateful 👉 Creates & manages its own state
+* **Stateful** 🤓
+  * Creates & manages its own state
   * When caller doesn't need to manage it
   * **Less reusable**
   * More frequent at the **root of the tree**
-* Stateless 👉 Hoists its state
+
+* **Stateless** 🤷‍♂️
+  * Hoists its state
   * More reusable
   * **Shareable and interceptable state**
 
