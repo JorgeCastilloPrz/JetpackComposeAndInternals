@@ -228,33 +228,21 @@ fun TextBox() {
 
 * Compiler rewrites function IR
 * Wraps restartable funcs into "restart groups"
-* **Teaches runtime how to restart them**
 
 ```kotlin
 // Transforms this...
-@Composable fun A(x: Int) {
+@Composable
+fun A(x: Int) {
   f(x)
 }
 ```
-
----
-
-#### **Smart recomposition**
-
 ```kotlin
 // ...into this
-@Composable fun A(x: Int, $composer: Composer, $changed: Int) {
+@Composable
+fun A(x: Int, $composer: Composer, $changed: Int) {
   $composer.startRestartGroup()
 
-  var $dirty = $changed // bitmask
-  if ($changed and 0b0110 === 0) {
-    $dirty = $dirty or if ($composer.changed(x)) 0b0010 else 0b0100
-  }
-  if ($dirty and 0b1011 xor 0b1010 !== 0 || !$composer.skipping) {
-    f(x) // executes body
-  }else{
-    $composer.skipToGroupEnd() // skips
-  }
+  // Runs f(x) or skips depeding on $changed
 
   $composer.endRestartGroup()?.updateScope {
       $composer: Composer ->
@@ -265,7 +253,9 @@ fun TextBox() {
 
 ---
 
-* `endRestartGroup() == null` if body doesn't read any `State` that might vary
+#### **Teaches runtime how to skip / restart**
+
+* When body doesn't read `State` that might vary, `endRestartGroup() == null`
 * No need to teach runtime how to recompose
 * Only re-executes **when state that is read varies**
 
@@ -276,6 +266,31 @@ fun TextBox() {
       $composer: Composer ->
         A(x, $composer, $changed or 0b0001)
   }
+}
+```
+
+---
+
+#### **Comparison propagation**
+
+* $changed 👉 bitmask to carry information about whether params changed or not
+* Also checks if different than previous value stored in slot table
+
+```kotlin
+// ...into this
+@Composable
+fun A(x: Int, $composer: Composer, $changed: Int) {
+  // ...
+  var $dirty = $changed
+  if ($changed and 0b0110 === 0) {
+    $dirty = $dirty or if ($composer.changed(x)) 0b0010 else 0b0100
+  }
+  if ($dirty and 0b1011 xor 0b1010 !== 0 || !$composer.skipping) {
+    f(x)
+  } else {
+    $composer.skipToGroupEnd()
+  }
+  // ...
 }
 ```
 
