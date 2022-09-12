@@ -341,7 +341,7 @@ by [@vinaygaba](https://www.twitter.com/@vinaygaba)
 
 ---
 
-## Class **stability**
+#### Class **stability**
 
 * Input state **must be reliable (stable)**...
 * ...so Compose knows when state didn't change...
