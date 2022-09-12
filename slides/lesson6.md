@@ -227,18 +227,16 @@ fun TextBox() {
 #### **Smart recomposition**
 
 * Compiler rewrites function IR
-* Wraps restartable funcs into "restart groups"
+* Wraps restartable funcs into **restart groups**
 
 ```kotlin
-// Transforms this...
-@Composable
+@Composable // Transforms this...
 fun A(x: Int) {
   f(x)
 }
 ```
 ```kotlin
-// ...into this
-@Composable
+@Composable // ...into this
 fun A(x: Int, $composer: Composer, $changed: Int) {
   $composer.startRestartGroup()
 
@@ -255,9 +253,9 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
 
 #### **Teaches runtime how to skip / restart**
 
-* When body doesn't read `State` that might vary, `endRestartGroup() == null`
+* When body doesn't read `State`, `endRestartGroup() == null`
 * No need to teach runtime how to recompose
-* Only re-executes **when state that is read varies**
+* Only re-executes **when state that is read varies** 👍🏾
 
 ```kotlin
 @Composable fun A(x: Int, ...) {
@@ -271,13 +269,15 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
 
 ---
 
+<img src="slides/images/comparison_propagation.png" width="800">
+
+---
+
 #### **Comparison propagation**
 
-* $changed 👉 bitmask to carry information about whether params changed or not
-* Also checks if different than previous value stored in slot table
+Saves computation time and space (in slot table)
 
 ```kotlin
-// ...into this
 @Composable
 fun A(x: Int, $composer: Composer, $changed: Int) {
   // ...
@@ -286,9 +286,9 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
     $dirty = $dirty or if ($composer.changed(x)) 0b0010 else 0b0100
   }
   if ($dirty and 0b1011 xor 0b1010 !== 0 || !$composer.skipping) {
-    f(x)
+    f(x) // executes body
   } else {
-    $composer.skipToGroupEnd()
+    $composer.skipToGroupEnd() // skips!
   }
   // ...
 }
@@ -304,21 +304,9 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
 
 * More efficient than binding UI state with Views
 
-* Saves computation time ✅
-
 ---
 
 #### **Smart** recomposition
-
-* The runtime automatically **tracks state reads** in Composable functions or lambdas
-
-* Only re-executes those (if state varies)
-
-* **Skips the rest**
-
----
-
-### **Smart** recomposition
 
 ```kotlin
 @Composable
