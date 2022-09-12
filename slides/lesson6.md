@@ -203,6 +203,7 @@ fun TextBox() {
 <img src="slides/images/stateful_vs_stateless.png" width="1000">
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 * **Stateful** 🤓
   * Creates & manages its own state
@@ -216,83 +217,88 @@ fun TextBox() {
   * **Shareable and interceptable state**
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
-### **Exercise 👩🏾‍💻**
-
- * 1. Create a mutable state to represent the name (String) in `NameGenerator`.
- * 2. Default the state value to the first generated name (`repo.next()`).
- * 2. Make the name text Composable read from the state just created.
- * 3. Update the name on button click. (`repo.next()` to generate a new name).
-
-* **Validate your implementation by running the provided NameGeneratorTest.**
+📝 Exercise 8: Mutable state exercise (`NameGenerator`)
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
-## **Smart** recomposition and Class **stability**
+#### **Smart recomposition**
 
----
-
-## Recomposition ⚙️
-
----
-
-#### **Compiler** prepares the road
-
-* **Rewrites** the function IR
-* Wraps restartable funcs into **"restart groups"**
-* Teaches runtime how to restart them by...
-* Adding restart block at the end 👇
+* Compiler rewrites function IR
+* Wraps restartable funcs into "restart groups"
+* **Teaches runtime how to restart them**
 
 ```kotlin
 // Transforms this...
 @Composable fun A(x: Int) {
   f(x)
 }
+```
+
+---
+
+#### **Smart recomposition**
+
+```kotlin
 // ...into this
-@Composable fun A(x: Int, ...) {
+@Composable fun A(x: Int, $composer: Composer, $changed: Int) {
   $composer.startRestartGroup()
-  // ...
-  f(x)
-  $composer.endRestartGroup()?.updateScope { next ->
-    A(x, next, $changed or 0b1)
+
+  var $dirty = $changed // bitmask
+  if ($changed and 0b0110 === 0) {
+    $dirty = $dirty or if ($composer.changed(x)) 0b0010 else 0b0100
+  }
+  if ($dirty and 0b1011 xor 0b1010 !== 0 || !$composer.skipping) {
+    f(x) // executes body
+  }else{
+    $composer.skipToGroupEnd() // skips
+  }
+
+  $composer.endRestartGroup()?.updateScope {
+      $composer: Composer ->
+        A(x, $composer, $changed or 0b0001)
   }
 }
 ```
 
 ---
 
-#### **Compiler** prepares the road
-
-* `endRestartGroup` returns **`null`** when the body doesn't read any State that might vary
+* `endRestartGroup() == null` if body doesn't read any `State` that might vary
 * No need to teach runtime how to recompose
 * Only re-executes **when state that is read varies**
 
 ```kotlin
 @Composable fun A(x: Int, ...) {
-  $composer.startRestartGroup()
   // ...
-  f(x)
-  $composer.endRestartGroup()?.updateScope { next ->
-    A(x, next, $changed or 0b1)
+  $composer.endRestartGroup()?.updateScope {
+      $composer: Composer ->
+        A(x, $composer, $changed or 0b0001)
   }
 }
 ```
 
 ---
 
-### **Smart** recomposition
+#### **Smart** recomposition
 
 * Avoid recomposing the entire UI
+
+* Only components that changed
+
 * More efficient than binding UI state with Views
-* Only recompose **components that changed**
-* Save computation time ✅
+
+* Saves computation time ✅
 
 ---
 
-### **Smart** recomposition
+#### **Smart** recomposition
 
 * The runtime automatically **tracks state reads** in Composable functions or lambdas
+
 * Only re-executes those (if state varies)
+
 * **Skips the rest**
 
 ---
