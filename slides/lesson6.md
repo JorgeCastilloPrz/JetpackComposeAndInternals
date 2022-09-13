@@ -410,11 +410,11 @@ fun PersonView(person: Person) {
 * Unsafe in concurrency scenarios
 * Comparing two instances 🤷‍♀️
 * Compose defaults to <span class="error">never skip</span> 🚫
-* Always recompose 👉 performance ⏬
+* Always recompose 👉 performance 📉🙈
 
 ---
 
-## Use **immutability**
+#### **Use immutability**
 
 (Esp. for UI state)
 
