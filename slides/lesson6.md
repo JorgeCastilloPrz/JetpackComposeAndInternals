@@ -414,17 +414,16 @@ fun PersonView(person: Person) {
 
 ---
 
-#### **Use immutability**
+#### **Use immutability** 🙏🏿
 
-(Esp. for UI state)
-
-* If not:
+* Especially for UI state
+* <span class="error">If not:</span>
   * Removes any chance of runtime optimization
   * Opens the door to bugs and race conditions (modifying data before comparing)
 
 ---
 
-## Another <span class="error">unstable</span> class
+#### Another <span class="error">unstable</span> class
 
 ```kotlin
 data class Conference(val talks: List<Talk>)
@@ -441,12 +440,12 @@ fun Conference(talks: List<Talk>) {
 }
 ```
 
-* ⚠️ Collections can be mutable (impl)
-* Compose **flags the param as unstable** for safety
+* 🚨️ Collections can be <span class="error">mutable</span> (impl)
+* Compose defaults to <span class="error">unstable</span> for safety
 
 ---
 
-## Class **stability**
+#### Class **stability**
 
 * Compose compiler **can infer** class stability 🧠
 * Flags classes (& properties) as stable/unstable
