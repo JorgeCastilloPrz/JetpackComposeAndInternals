@@ -327,17 +327,41 @@ fun Counter() {
 
 ---
 
-`RecompositionButton` and `RecompositionText` recompose. **`RecompositionBox` does not**.
+`RecompositionButton` (content lambda) and `RecompositionText` recompose. **`RecompositionBox` does not.**
 
 <img src="slides/images/recomposition.gif" width="400">
 
 ---
 
-[📝 🍩 “donut-hole skipping” in Compose](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose)
+#### **Recomposition scopes**
 
-[📝 ⚙️ How to debug recomposition](https://www.jetpackcompose.app/articles/how-can-I-debug-recompositions-in-jetpack-compose)
+* Recompose the smallest possible scope
 
-by [@vinaygaba](https://www.twitter.com/@vinaygaba)
+<img src="slides/images/recomposition_scopes.png" width="1000">
+
+---
+
+#### **Recomposition scopes**
+
+* Button **`content` lambda** (not the Button itself)
+
+<img src="slides/images/recomposition_scopes2.png" width="1000">
+
+---
+
+#### **"Donut-hole skipping"**
+
+[🍩 donut-hole skipping (Vinay Gaba)](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose)
+
+<img src="slides/images/recomposition_scopes3.png" width="1000">
+
+---
+
+#### **Debugging recomposition**
+
+[📝 ⚙ How to debug recomposition (Vinay Gaba)](https://www.jetpackcompose.app/articles/how-can-I-debug-recompositions-in-jetpack-compose)
+
+[📝 ⚙ Debugging recomposition Ben Trengrove](https://medium.com/androiddevelopers/jetpack-compose-debugging-recomposition-bfcf4a6f8d37)
 
 ---
 
