@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * ### Exercise 8 👩🏾‍💻
+ * ### Exercise 9 👩🏾‍💻
  *
  * This test runs the [NameGenerator] composable within an empty Activity, and asserts
  * over the value of the name. The name Composable is referenced using a test tag since Composables

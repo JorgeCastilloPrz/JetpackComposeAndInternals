@@ -219,7 +219,7 @@ fun TextBox() {
 ---
 <!-- .slide: data-scene="Coding" -->
 
-📝 Exercise 8: Mutable state exercise (`NameGenerator`)
+📝 Exercise 9: Mutable state exercise (`NameGenerator`)
 
 ---
 <!-- .slide: data-scene="Slides" -->
@@ -505,24 +505,34 @@ fun `mutation does not affect equals comparison`() {
 
 #### **`@Immutable`**
 
-`@Immutable` implies `@Stable`
+* All public props will not change after construction
+* Compose can detect changes easily
+* **`@Immutable` implies `@Stable`**
+* **`@Stable` does not imply `@Immutable`** 👉 stable class can hold mutable data but still notify changes
 
 ```kotlin
 @Immutable
 data class Conference(val talks: List<Talk>)
+
+@Stable // cannot be @Immutable
+data class MyScreenState(val screenName: String) {
+    var isLoading: Boolean by mutableStateOf(false)
+    var content: User? by mutableStateOf(null)
+    var error: String by mutableStateOf("")
+}
 ```
 
 ---
 
-### How to know **if I need them?**
+#### How to know **if I need them?**
 
 * [📝 Measure Compose Compiler metrics](https://github.com/androidx/androidx/blob/androidx-main/compose/compiler/design/compiler-metrics.md)
+
 * Look for funcs **restartable but not skippable** 🤔
-* [📝 Composable metrics](https://chris.banes.dev/composable-metrics/) by Chris Banes
 
 ---
 
-📝 Exercise 9: Debug recomposition when using list as input (unstable). Fix it by replacing the list by a persistent collection.
+📝 Exercise 10: Debug recomposition when using list as input (unstable). Fix it by replacing the list by a persistent collection.
 
 ---
 
