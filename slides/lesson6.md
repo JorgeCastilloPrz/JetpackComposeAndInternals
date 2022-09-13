@@ -505,7 +505,7 @@ fun `mutation does not affect equals comparison`() {
 
 #### **`@Immutable`**
 
-`@Immutable` implies `@Stable`.
+`@Immutable` implies `@Stable`
 
 ```kotlin
 @Immutable
