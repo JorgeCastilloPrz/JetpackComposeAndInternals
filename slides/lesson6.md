@@ -370,12 +370,12 @@ fun Counter() {
 #### Class **stability**
 
 * Input state **must be reliable (stable)**...
-* ...so Compose knows when state didn't change...
-* ...and can skip recomposition in that case.
+* ...so Compose knows whether it changed...
+* ...and recompose or skip accordingly.
 
 ---
 
-## A **stable** class
+#### A **stable** class
 
 ```kotlin
 data class Person(val name: String, val phone: String)
@@ -389,12 +389,12 @@ fun PersonView(person: Person) {
 * Immutable class + immutable properties
 * Once created, it will not vary 👍
 * Comparing two instances **is safe**
-* Compose knows when it changed
+* Compose can be certain when it changes
 * `PersonView` calls **can be skipped** if it didn't
 
 ---
 
-## An <span class="error">unstable</span> class
+#### An <span class="error">unstable</span> class
 
 ```kotlin
 data class Person(var name: String, var phone: String)
