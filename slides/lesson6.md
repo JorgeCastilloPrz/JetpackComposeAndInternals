@@ -361,6 +361,8 @@ fun Counter() {
 
 [📝 ⚙ How to debug recomposition (Vinay Gaba)](https://www.jetpackcompose.app/articles/how-can-I-debug-recompositions-in-jetpack-compose)
 
+[📝 ⚙ Composable metrics (Chris Banes)](https://chris.banes.dev/composable-metrics/)
+
 [📝 ⚙ Debugging recomposition Ben Trengrove](https://medium.com/androiddevelopers/jetpack-compose-debugging-recomposition-bfcf4a6f8d37)
 
 ---
