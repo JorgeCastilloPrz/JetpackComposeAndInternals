@@ -523,6 +523,10 @@ data class Conference(val talks: List<Talk>)
 
 ---
 
+📝 Exercise 9: Debug recomposition when using list as input (unstable). Fix it by replacing the list by a persistent collection.
+
+---
+
 ## 📸 **Snapshot** State
 
 ---
