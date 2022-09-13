@@ -453,7 +453,7 @@ fun Conference(talks: List<Talk>) {
 
 ---
 
-### When **inference** fails
+#### When **inference** fails
 
 * Compiler can't infer **how** our code is used
   * Mutable data structure w/ immutable public api
@@ -464,7 +464,7 @@ fun Conference(talks: List<Talk>) {
 
 ---
 
-## **`@Stable`**
+#### **`@Stable`**
 
 * **`a.equals(b)`** always returns the same value for the same instances
 * Changes to public props are notified to Compose
@@ -482,16 +482,16 @@ data class MyScreenState(val screenName: String) {
 
 ---
 
-## **`@Stable`**
+#### **`@Stable`**
 
-* This test passes ✅
+This test passes ✅
 
 ```kotlin
 @Test
 fun `mutation does not affect equals comparison`() {
     val state1 = MyScreenState("Screen 1")
     val state2 = MyScreenState("Screen 1")
-    state2.isLoading = true
+    state2.isLoading = true // defaults to false
 
     assertThat(state1, `is`(state2))
 }
@@ -499,11 +499,11 @@ fun `mutation does not affect equals comparison`() {
 
 * Only `screenName` is compared
 * Compose is notified of any change 👍
-* `String` and `MutableState` are `@Stable`
+* `String` and `MutableState` are **`@Stable`**
 
 ---
 
-## **`@Immutable`**
+#### **`@Immutable`**
 
 `@Immutable` implies `@Stable`.
 
