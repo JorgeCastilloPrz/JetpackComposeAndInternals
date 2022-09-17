@@ -2,9 +2,9 @@ package dev.jorgecastillo.compose.app.data
 
 import dev.jorgecastillo.compose.app.models.Speaker
 
-class FakeSpeakerRepository {
+class FakeSpeakerRepository : SpeakerRepository {
 
-    fun getSpeakers(): List<Speaker> = listOf(
+    override fun getSpeakers(): List<Speaker> = listOf(
         Speaker("1", "John Doe", "Uber"),
         Speaker("2", "Sylvia Lotte", "Lyft"),
         Speaker("3", "Apis Anoubis", "Twitter"),
