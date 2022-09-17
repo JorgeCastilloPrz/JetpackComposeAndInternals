@@ -96,7 +96,7 @@ fun MyComposable() {
 
 ---
 
-#### Taking a snapshot 📸
+#### **Taking a snapshot 📸**
 
 * A "picture" of our app state **at a given instant**
 * A context for our state reads
