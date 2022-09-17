@@ -98,8 +98,8 @@ fun MyComposable() {
 
 #### **Taking a snapshot 📸**
 
-* A "picture" of our app state **at a given instant**
-* A context for our state reads
+* A "picture" of our app state at a given instant
+* **A context for our state reads**
 
 ```kotlin
 var name by mutableStateOf("")
@@ -108,15 +108,15 @@ val snapshot = Snapshot.takeSnapshot()
 name = "Jessica Jones"
 
 println(name) // Jessica Jones
-snapshot.enter { println(name) } // Aleesha Salgado
+snapshot.enter { println(name) } // Aleesha Salgado 👈
 println(name) // Jessica Jones
 ```
 
 ---
 
-#### Modifying state in a snapshot
+#### **Modifying state in a snapshot**
 
-* `Snapshot.apply()` 👉 **propagate changes to other snapshots**.
+* `Snapshot.apply()` 👉 **propagate changes to other snapshots** ✨
 
 ```kotlin
 var name by mutableStateOf("")
@@ -133,7 +133,7 @@ println(name) // Jessica Jones
 
 ---
 
-### **Nested** snapshots
+#### **Nested** snapshots
 
 * taking a snapshot within the `enter` block
 
