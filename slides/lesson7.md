@@ -47,7 +47,7 @@ interface State<out T>{
 
 ---
 
-Write to state from a different thread ✏️
+Write to state **from a different thread** 😲
 
 ```kotlin
 @Composable
@@ -73,14 +73,14 @@ fun MyComposable() {
 
 ---
 
-### 2 **Strategies**
+#### **2 approaches** ✌🏼
 
-* **Immutability** 👉 safe for concurrency.
-* **Mutability + isolation** 👉  Each thread maintains its own copy of the state. Global coordination needed to keep **global program state coherent**.
+* **Immutability** 👉 safe for concurrency
+* **Mutability + isolation** 👉  Each thread maintains its own copy of the state. Global coordination needed to keep **global program state coherent**
 
 ---
 
-### In Compose
+#### **In Compose**
 
 * **Mutable state** 👉  **observe changes**
 * Work with mutable state across threads
@@ -88,7 +88,7 @@ fun MyComposable() {
 
 ---
 
-### Snapshot State **system**
+#### The Snapshot State **system**
 
 * Models and coordinates **state changes** and **state propagation**
 * Part of the Jetpack Compose runtime
@@ -96,7 +96,7 @@ fun MyComposable() {
 
 ---
 
-### Taking a snapshot 📸
+#### Taking a snapshot 📸
 
 * A "picture" of our app state **at a given instant**
 * A context for our state reads
