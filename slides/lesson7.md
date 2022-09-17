@@ -160,13 +160,11 @@ println(name) // Cassandra Higgins
 
 ---
 
-## The Snapshot **tree** 🌲
-
-![snapshot tree](slides/images/snapshottree.png)
+<img src="slides/images/snapshot_tree.png" width=1000 />
 
 ---
 
-### And within Compose? 🤔
+#### And within Compose? 🤔
 
 * **Track reads and writes** automatically
 * Compose passes read and write **observers** when taking the Snapshot 👇
