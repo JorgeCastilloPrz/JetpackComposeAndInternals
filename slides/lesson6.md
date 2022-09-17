@@ -533,3 +533,183 @@ data class MyScreenState(val screenName: String) {
 ---
 
 📝 Exercise 10: Debug recomposition when using list as input (unstable). Fix it by replacing the `List` with an `@Immutable` wrapper
+
+---
+
+#### **Snapshots** 📸
+
+---
+
+#### **Snapshot state**
+
+* **Isolated** state that can be remembered and observed for changes
+* Any implementation of `State`:
+
+```kotlin
+@Stable
+interface State<out T>{
+  val value: T
+}
+```
+
+* `MutableState`
+* `AnimationState`
+* `DerivedState`
+* ...
+
+---
+
+#### **Snapshot** State 📸
+
+* Obtained from apis like 👇
+  * `mutableStateOf`
+  * `mutableStateListOf`
+  * `mutableStateMapOf`
+  * `derivedStateOf`
+  * `produceState`
+  * `collectAsState`
+  * ...
+
+---
+
+#### Why to **isolate** State? 🤔
+
+---
+
+#### **Concurrency**
+
+* Offloading composition to **different threads**
+* **Parallel composition**
+* **Reordering compositions**
+* No guarantees that our Composable will execute on a specific thread 🤷‍♀️
+
+---
+
+Write to state **from a different thread** 😲
+
+```kotlin
+@Composable
+fun MyComposable() {
+    val uiState = remember { mutableStateOf("") }
+    LaunchedEffect(key1 = true) {
+        launch(Dispatchers.IO) {
+            delay(2000)
+            uiState.value = "COMPLETE!!"
+        }
+    }
+    if (uiState.value.isEmpty()) {
+        CircularProgressIndicator()
+    } else {
+        Text(uiState.value)
+    }
+}
+```
+
+---
+
+<img src="slides/images/snapshot_state_1.gif" width="400">
+
+---
+
+#### **2 approaches** ✌🏼
+
+* **Immutability** 👉 safe for concurrency
+* **Mutability + isolation** 👉  Each thread maintains its own copy of the state. Global coordination needed to keep **global program state coherent**
+
+---
+
+#### **In Compose**
+
+* **Mutable state** 👉  **observe changes**
+* Work with mutable state across threads
+* Isolation + propagation needed
+
+---
+
+#### The Snapshot State **system**
+
+* Models and coordinates **state changes** and **state propagation**
+* Part of the Jetpack Compose runtime
+* Decoupled 👉 Could be used by other libraries
+
+---
+
+#### **Taking a snapshot 📸**
+
+* A "picture" of our app state at a given instant
+* **A context for our state reads**
+
+```kotlin
+var name by mutableStateOf("")
+name = "Aleesha Salgado"
+val snapshot = Snapshot.takeSnapshot()
+name = "Jessica Jones"
+
+println(name) // Jessica Jones
+snapshot.enter { println(name) } // Aleesha Salgado 👈
+println(name) // Jessica Jones
+```
+
+---
+
+#### **Modifying state in a snapshot**
+
+* `Snapshot.apply()` 👉 **propagate changes to other snapshots** ✨
+
+```kotlin
+var name by mutableStateOf("")
+name = "Aleesha Salgado"
+val snapshot = Snapshot.takeMutableSnapshot()
+
+snapshot.enter { name = "Jessica Jones" }
+println(name) // Aleesha Salgado
+
+snapshot.apply() // propagate changes ✨
+
+println(name) // Jessica Jones
+```
+
+---
+
+#### **Nested** snapshots
+
+* taking a snapshot within the `enter` block
+
+```kotlin
+var name by mutableStateOf("")
+name = "Aleesha Salgado"
+
+val first = Snapshot.takeMutableSnapshot()
+first.enter {
+  name = "Jessica Jones"
+
+  val second = Snapshot.takeMutableSnapshot()
+  second.enter {
+    name = "Cassandra Higgins"
+  }
+  println(name) // Jessica Jones
+  second.apply()
+  println(name) // Cassandra Higgins
+}
+println(name) // Aleesha Salgado
+first.apply()
+println(name) // Cassandra Higgins
+```
+
+---
+
+<img src="slides/images/snapshot_tree.png" width=1000 />
+
+---
+
+#### **How does Compose use this?** 🤔
+
+* **Track reads and writes** automatically
+* Compose passes read and write **observers** when taking the Snapshot 👇
+
+```kotlin
+Snapshot.takeMutableSnapshot(readObserver, writeObserver)
+```
+
+* Created by the runtime (not manually)
+* One `GlobalSnapshot` (root) + a new **one per thread** (where state is read/written)
