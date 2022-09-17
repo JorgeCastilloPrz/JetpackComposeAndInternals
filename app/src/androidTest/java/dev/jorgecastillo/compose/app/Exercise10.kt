@@ -1,18 +1,5 @@
 package dev.jorgecastillo.compose.app
 
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performScrollToNode
-import androidx.compose.ui.test.printToLog
-import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
-import dev.jorgecastillo.compose.app.ui.composables.SpeakersScreen
-import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
-import org.junit.Rule
-import org.junit.Test
 import dev.jorgecastillo.compose.app.ui.composables.SpeakersRecompositionScreen
 import dev.jorgecastillo.compose.app.viewmodel.SpeakersViewModel
 
@@ -51,63 +38,8 @@ import dev.jorgecastillo.compose.app.viewmodel.SpeakersViewModel
  * 4. Run the app again and perform several pull to refresh actions. Note how the column items are
  *    not recomposed anymore! The runtime can trust the input state now thanks to our help.
  *
- * 5. Run the test.
+ * 5. This test is not validated. We'll go over the solution together at the end.
  */
 class Exercise10Test {
-
-    @get:Rule
-    val composeTestRule = createComposeRule()
-
-    @Test
-    fun all_speakers_are_displayed() {
-        // Start the app
-        composeTestRule.setContent {
-            ComposeAndInternalsTheme {
-                SpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(7))
-            }
-        }
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("John Doe"))
-        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
-        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
-        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
-        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
-        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList")
-            .performScrollToNode(hasText("Jagoda Viktorija"))
-        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
-        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 3")
-    }
+    // This test is not validated. We'll go over it together at the end.
 }
