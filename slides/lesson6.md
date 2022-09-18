@@ -702,14 +702,32 @@ println(name) // Cassandra Higgins
 
 ---
 
-#### **How does Compose use this?** 🤔
+#### **Snapshots in Compose** 🤔
 
-* **Track reads and writes** automatically
+* `Composition` created 👉 `GlobalSnapshot` created to hold **global state**
+* Listens for changes propagated to it from child snapshots
+* For initial composition & every recomposition, a `MutableSnapshot` is:
+  * taken
+  * entered to run the composing `block`
+  * applied and disposed at the end
+* Starts Recomposition loop 👉 listen for invalidation of compositions registered with it
+* Awaits for a frame from monotonic clock to coalesce changes and trigger recompositions
+
+
+
+* When creating it, read and write observers are passed
+* Once created, it `enter`s the `Snapshot` to run the `block` to compose
+```kotlin
+snapshot.enter(block)
+```
+
+* A `MutableSnapshot` per thread
+* A `NestedMutableSnapshot` for nested threads
+
+* **Track reads** in Composable lambdas automatically
 * Compose passes read and write **observers** when taking the Snapshot 👇
 
 ```kotlin
 Snapshot.takeMutableSnapshot(readObserver, writeObserver)
 ```
 
-* Created by the runtime (not manually)
-* One `GlobalSnapshot` (root) + a new **one per thread** (where state is read/written)
