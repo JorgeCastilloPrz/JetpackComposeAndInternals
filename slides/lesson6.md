@@ -732,18 +732,3 @@ println(name) // Cassandra Higgins
 * Keeps track of changes propagated by children
 * Runs **recomposition loop** 👉 listen for invalidation of compositions registered with it
 * Awaits for a frame from **monotonic clock ⏰ to coalesce all the pending changes** and trigger recompositions
-
----
-
-
----
-
-* A `NestedMutableSnapshot` for nested threads
-
-* **Track reads** in Composable lambdas automatically
-* Compose passes read and write **observers** when taking the Snapshot 👇
-
-```kotlin
-Snapshot.takeMutableSnapshot(readObserver, writeObserver)
-```
-
