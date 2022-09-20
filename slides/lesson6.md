@@ -705,23 +705,39 @@ println(name) // Cassandra Higgins
 #### **Snapshots in Compose** 🤔
 
 * `Composition` created 👉 `GlobalSnapshot` created to hold **global state**
-* Listens for changes propagated to it from child snapshots
-* For initial composition & every recomposition, a `MutableSnapshot` is:
-  * taken
-  * entered to run the composing `block`
-  * applied and disposed at the end
-* Starts Recomposition loop 👉 listen for invalidation of compositions registered with it
-* Awaits for a frame from monotonic clock to coalesce changes and trigger recompositions
+* `Recomposer` hooks listener for changes propagated to it from child snapshots
+
+<img src="slides/images/snapshot_state1.png" width=600 />
+
+---
+
+#### **Snapshots in Compose**
+
+* For initial composition & every recomposition
+
+<img src="slides/images/snapshot_state2.png" width=600 />
+
+---
+
+#### **Snapshots in Compose**
+
+* Composition / recomposition **can occur in any thread** 🤷‍♂️
+* Snapshot propagation deals with this 👍👍
+* Inspired in MVCC [multiversion concurrency control](https://en.wikipedia.org/wiki/Multiversion_concurrency_control)
+
+---
+
+#### **`Recomposer`**
+
+* Keeps track of changes propagated by children
+* Runs **recomposition loop** 👉 listen for invalidation of compositions registered with it
+* Awaits for a frame from **monotonic clock ⏰ to coalesce all the pending changes** and trigger recompositions
+
+---
 
 
+---
 
-* When creating it, read and write observers are passed
-* Once created, it `enter`s the `Snapshot` to run the `block` to compose
-```kotlin
-snapshot.enter(block)
-```
-
-* A `MutableSnapshot` per thread
 * A `NestedMutableSnapshot` for nested threads
 
 * **Track reads** in Composable lambdas automatically
