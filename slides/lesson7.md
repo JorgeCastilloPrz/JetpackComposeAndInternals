@@ -115,7 +115,16 @@ fun SpeakersScreen(eventId: String, service: SpeakerService) {
 ```
 
 * UI and business logic coupled
-* Better add **`ViewModel`** 💡
+* Better delegate to a **state holder** 💡
+
+---
+
+#### **State holders** 🤔
+
+* Manage UI element's state and UI logic
+* **`ViewModel`**:
+  * Special type of state holder
+  * Access to business logic and screen state
 
 ---
 
@@ -141,11 +150,11 @@ fun SpeakersScreen(
 
 ---
 
-### **`ViewModel`** ✨
+#### **`ViewModel`**
 
 * **Decouple** Composables **from business logic**
 * Inject `ViewModel` at the root level
-* Pass state down the tree ⏬  (**hoisting**)
+* Pass state down the tree ⏬  **(hoisting)**
 
 ---
 
@@ -153,7 +162,7 @@ fun SpeakersScreen(
 
 ---
 
-#### Different state holders 🤔
+#### **Combine state holders** 🤔
 
 * **`rememberSaveable`** 👉 UI element state
 
@@ -177,7 +186,7 @@ fun rememberLazyListState(
 
 ---
 
-### **`ViewModel`** ✨
+#### **`ViewModel`** ✨
 
 * Survives **config changes**
 * Survives system init. **process death** 👉 (Inject `SavedStateHandle`)
