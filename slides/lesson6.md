@@ -60,7 +60,7 @@ The **source of truth** of our Composables
     NamePlate(nameUiState.value)
 
     Button(onClick = { nameUiState.value = "New name" }) {
-      Text("Click to get ")
+      Text("Click to get")
     }
   }
 }
