@@ -263,62 +263,49 @@ fun MyScreen(
 
 ---
 
-### **Exercise 👩🏾‍💻**
-
-📝 Exercise 11: rememberSaveable + ViewModel
+📝 Exercise 11: `rememberSaveable` + `ViewModel`
 
 ---
 
-## **Derived** State
+#### **Derived State**
 
----
-
-## **State integration with 3rd party libs**
-
-* Compose only recomposes automatically from reading `State` objects
-* Convert any observable data type to `State` (adapters)
-
----
-
-### **`StateFlow`**
-
-* Normally within a `ViewModel`
+* Derive `State` from other `State` objects
+* **Avoid useless recompositions** (optimization)
 
 ```kotlin
-class SpeakersViewModel @Inject constructor(
-  private val repo: SpeakersRepository
-) : ViewModel() {
-
-  private val _uiState = MutableStateFlow(
-    SpeakersUiState.Content(emptyList())
-  )
-  val uiState: StateFlow<SpeakersUiState> =
-    _uiState.asStateFlow()
-
-  val uiState: StateFlow<SpeakersUiState> =
-    repo.loadSpakers().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = SpeakersUiState.Loading
-    )
-
-  fun onSpeakerClick(speaker: Speaker) { /* ... */ }
+// scrollState: Int updates with high frequency. We want to
+// update our counter every 100 pixels scrolled only, not
+// on every single pixel change.
+val counter = remember {
+    derivedStateOf {
+        // Recompose only when this changes!
+        (scrollState / 100).roundToInt()
+    }
 }
+
+// Recomposed only on counter change, so it will "ignore"
+// scrollState in 99% of cases
+Text(counter.toString())
 ```
 
 ---
 
-### **`collectAsState`**
+#### **Derived State**
+
+* Example 2: Combining state for 2 counters
 
 ```kotlin
-@Composable
-fun SpeakersScreen(
-  viewModel: SpeakersViewModel = viewModel()
-) {
-  val speakers by viewModel.uiState.collectAsState()
-  SpeakersList(
-    speakers,
-    onSpeakerClick = { viewModel.onSpeakerClick(it) }
-  )
+var firstCount by remember { mutableStateOf(0) }
+var secondCount by remember { mutableStateOf(0) }
+```
+
+```kotlin
+val totalIsOver10 by remember {
+    derivedStateOf {
+        val total = firstCount + secondCount
+        total > 10 // recompose only when this changes!
+    }
 }
+
+Text(if (totalIsOver10) "Yay!" else "Nay!")
 ```
