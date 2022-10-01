@@ -212,11 +212,72 @@ fun SpeakersScreen(eventId: String, service: Service) {
 
 #### **Effects in the Compose runtime**
 
-* Triggered after all changes to the tree are applied
-* Triggered in the same order they are stored
-
 <img src="slides/images/closing_the_circle_1.png" width="900">
 
 ---
 
 <img src="slides/images/closing_the_circle_4.png" width="800">
+
+---
+
+#### **Dispatching remember observers**
+
+* Effects are `RememberObserver`s
+* E.g: `DisposableEffect` 👇
+
+```kotlin
+private class DisposableEffectImpl(
+    private val effect: DisposableEffectScope.() -> DisposableEffectResult
+) : RememberObserver {
+    private var onDispose: DisposableEffectResult? = null
+
+    override fun onRemembered() {
+        onDispose = InternalDisposableEffectScope.effect()
+    }
+
+    override fun onForgotten() {
+        onDispose?.dispose()
+        onDispose = null
+    }
+
+    override fun onAbandoned() {
+        // Nothing to do as [onRemembered] was not called.
+    }
+}
+```
+
+---
+
+#### **Dispatching remember observers**
+
+```kotlin
+internal class LaunchedEffectImpl(
+    parentCoroutineContext: CoroutineContext,
+    private val task: suspend CoroutineScope.() -> Unit
+) : RememberObserver {
+    private val scope = CoroutineScope(parentCoroutineContext)
+    private var job: Job? = null
+
+    override fun onRemembered() {
+        job?.cancel("Old job was still running!")
+        job = scope.launch(block = task)
+    }
+
+    override fun onForgotten() {
+        job?.cancel()
+        job = null
+    }
+
+    override fun onAbandoned() {
+        job?.cancel()
+        job = null
+    }
+}
+```
+
+---
+
+#### **Where to put our effects?** 🤔
+
+* Composable function body or `ViewModel`?
+* Think of testability, decoupling Composables from business logic
