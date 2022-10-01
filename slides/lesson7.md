@@ -265,7 +265,7 @@ fun MyScreen(
 
 ### **Exercise 👩🏾‍💻**
 
-Instructions in `SpeakersTest.kt`
+📝 Exercise 11: rememberSaveable + ViewModel
 
 ---
 

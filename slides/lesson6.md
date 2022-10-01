@@ -523,6 +523,7 @@ data class MyScreenState(val screenName: String) {
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### How to know **if I need them?**
 
@@ -531,10 +532,12 @@ data class MyScreenState(val screenName: String) {
 * Look for funcs **restartable but not skippable** 🤔
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 10: Debug recomposition when using list as input (unstable). Fix it by replacing the `List` with an `@Immutable` wrapper
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Snapshots** 📸
 
