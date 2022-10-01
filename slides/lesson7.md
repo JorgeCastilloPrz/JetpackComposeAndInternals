@@ -1,4 +1,125 @@
-## **7. Saving & restoring State**
+## **7. State within an architecture**
+
+---
+
+#### **Where** to put state? 🤷
+
+---
+
+#### 1️⃣ **In the UI layer**
+
+* For extremely simple apps
+
+```kotlin
+@Composable
+fun Counter() {
+    // The UI state is managed by the UI itself
+    var count by remember { mutableStateOf(0) }
+    Row {
+        Button(onClick = { ++count }) {
+            Text(text = "Increment")
+        }
+        Button(onClick = { --count }) {
+            Text(text = "Decrement")
+        }
+    }
+}
+```
+
+---
+
+#### **State + UI logic**
+
+* Starts coupling UI and logic 🤔
+
+```kotlin
+@Composable
+fun ContactsList(contacts: List<Contact>) {
+    val listState = rememberLazyListState()
+    val isAtTopOfList by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex < 3
+        }
+    }
+    LazyColumn(state = listState, ...) {...}
+
+    AnimatedVisibility(visible = !isAtTopOfList) {
+        ScrollToTopButton()
+    }
+}
+```
+
+---
+
+#### **State + business logic** 🙈
+
+* UI and business logic <span class="error">coupled</span> (testability)
+
+```kotlin
+@Composable
+fun SpeakersScreen(eventId: String, service: Service) {
+  var speakers by remember { mutableStateOf(emptyList()) }
+
+  LaunchedEffect(eventId) { // suspend
+    speakers = service.loadSpeakers(eventId)
+  }
+
+  LazyColumn {
+    items(speakers) { speaker -> SpeakerCard(speaker) }
+  }
+}
+```
+
+---
+
+<img src="slides/images/state_holders.png" width="1000">
+
+---
+
+#### **State holders** 🤔
+
+* Manage UI element's state and UI logic
+* **`ViewModel`**:
+  * Special type of state holder
+  * Access to business logic and screen state
+
+---
+
+#### **`ViewModel`**
+
+```kotlin
+@Composable
+fun SpeakersScreen(
+  viewModel: SpeakersViewModel = viewModel()
+) {
+    val uiState = viewModel.uiState
+    /* ... */
+
+    SpeakersList(
+      speakers = uiState.speakers,
+      onSpeakerClick = { id -> viewModel.onSpeakerClick(id) }
+    )
+}
+```
+
+* **Scoped to host** (Activity/Fragment)
+* **Scoped to backstack entry** (compose navigation)
+
+---
+
+#### **`ViewModel`**
+
+* **Decouple** Composables **from business logic**
+* Inject `ViewModel` at the root level
+* Pass state down the tree ⏬  **(hoisting)**
+
+---
+
+<img src="slides/images/stateful_vs_stateless.png" width="1000">
+
+---
+
+#### **Config changes & process death**
 
 ---
 
@@ -92,73 +213,6 @@ val SpeakerListSaver = run {
   )
 }
 ```
-
----
-
-#### **Too many responsibilities** 🙈
-
-```kotlin
-@Composable
-fun SpeakersScreen(eventId: String, service: SpeakerService) {
-  var speakers by rememberSaveable {
-    mutableStateOf(emptyList())
-  }
-
-  LaunchedEffect(eventId) { // suspend
-    speakers = service.loadSpeakers(eventId)
-  }
-
-  LazyColumn {
-    items(speakers) { speaker -> SpeakerCard(speaker) }
-  }
-}
-```
-
-* UI and business logic coupled
-* Better delegate to a **state holder** 💡
-
----
-
-#### **State holders** 🤔
-
-* Manage UI element's state and UI logic
-* **`ViewModel`**:
-  * Special type of state holder
-  * Access to business logic and screen state
-
----
-
-#### **`ViewModel`**
-
-```kotlin
-@Composable
-fun SpeakersScreen(
-  viewModel: SpeakersViewModel = viewModel()
-) {
-    val uiState = viewModel.uiState
-    /* ... */
-
-    SpeakersList(
-      speakers = uiState.speakers,
-      onSpeakerClick = { id -> viewModel.onSpeakerClick(id) }
-    )
-}
-```
-
-* **Scoped to host** (Activity/Fragment)
-* **Scoped to backstack entry** (compose navigation)
-
----
-
-#### **`ViewModel`**
-
-* **Decouple** Composables **from business logic**
-* Inject `ViewModel` at the root level
-* Pass state down the tree ⏬  **(hoisting)**
-
----
-
-<img src="slides/images/stateful_vs_stateless.png" width="1000">
 
 ---
 
