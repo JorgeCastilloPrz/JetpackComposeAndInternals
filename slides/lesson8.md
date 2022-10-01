@@ -71,6 +71,7 @@ fun BackButtonHandler(onBackPressed: () -> Unit) {
 
 * Fired when entering, disposed when leaving
 * Disposed / re-triggered when keys change
+* Supports one or multiple keys
 * Pass constant key to span across recompositions
 
 ```kotlin
@@ -102,9 +103,73 @@ fun MyScreen(drawerTouchHandler: TouchHandler) {
 
 #### **`LaunchedEffect`**
 
+* Loading state when entering the composition
+* For **`suspend`** effects
+
+```kotlin
+@Composable
+fun SpeakersList(eventId: String) {
+  var speakers by remember { mutableStateOf(emptyList()) }
+
+  LaunchedEffect(eventId) {
+    speakers = viewModel.loadSpeakers(eventId)
+  }
+
+  LazyColumn {
+    items(speakers) { speaker -> SpeakerCard(speaker) }
+  }
+}
+```
+
+---
+
+#### **`LaunchedEffect`**
+
+* Runs when entering, canceled when leaving
+* Canceled / re-launched when keys change
+* Supports one or multiple keys
+* Pass constant key to span across recompositions
+
+```kotlin
+LaunchedEffect(Unit) { ... }
+```
+
 ---
 
 #### **`rememberCoroutineScope`**
+
+* Launch jobs in response to user interactions
+* For **`suspend`** effects
+
+```kotlin
+@Composable
+fun SearchScreen() {
+  val scope = rememberCoroutineScope()
+  var currentJob by remember { mutableStateOf(null) }
+  var items by remember { mutableStateOf(emptyList()) }
+
+  Column {
+    Row {
+      TextField("Start typing to search",
+        onValueChange = { text ->
+          currentJob?.cancel()
+          currentJob = scope.async {
+            delay(1000)
+            items = viewModel.search(query = text)
+          }
+        }
+      )
+    }
+  }
+}
+```
+
+---
+
+#### **`rememberCoroutineScope`**
+
+* Scope canceled when leaving composition
+* **Same scope across recompositions** 👉 all submitted jobs canceled when leaving
 
 ---
 
