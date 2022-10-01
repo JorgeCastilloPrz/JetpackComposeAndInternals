@@ -76,21 +76,27 @@ fun SpeakersScreen(eventId: String, service: Service) {
 
 ---
 
-#### **State holders** 🤔
+#### **State holders**
 
-* Manage UI element's state and UI logic
-* **`ViewModel`**:
-  * Special type of state holder
-  * Access to business logic and screen state
+* Store and produce UI state
+* Decouple UI from business/data
+* Abstract sources of data
+* Make UI simpler
+* UI behavior / interactions testable
+* **`ViewModel`:** Special type of state holder
 
 ---
 
 #### **`ViewModel`**
 
+* **Scope to host** (Activity/Fragment)
+* **Scope to backstack entry** (compose navigation)
+
 ```kotlin
 @Composable
 fun SpeakersScreen(
   viewModel: SpeakersViewModel = viewModel()
+  // For destination scoped use hiltViewModel()
 ) {
     val uiState = viewModel.uiState
     /* ... */
@@ -102,14 +108,10 @@ fun SpeakersScreen(
 }
 ```
 
-* **Scoped to host** (Activity/Fragment)
-* **Scoped to backstack entry** (compose navigation)
-
 ---
 
 #### **`ViewModel`**
 
-* **Decouple** Composables **from business logic**
 * Inject `ViewModel` at the root level
 * Pass state down the tree ⏬  **(hoisting)**
 
