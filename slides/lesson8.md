@@ -1,4 +1,16 @@
-## **8. Effects and the Composable lifecycle**
+## **8. Composable lifecycle and side effects**
+
+---
+
+<img src="slides/images/composable_lifecycle.png" width="1000">
+
+---
+
+#### **Effects within the lifecycle**
+
+* Effects run **after entering** and **before leaving**
+* Effects must be bound to the Composable lifecycle
+* Effects are affected by recompositions
 
 ---
 
@@ -108,11 +120,11 @@ fun MyScreen(drawerTouchHandler: TouchHandler) {
 
 ```kotlin
 @Composable
-fun SpeakersList(eventId: String) {
+fun SpeakersList(eventId: String, service: Service) {
   var speakers by remember { mutableStateOf(emptyList()) }
 
   LaunchedEffect(eventId) {
-    speakers = viewModel.loadSpeakers(eventId)
+    speakers = service.loadSpeakers(eventId) // suspend
   }
 
   LazyColumn {
@@ -173,4 +185,38 @@ fun SearchScreen() {
 
 ---
 
-#### **`produceState`**
+#### **`produceState`** 🍬
+
+* Sugar for `LaunchedEffect` that feeds a state
+* Supports **default value**
+
+```kotlin
+@Composable
+fun SpeakersScreen(eventId: String, service: Service) {
+  var uiState = produceState(
+    initialValue = emptyList(),
+    eventId // one or multiple keys
+  ) {
+    value = service.loadSpeakers(eventId) // suspend
+  }
+
+  LazyColumn {
+    items(uiState.speakers) { speaker ->
+      SpeakerCard(speaker)
+    }
+  }
+}
+```
+
+---
+
+#### **Effects in the Compose runtime**
+
+* Triggered after all changes to the tree are applied
+* Triggered in the same order they are stored
+
+<img src="slides/images/closing_the_circle_1.png" width="900">
+
+---
+
+<img src="slides/images/closing_the_circle_4.png" width="800">
