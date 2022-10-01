@@ -148,9 +148,9 @@ fun HelloScreen() {
 Rec. for simple **UI element state** only
 
 * Scroll position
+* Text input
 * Selected items on a list
 * Checked/unchecked state
-* Text input
 * ...
 
 ---
@@ -218,12 +218,13 @@ val SpeakerListSaver = run {
 
 ---
 
-#### **Combine state holders** 🤔
+#### **Combine state holders**
 
 * **`rememberSaveable`** 👉 UI element state
 
 ```kotlin
 // Example: LazyColumn / LazyRow
+// scroll position likely not relevant in your ViewModel
 @Composable
 fun rememberLazyListState(
     initialFirstVisibleItemIndex: Int = 0,
@@ -242,21 +243,22 @@ fun rememberLazyListState(
 
 ---
 
-#### **`ViewModel`** ✨
+#### **`ViewModel`**
 
 * Survives **config changes**
 * Survives system init. **process death** 👉 (Inject `SavedStateHandle`)
 
 ```kotlin
-class SpeakersViewModel(
-  private val repo: SpeakersRepository,
-  private val savedState: SavedStateHandle // process death
-) : ViewModel() {
+@HiltViewModel
+class MyViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val repository: ExampleRepository
+) : ViewModel() { /* ... */ }
 
-  val uiState: StateFlow<List<Speaker>> = /*...*/
-
-  // ...
-}
+@Composable
+fun MyScreen(
+    viewModel: MyViewModel = viewModel()
+) { /* ... */ }
 ```
 
 ---
