@@ -97,7 +97,7 @@ sealed interface HeroesUiState {
 }
 ```
 
-Exhaustive state
+Exhaustive (verbosity for strictness)
 
 ```kotlin
 sealed interface HeroesUiState {
