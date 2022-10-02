@@ -309,3 +309,69 @@ val totalIsOver10 by remember {
 
 Text(if (totalIsOver10) "Yay!" else "Nay!")
 ```
+
+---
+
+#### **Adapters for 3rd party libs**
+
+```kotlin
+val state: String? by liveData.observeAsState()
+Text("State is $state")
+
+val state by viewModel.stateFlow.collectAsState()
+Text("State is $state")
+
+// All RxJava observable data types
+val state by viewModel.observable.subscribeAsState()
+Text("State is $state")
+```
+
+Dependencies
+
+```gradle
+"androidx.compose.runtime:runtime-livedata:$composeVersion"
+"androidx.compose.runtime:runtime-rxjava2:$composeVersion"
+"androidx.compose.runtime:runtime-rxjava3:$composeVersion"
+```
+
+---
+
+#### **Collect + lifecycle**
+
+```kotlin
+@Composable
+fun BookmarksRoute(
+    viewModel: BookmarksViewModel = hiltViewModel()
+) {
+    val feedState by viewModel.feedState
+      .collectAsStateWithLifecycle()
+      // Lifecycle at least in a certain state (collection)
+      // Default = Lifecycle.State.STARTED
+
+    BookmarksScreen(
+      feedState = feedState,
+      onRemoveBookmark = viewModel::onBookmarkRemoved
+    )
+}
+```
+
+---
+
+#### **`ViewModel`**
+
+```kotlin
+@HiltViewModel
+class BookmarksViewModel @Inject constructor(
+  newsRepo: NewsRepository
+) : ViewModel() {
+  val feedState: StateFlow<NewsFeedUiState> =
+    newsRepo
+      .getNewsResourcesStream() // Flow
+      .map { it.toFeedState() }
+      .stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = Loading
+      )
+}
+```
