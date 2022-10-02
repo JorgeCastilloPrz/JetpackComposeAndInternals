@@ -83,21 +83,21 @@ sealed interface HeroesUiState {
 
 ---
 
-#### **Loading state (2 options)**
+#### **Modeling variants (2 options)**
 
-Mutable property 🚨 (careful)
+Mutable / nullable props 🚨 <span class="error">(impossible states)</span>
 
 ```kotlin
 sealed interface HeroesUiState {
   // ...
   data class Content(
     val heroes: List<Hero>,
-    var loading: Boolean
+    var loading: Boolean // loading without content? 🤔
   ): HeroesUiState
 }
 ```
 
-Exhaustive (verbosity for strictness)
+Exhaustive (verbosity for correctness)
 
 ```kotlin
 sealed interface HeroesUiState {
@@ -111,10 +111,24 @@ sealed interface HeroesUiState {
 
 ---
 
-* Binding data. Modeling UI state. Making UI state exhaustive
-* Unidirectional data flow, mapping / transforming flows of events from application to UI state
-* Compose Navigation (exercise)
+#### **Architecture (UDF)**
+
+<img src="slides/images/state_holders.png" width="900">
+
+---
+
+#### **Structuring the app**
+
+* 2 options:
+
+  * Single `Activity`, multiple `Fragments` with Composable content (`ComposeView`)
+
+  * Single `Activity`, Composable screens
+
+---
+
 * Single Activity (all Compose) vs Fragments with Compose
+* Compose Navigation (exercise)
 * Dependency injection in Composable functions. Scoping
 * Semantic trees. Merged and unmerged
 * Merging policies
