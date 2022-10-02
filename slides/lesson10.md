@@ -119,11 +119,11 @@ sealed interface HeroesUiState {
 
 #### **Structuring the app**
 
-* 2 options:
+* 2 options ✌
 
-  * Single `Activity`, multiple `Fragments` with Composable content (`ComposeView`)
+  * Single `Activity`, multiple **`Fragments` with Composable content** (`ComposeView`), navigation component
 
-  * Single `Activity`, Composable screens
+  * Single `Activity`, **Composable screens**, Compose (or custom) navigation
 
 ---
 
