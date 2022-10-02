@@ -66,7 +66,48 @@ fun BadgedEnvelope(count: Int) {
 
 ---
 
-#### Modeling UI State
+#### **Modeling UI State**
+
+* Make it **exhaustive**
+* Incorrect states are impossible
+* Allows exhaustive evaluation from UI
+
+```kotlin
+sealed interface HeroesUiState {
+  object Idle : HeroesUiState
+  object Loading : HeroesUiState
+  data class Error(val errorMsg: String) : HeroesUiState
+  data class Content(val heroes: List<Hero>): HeroesUiState
+}
+```
+
+---
+
+#### **Loading state (2 options)**
+
+Mutable property 🚨 (careful)
+
+```kotlin
+sealed interface HeroesUiState {
+  // ...
+  data class Content(
+    val heroes: List<Hero>,
+    var loading: Boolean
+  ): HeroesUiState
+}
+```
+
+Exhaustive state
+
+```kotlin
+sealed interface HeroesUiState {
+  object Idle : HeroesUiState
+  object Loading : HeroesUiState
+  data class Error(val errorMsg: String) : HeroesUiState
+  data class Content(val heroes: List<Hero>): HeroesUiState
+  data class LoadingAndContent(val heroes: List<Hero>): HeroesUiState
+}
+```
 
 ---
 
