@@ -127,8 +127,58 @@ sealed interface HeroesUiState {
 
 ---
 
-* Single Activity (all Compose) vs Fragments with Compose
-* Compose Navigation (exercise)
+#### **Compose Navigation**
+
+* Navigation state is hoisted
+
+```kotlin
+@Composable
+fun SuperHeroesApp() {
+  val navController = rememberNavController()
+
+  NavHost(
+    navController = navController,
+    startDestination = "heroes_feed"
+  ) {
+    composable("heroes_feed") { SuperHeroes(/*...*/) }
+    composable("hero_detail") { HeroDetail(/*...*/) }
+  }
+}
+```
+
+---
+<!-- .slide: data-scene="Slides" -->
+
+#### **Navigating to route**
+
+```kotlin
+NavHost(..., startDestination = "heroes_feed") {
+  composable("heroes") {
+    SuperHeroes(...) { hero -> // onHeroClick
+      navController.navigate("heroes/${hero.id}") {
+        popUpTo("heroes")
+      }
+    }
+  }
+  composable("hero/{id}") {
+    HeroDetail(backStackEntry.arguments?.getString("id"))
+  }
+}
+```
+
+---
+
+<!-- .slide: data-scene="Coding" -->
+
+📝 Exercise 11: Adding Compose Navigation
+
+---
+<!-- .slide: data-scene="Slides" -->
+
+#### Dependency Injection
+
+---
+
 * Dependency injection in Composable functions. Scoping
 * Semantic trees. Merged and unmerged
 * Merging policies

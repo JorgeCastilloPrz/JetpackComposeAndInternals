@@ -53,4 +53,7 @@ class FakeSpeakerRepository : SpeakerRepository {
         Speaker("46", "Nanabah Kimimela", "Strava"),
         Speaker("47", "Walela Chidiebele", "Shazam")
     )
+
+    override fun getSpeakerById(id: String): Speaker? =
+        getSpeakers().find { it.id == id }
 }

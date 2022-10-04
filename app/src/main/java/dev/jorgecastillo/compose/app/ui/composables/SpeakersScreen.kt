@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package dev.jorgecastillo.compose.app.ui.composables
 
 import android.annotation.SuppressLint
@@ -11,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -61,9 +64,10 @@ fun SpeakersScreen(speakers: List<Speaker>) {
 }
 
 @Composable
-fun SpeakerCard(speaker: Speaker) {
+fun SpeakerCard(speaker: Speaker, onClick: (Speaker) -> Unit = {}) {
     Card(
-        Modifier
+        onClick = { onClick(speaker) },
+        modifier = Modifier
             .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.spacing_small))
     ) {
@@ -89,7 +93,7 @@ fun SpeakerCard(speaker: Speaker) {
 
 @SuppressLint("DiscouragedApi")
 @Composable
-private fun avatarResForId(id: String): Int {
+fun avatarResForId(id: String): Int {
     val localContext = LocalContext.current
     return localContext.resources
         .getIdentifier("avatar_$id", "drawable", localContext.packageName)

@@ -242,6 +242,7 @@ fun rememberLazyListState(
 * **`ViewModel`** 👉 screen state
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **`ViewModel`**
 
@@ -262,10 +263,12 @@ fun MyScreen(
 ```
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 11: `rememberSaveable` + `ViewModel`
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **Derived State**
 
