@@ -175,7 +175,10 @@ NavHost(..., startDestination = "heroes_feed") {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### Dependency Injection
+#### **Dependency Injection**
+
+* 🚨 **`CompositionLocal`**: do not abuse!
+* Inject at root level of your screen
 
 ---
 
