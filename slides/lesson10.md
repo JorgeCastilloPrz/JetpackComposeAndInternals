@@ -152,15 +152,18 @@ fun SuperHeroesApp() {
 #### **Navigating to route**
 
 ```kotlin
-NavHost(..., startDestination = "heroes_feed") {
+NavHost(..., startDestination = "heroes") {
   composable("heroes") {
     SuperHeroes(...) { hero -> // onHeroClick
-      navController.navigate("heroes/${hero.id}") {
-        popUpTo("heroes")
+      navController.navigate("hero/${hero.id}") {
+        popUpTo(navContr.graph.findStartDestination().id)
+        // popUpTo("heroes") { inclusive = true }
+        // launchSingleTop = true
+        // restoreState = true
       }
     }
   }
-  composable("hero/{id}") {
+  composable("hero/{id}") { backStackEntry ->
     HeroDetail(backStackEntry.arguments?.getString("id"))
   }
 }
