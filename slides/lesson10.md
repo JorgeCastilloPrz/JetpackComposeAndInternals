@@ -152,6 +152,12 @@ fun SuperHeroesApp() {
 #### **Navigating to route**
 
 ```kotlin
+navController.navigate("heroes")
+```
+
+* Passing arguments
+
+```kotlin
 NavHost(..., startDestination = "heroes") {
   composable("heroes") {
     SuperHeroes(...) { hero -> // onHeroClick
@@ -178,14 +184,82 @@ NavHost(..., startDestination = "heroes") {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### **Dependency Injection**
+#### **Dependency Injection** 💉
 
-* 🚨 **`CompositionLocal`**: do not abuse!
-* Inject at root level of your screen
+* 🚨 **Don't abuse `CompositionLocal`**
+  * Harder to reason
+  * Unclear source of truth for its value
+  * Only for cross-cutting params **potentially needed by any descendant**
+  * Would bloat Composable params otherwise
 
 ---
 
-* Dependency injection in Composable functions. Scoping
+#### **Dependency Injection**
+
+* Inject at root level, hoist state
+
+* Hilt recommended
+
+---
+
+```kotlin
+@HiltAndroidApp
+class SpeakersApp : Application() { ... }
+
+@AndroidEntryPoint // can also annotate fragments
+class MainActivity : ComponentActivity() {
+  // Inject deps here, pass them to your Composables
+}
+
+@HiltViewModel
+class ForYouViewModel @Inject constructor(
+  private val savedStateHandle: SavedStateHandle,
+  private val repo: SpeakerRepository,
+) : ViewModel() {
+  // ...
+}
+```
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+interface RepositoryModule {
+    @Binds
+    fun bindSpeakerRepo(
+        repo: FakeSpeakerRepository
+    ): SpeakerRepository
+}
+```
+
+---
+
+#### **`hiltViewModel`**
+
+* Scoping `ViewModel` to destination
+* (Single activity + Composable screens)
+
+```gradle
+"androidx.hilt:hilt-navigation-compose:$version"
+```
+
+```kotlin
+@Composable
+fun SpeakerFeed(
+  viewModel: SpeakerFeedViewModel = hiltViewModel(),
+  // viewModel() for scoping to host Activity/Fragment
+) {
+    val speakers by viewModel.speakers
+      .collectAsStateWithLifecycle()
+
+    LazyColumn {
+        items(speakers) { speaker ->
+            SpeakerCard(speaker)
+        }
+    }
+}
+```
+
+---
+
 * Semantic trees. Merged and unmerged
 * Merging policies
 * Adding semantics to our Composables
