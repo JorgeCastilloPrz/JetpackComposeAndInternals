@@ -299,44 +299,53 @@ class HeroesFeedTest {
 * Integrate with airbnb/Showkase
 * All **`@Preview`** methods automatically tested
 
-```kotlin
-class ComponentPreview(
-    private val browserComponent: ShowkaseBrowserComponent
-) {
-    val content: @Composable () -> Unit =
-      browserComponent.component
+---
 
-    override fun toString(): String =
-      browserComponent.group + ":" +
-      browserComponent.componentName
-}
-```
+#### **`TestParameterInjector`**
+
+* Create multiple unit tests from each **`@Test`**
+* E.g: dark/light mode and 1.5 font scale
+
+<img src="slides/images/showkase.png" width=400 />
 
 ---
 
-* `TestParameterInjector` to create multiple unit tests from each **`@Test`**
-
 ```kotlin
-@RunWith(TestParameterInjector::class)
+@RunWith(TestParameterInjector::class) // 👈
 class ComposePaparazziTests {
 
-  object PreviewProvider : TestParameter.TestParameterValuesProvider {
+  // Provides all @Preview methods to the test
+  object PreviewProvider : TestParameterValuesProvider {
     override fun provideValues(): List<ComponentPreview> =
-      Showkase.getMetadata().componentList.map(::ComponentPreview)
+      Showkase.getMetadata()
+              .componentList
+              .map(::ComponentPreview)
+  }
+
+  enum class BaseDeviceConfig(
+    val deviceConfig: DeviceConfig,
+  ) {
+    NEXUS_5(DeviceConfig.NEXUS_5),
+    PIXEL_5(DeviceConfig.PIXEL_5),
+    PIXEL_C(DeviceConfig.PIXEL_C),
   }
 
   @get:Rule
-  val paparazzi = Paparazzi(
-    maxPercentDifference = 0.0,
-    deviceConfig = PIXEL_5.copy(softButtons = false),
-  )
+  val paparazzi = Paparazzi(maxPercentDifference = 0.0)
 
   @Test
   fun preview_tests(
-        @TestParameter(valuesProvider = PreviewProvider::class) componentPreview: ComponentPreview,
-        @TestParameter(value = ["1.0", "1.5"]) fontScale: Float,
-        @TestParameter(value = ["light", "dark"]) theme: String
+    @TestParameter(valuesProvider = PreviewProvider::class) componentPreview: ComponentPreview,
+    @TestParameter baseDeviceConfig: BaseDeviceConfig,
+    @TestParameter(value = ["1.0", "1.5"]) fontScale: Float,
+    @TestParameter(value = ["light", "dark"]) theme: String
   ) {
+    paparazzi.unsafeUpdateConfig(
+      baseDeviceConfig.deviceConfig.copy(
+        softButtons = false,
+      )
+    )
+
     paparazzi.snapshot() {
       CompositionLocalProvider(
         LocalInspectionMode provides true,
@@ -356,9 +365,22 @@ class ComposePaparazziTests {
 
 ---
 
-* Semantic trees. Merged and unmerged
-* Merging policies
-* Adding semantics to our Composables
-* How semantics are handled / wired in Android
-* Tools leveraging the semantic trees
-* UI testing our Composables
+```kotlin
+class ComponentPreview(
+    private val browserComponent: ShowkaseBrowserComponent
+) {
+    val content: @Composable () -> Unit =
+      browserComponent.component
+
+    override fun toString(): String =
+      browserComponent.componentKey
+}
+```
+
+---
+
+## **Thank you!** 🙏🏿
+
+[@JorgeCastilloPR](https://twitter.com/jorgecastillopr)
+
+[effectiveandroid.substack.com](https://effectiveandroid.substack.com/)
