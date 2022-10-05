@@ -260,11 +260,105 @@ fun SpeakerFeed(
 
 ---
 
+#### **Headless screenshot tests**
+
+```bash
+⏺ > ./gradlew recordPaparazziDebug # record golden
+✅ > ./gradlew verifyPaparazziDebug # compare/verify
+```
+
+* Relies on LayoutLib
+
+```kotlin
+class HeroesFeedTest {
+
+  @get:Rule
+  val paparazzi = Paparazzi(
+    deviceConfig = PIXEL_5,
+    theme = "android:Theme.Material.Light.NoActionBar",
+    environment = detectEnvironment().copy(
+      platformDir = "${androidHome()}/platforms/android-32",
+      compileSdkVersion = 32
+    )
+  )
+
+  @Test fun heroes_feed_looks_as_expected() {
+    paparazzi.snapshot {
+      HeroesTheme {
+        HeroesFeed(someHeroes())
+      }
+    }
+  }
+}
+```
+
+---
+
+#### **Automatic headless SS testing of previews**
+
+* Integrate with airbnb/Showkase
+* All **`@Preview`** methods automatically tested
+
+```kotlin
+class ComponentPreview(
+    private val browserComponent: ShowkaseBrowserComponent
+) {
+    val content: @Composable () -> Unit =
+      browserComponent.component
+
+    override fun toString(): String =
+      browserComponent.group + ":" +
+      browserComponent.componentName
+}
+```
+
+---
+
+* `TestParameterInjector` to create multiple unit tests from each **`@Test`**
+
+```kotlin
+@RunWith(TestParameterInjector::class)
+class ComposePaparazziTests {
+
+  object PreviewProvider : TestParameter.TestParameterValuesProvider {
+    override fun provideValues(): List<ComponentPreview> =
+      Showkase.getMetadata().componentList.map(::ComponentPreview)
+  }
+
+  @get:Rule
+  val paparazzi = Paparazzi(
+    maxPercentDifference = 0.0,
+    deviceConfig = PIXEL_5.copy(softButtons = false),
+  )
+
+  @Test
+  fun preview_tests(
+        @TestParameter(valuesProvider = PreviewProvider::class) componentPreview: ComponentPreview,
+        @TestParameter(value = ["1.0", "1.5"]) fontScale: Float,
+        @TestParameter(value = ["light", "dark"]) theme: String
+  ) {
+    paparazzi.snapshot() {
+      CompositionLocalProvider(
+        LocalInspectionMode provides true,
+        LocalDensity provides Density(
+          density = LocalDensity.current.density,
+          fontScale = fontScale
+        )
+      ) {
+        ShowkaseTheme(darkTheme = (theme == "dark")) {
+          componentPreview.content()
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
 * Semantic trees. Merged and unmerged
 * Merging policies
 * Adding semantics to our Composables
 * How semantics are handled / wired in Android
 * Tools leveraging the semantic trees
 * UI testing our Composables
-* Screenshot testing our Composables. Shot, Paparazzi, Showkase
-* Headless UI tests
