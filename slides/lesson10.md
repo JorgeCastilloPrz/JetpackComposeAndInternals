@@ -469,6 +469,46 @@ composeTestRule.onNode(mySwitch)
 
 ---
 
+#### **Merged vs Unmerged** 🌲
+
+* Only Composables with semantics are included
+* Each node is a focusable element for accessibility
+
+<img src="slides/images/talkback.png" width=250 />
+
+---
+
+#### **Merged vs Unmerged** 🌲
+
+* Merging sub-trees can be more **meaningful**
+
+```kotlin
+Button(onClick = { /*TODO*/ }) {
+  Icon(
+    imageVector = Icons.Filled.Favorite,
+    contentDescription = null
+  )
+  Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+  Text("Like")
+}
+```
+
+<img src="slides/images/semantics_merged.png" width=250 />
+
+```kotlin
+Modifier.semantics(mergeDescendants = true) {}
+```
+
+---
+
+#### **Merged vs Unmerged** 🌲
+
+<img src="slides/images/semantics_merged_vs_unmerged1.png" width=400 />
+
+<img src="slides/images/semantics_merged_vs_unmerged2.png" width=800 />
+
+---
+
 ## **Thank you!** 🙏🏿
 
 [@JorgeCastilloPR](https://twitter.com/jorgecastillopr)
