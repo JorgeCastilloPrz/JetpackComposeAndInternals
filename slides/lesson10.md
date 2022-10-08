@@ -379,6 +379,96 @@ class ComponentPreview(
 
 ---
 
+#### **Semantic trees** 🌲
+
+* Describe UI in an alternative manner
+* Accessibility, testing, other tooling
+
+<img src="slides/images/semantic_trees.png" width=400 />
+
+---
+
+#### **`printToLog` (Tests)**
+
+<img src="slides/images/semantics_test_ui.png" width=250 />
+
+---
+
+#### **`printToLog` (Tests)**
+
+```
+Node #1 at (l=0, t=171, r=1080, b=2148)px
+ |-Node #2 at (l=0, t=171, r=1080, b=2148)px
+    |-Node #19 at (l=0, t=325, r=1080, b=2148)px, Tag: 'SpeakersList'
+    | VerticalScrollAxisRange = 'ScrollAxisRange(value=0, maxValue=8, reverseScrolling=false)'
+    | CollectionInfo = 'androidx.compose.ui.semantics.CollectionInfo@29710cd'
+    | Actions = [IndexForKey, ScrollBy, ScrollToIndex]
+    |  |-Node #21 at (l=22, t=347, r=1058, b=716)px
+    |  | Role = 'Button'
+    |  | Focused = 'false'
+    |  | ContentDescription = '[John Doe avatar]'
+    |  | Text = '[John Doe, Uber]'
+    |  | Actions = [OnClick, RequestFocus, GetTextLayoutResult]
+    |  | MergeDescendants = 'true'
+    |  |-Node #28 at (l=22, t=760, r=1058, b=1129)px
+    |  | Role = 'Button'
+    |  | Focused = 'false'
+    |  | ContentDescription = '[Sylvia Lotte avatar]'
+    |  | Text = '[Sylvia Lotte, Lyft]'
+    |  | Actions = [OnClick, RequestFocus, GetTextLayoutResult]
+    |  | MergeDescendants = 'true'
+    |  |-Node #35 at (l=22, t=1173, r=1058, b=1542)px
+    |  | Role = 'Button'
+    |  | Focused = 'false'
+    |  | ContentDescription = '[Apis Anoubis avatar]'
+    |  | Text = '[Apis Anoubis, Twitter]'
+    |  | Actions = [OnClick, RequestFocus, GetTextLayoutResult]
+    |  | MergeDescendants = 'true'
+    |  | ... (more list items)
+    |-Node #5 at (l=0, t=171, r=1080, b=325)px
+    |  |-Node #9 at (l=44, t=211, r=278, b=285)px
+    |    Text = '[Speakers]'
+    |    Actions = [GetTextLayoutResult]
+    |-Node #14 at (l=882, t=1950, r=1036, b=2104)px
+      Role = 'Button'
+      Focused = 'false'
+      ContentDescription = '[Button to add a new speaker]'
+      Actions = [OnClick, RequestFocus]
+      MergeDescendants = 'true'
+```
+
+---
+
+#### **`Layout Inspector`**
+
+<img src="slides/images/semantics_switch.png" width=200 />
+
+<img src="slides/images/semantics_layout_inspector.png" width=800 />
+
+---
+
+#### **Providing semantics**
+
+* `foundation` and `material` Components have built-in semantics
+* Custom `Layout`s drawing to canvas directly 👉 we should add semantics
+
+<img src="slides/images/calendar.png" width=250 />
+
+---
+
+#### **Matching from tests**
+
+```kotlin
+val mySwitch = SemanticsMatcher.expectValue(
+    SemanticsProperties.Role, Role.Switch
+)
+composeTestRule.onNode(mySwitch)
+    .performClick()
+    .assertIsOff()
+```
+
+---
+
 ## **Thank you!** 🙏🏿
 
 [@JorgeCastilloPR](https://twitter.com/jorgecastillopr)
