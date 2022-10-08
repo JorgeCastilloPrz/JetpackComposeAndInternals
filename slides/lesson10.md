@@ -509,6 +509,29 @@ Modifier.semantics(mergeDescendants = true) {}
 
 ---
 
+```kotlin
+@Composable
+private fun PostMetadata(metadata: Metadata) {
+  // Merge elements below for accessibility purposes
+  Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+    Image(
+      imageVector = Icons.Filled.AccountCircle,
+      contentDescription = null // decorative
+    )
+    Column {
+      Text(metadata.author.name)
+      Text("${metadata.date} • ${metadata.readTimeMinutes} min read")
+    }
+  }
+}
+```
+
+<img src="slides/images/semantics_merge1.png" width=427 />
+
+<img src="slides/images/semantics_merge2.png" width=400 />
+
+---
+
 #### **Semantic goodies**
 
 ```kotlin
