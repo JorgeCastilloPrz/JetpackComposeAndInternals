@@ -509,6 +509,39 @@ Modifier.semantics(mergeDescendants = true) {}
 
 ---
 
+#### **Semantic goodies**
+
+```kotlin
+Modifier.clickable(
+ // R.string.action_read_artcle = "read article"
+ onClickLabel = stringResource(R.string.action_read_article),
+ onClick = openArticle
+)
+
+// Or directly via semantics modifier
+Modifier.semantics {
+ onClick(label = readArticleLabel, action = openArticle)
+}
+```
+
+---
+
+#### **Semantic goodies**
+
+* Android can't figure out what you're showing on visual elements like **`Image`** or **`Icon`**
+* Use **`contentDescription`**
+
+<img src="slides/images/semantics_content_desc.png" width=500 />
+
+```kotlin
+Icon(
+  imageVector = Icons.Filled.Share,
+  contentDescription = stringResource(R.string.label_share)
+)
+```
+
+---
+
 ## **Thank you!** 🙏🏿
 
 [@JorgeCastilloPR](https://twitter.com/jorgecastillopr)
