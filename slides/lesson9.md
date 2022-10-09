@@ -179,6 +179,20 @@ Box(Modifier.graphicsLayer { alpha = animatedAlpha }) {
 
 ---
 
+#### **`animateContentSize`**
+
+```kotlin
+var expanded by remember { mutableStateOf(true) }
+Column(Modifier.animateContentSize()) { // also customizable
+  SpeakerCard(speaker = speaker)
+  if (expanded) {
+    Text(stringResource(id = R.string.description))
+  }
+}
+```
+
+<img src="slides/images/anim_contentsize.gif" width=320 />
+
 ---
 
 #### **Gestures** 🤏🏽

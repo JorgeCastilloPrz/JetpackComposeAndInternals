@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.jorgecastillo.animationtester.detail.SizeChanges
 import dev.jorgecastillo.animationtester.detail.Visibility
 import dev.jorgecastillo.animationtester.detail.VisibilityCustom
 import dev.jorgecastillo.animationtester.detail.VisibilityViaProperties
@@ -53,7 +54,7 @@ class AnimationDetail : ComponentActivity() {
             is Option.Properties -> Visibility()
             is Option.RepeatAnimation -> Visibility()
             is Option.Sequential -> Visibility()
-            is Option.SizeChanges -> Visibility()
+            is Option.SizeChanges -> SizeChanges()
             is Option.StartOnLaunch -> Visibility()
             is Option.VectorDrawables -> Visibility()
             is Option.Visibility -> Visibility()
