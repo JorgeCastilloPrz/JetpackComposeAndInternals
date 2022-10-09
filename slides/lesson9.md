@@ -130,4 +130,55 @@ Icon(
 
 ---
 
+#### **`AnimatedVisibility`**
+
+```kotlin
+var editable by remember { mutableStateOf(true) }
+AnimatedVisibility(visible = editable) {
+  SpeakerCard(speaker)
+}
+```
+
+<img src="slides/images/anim_visibility.gif" width=320 />
+
+---
+
+#### **`AnimatedVisibility` (custom)**
+
+```kotlin
+var editable by remember { mutableStateOf(true) }
+
+AnimatedVisibility(
+ visible = editable,
+ enter = slideInHorizontally {-40.dp.roundToPx()} + fadeIn(),
+ exit = slideOutHorizontally() + fadeOut()
+) {
+ SpeakerCard(speaker)
+}
+```
+
+<img src="slides/images/anim_visibility2.gif" width=320 />
+
+---
+
+#### **Without removing from composition**
+
+```kotlin
+var editable by remember { mutableStateOf(true) }
+val animatedAlpha: Float by animateFloatAsState(
+  if (editable) 1f else 0f,
+  animationSpec = tween(1500) // like interpolators
+)
+
+Box(Modifier.graphicsLayer { alpha = animatedAlpha }) {
+  SpeakerCard(speaker = speaker)
+}
+```
+
+<img src="slides/images/anim_visibility3.gif" width=320 />
+
+---
+
+---
+
 #### **Gestures** 🤏🏽

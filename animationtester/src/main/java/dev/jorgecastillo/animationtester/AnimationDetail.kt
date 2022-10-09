@@ -13,6 +13,8 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.jorgecastillo.animationtester.detail.Visibility
+import dev.jorgecastillo.animationtester.detail.VisibilityCustom
+import dev.jorgecastillo.animationtester.detail.VisibilityViaProperties
 import dev.jorgecastillo.animationtester.ui.theme.JetpackComposeAndInternalsTheme
 
 class AnimationDetail : ComponentActivity() {
@@ -55,6 +57,8 @@ class AnimationDetail : ComponentActivity() {
             is Option.StartOnLaunch -> Visibility()
             is Option.VectorDrawables -> Visibility()
             is Option.Visibility -> Visibility()
+            is Option.VisibilityCustom -> VisibilityCustom()
+            is Option.VisibilityViaProperties -> VisibilityViaProperties()
         }
     }
 }

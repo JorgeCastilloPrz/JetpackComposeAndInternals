@@ -19,6 +19,13 @@ sealed class Option : Parcelable {
     data class Visibility(override val name: String = "Visibility") : Option()
 
     @Parcelize
+    data class VisibilityCustom(override val name: String = "Visibility custom") : Option()
+
+    @Parcelize
+    data class VisibilityViaProperties(override val name: String = "Visibility via properties") :
+        Option()
+
+    @Parcelize
     data class SizeChanges(override val name: String = "SizeChanges") : Option()
 
     @Parcelize
@@ -51,6 +58,10 @@ sealed class Option : Parcelable {
 fun AnimationTester(onClick: (Option) -> Unit = {}) {
     LazyColumn {
         item { AnimationOption(Option.Visibility(), onClick) }
+        item { Divider() }
+        item { AnimationOption(Option.VisibilityCustom(), onClick) }
+        item { Divider() }
+        item { AnimationOption(Option.VisibilityViaProperties(), onClick) }
         item { Divider() }
         item { AnimationOption(Option.SizeChanges(), onClick) }
         item { Divider() }
