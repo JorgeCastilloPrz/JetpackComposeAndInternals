@@ -195,4 +195,27 @@ Column(Modifier.animateContentSize()) { // also customizable
 
 ---
 
+#### **other properties**
+
+```kotlin
+var enabled by remember { mutableStateOf(true) }
+val animatedColor = animateColorAsState(
+  targetValue = if (enabled) Color.Red else Color.Gray
+)
+// animateDpAsState()
+// animateOffsetAsState()
+// animateFloatAsState()
+// animateSizeAsState()
+// animateRectAsState()
+// animateIntAsState()
+
+Box(Modifier.drawBehind { drawRect(animatedColor.value) }) {
+  SpeakerCard(speaker)
+}
+```
+
+<img src="slides/images/anim_properties.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽
