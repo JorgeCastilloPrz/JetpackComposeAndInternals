@@ -124,6 +124,10 @@ Icon(
 
 #### **Animations** 💃🏼
 
+<img src="slides/images/animations_cheat_sheet.png" width=350 />
+
+[Download here](https://storage.googleapis.com/android-stories/compose/Compose_Animation_Cheat_Sheet.pdf)
+
 ---
 
 #### **Gestures** 🤏🏽
