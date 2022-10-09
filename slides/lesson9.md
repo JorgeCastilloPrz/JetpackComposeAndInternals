@@ -301,4 +301,24 @@ Box(Modifier.border(24.dp, color, CircleShape))
 
 ---
 
+#### **Start animation on launch**
+
+```kotlin
+val alphaAnimation = remember { Animatable(0f) }
+LaunchedEffect(Unit) {
+  alphaAnimation.animateTo(
+    targetValue = 1f,
+    tween(1000, delayMillis = 500, easing = EaseInOut)
+  )
+}
+
+Box(Modifier.alpha(alphaAnimation.value)) {
+  SpeakerCard(speaker)
+}
+```
+
+<img src="slides/images/anim_start_on_launch.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽

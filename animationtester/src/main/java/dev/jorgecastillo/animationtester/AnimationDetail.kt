@@ -18,6 +18,7 @@ import dev.jorgecastillo.animationtester.detail.MultipleProperties
 import dev.jorgecastillo.animationtester.detail.Properties
 import dev.jorgecastillo.animationtester.detail.RepeatAnimation
 import dev.jorgecastillo.animationtester.detail.SizeChanges
+import dev.jorgecastillo.animationtester.detail.StartOnLaunch
 import dev.jorgecastillo.animationtester.detail.Visibility
 import dev.jorgecastillo.animationtester.detail.VisibilityCustom
 import dev.jorgecastillo.animationtester.detail.VisibilityViaProperties
@@ -60,7 +61,7 @@ class AnimationDetail : ComponentActivity() {
             is Option.RepeatAnimation -> RepeatAnimation()
             is Option.Sequential -> Visibility()
             is Option.SizeChanges -> SizeChanges()
-            is Option.StartOnLaunch -> Visibility()
+            is Option.StartOnLaunch -> StartOnLaunch()
             is Option.Visibility -> Visibility()
             is Option.VisibilityCustom -> VisibilityCustom()
             is Option.VisibilityViaProperties -> VisibilityViaProperties()
