@@ -218,4 +218,24 @@ Box(Modifier.drawBehind { drawRect(animatedColor.value) }) {
 
 ---
 
+#### **Lazy list item changes**
+
+```kotlin
+val speakers = remember { speakers.toMutableStateList() }
+LazyColumn {
+  // item { Button(...) }
+  for (speaker in speakers) {
+    item(key = speaker.id) { // 👈 important!!
+      Box(Modifier.animateItemPlacement()) {
+        SpeakerCard(speaker)
+      }
+    }
+  }
+}
+```
+
+<img src="slides/images/anim_lazylist_item_changes.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽

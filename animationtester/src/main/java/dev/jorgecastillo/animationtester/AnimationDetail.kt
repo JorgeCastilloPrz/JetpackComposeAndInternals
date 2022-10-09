@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.jorgecastillo.animationtester.detail.LazyListItemChanges
 import dev.jorgecastillo.animationtester.detail.Properties
 import dev.jorgecastillo.animationtester.detail.SizeChanges
 import dev.jorgecastillo.animationtester.detail.Visibility
@@ -50,14 +51,13 @@ class AnimationDetail : ComponentActivity() {
     private fun ContentForOption(option: Option): Unit {
         when (option) {
             is Option.BetweenComposables -> Visibility()
-            is Option.LazyListItemChanges -> Visibility()
+            is Option.LazyListItemChanges -> LazyListItemChanges()
             is Option.MultipleProperties -> Visibility()
             is Option.Properties -> Properties()
             is Option.RepeatAnimation -> Visibility()
             is Option.Sequential -> Visibility()
             is Option.SizeChanges -> SizeChanges()
             is Option.StartOnLaunch -> Visibility()
-            is Option.VectorDrawables -> Visibility()
             is Option.Visibility -> Visibility()
             is Option.VisibilityCustom -> VisibilityCustom()
             is Option.VisibilityViaProperties -> VisibilityViaProperties()

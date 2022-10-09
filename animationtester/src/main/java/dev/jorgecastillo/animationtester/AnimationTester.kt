@@ -32,9 +32,6 @@ sealed class Option : Parcelable {
     data class Properties(override val name: String = "Animating properties") : Option()
 
     @Parcelize
-    data class VectorDrawables(override val name: String = "Animate vector drawables") : Option()
-
-    @Parcelize
     data class LazyListItemChanges(override val name: String = "Lazy list item changes") : Option()
 
     @Parcelize
@@ -66,8 +63,6 @@ fun AnimationTester(onClick: (Option) -> Unit = {}) {
         item { AnimationOption(Option.SizeChanges(), onClick) }
         item { Divider() }
         item { AnimationOption(Option.Properties(), onClick) }
-        item { Divider() }
-        item { AnimationOption(Option.VectorDrawables(), onClick) }
         item { Divider() }
         item { AnimationOption(Option.LazyListItemChanges(), onClick) }
         item { Divider() }
