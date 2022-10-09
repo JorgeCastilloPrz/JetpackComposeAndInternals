@@ -238,4 +238,24 @@ LazyColumn {
 
 ---
 
+#### **`AnimatedContent`**
+
+```kotlin
+var isLoading by remember { mutableStateOf(true) }
+Column {
+  // Button(...)
+  AnimatedContent(isLoading) { targetState ->
+    if (targetState) { // conditional composition
+      CircularProgressIndicator()
+    } else {
+      SpeakerCard(speaker = speakers)
+    }
+  }
+}
+```
+
+<img src="slides/images/anim_animatedcontent.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽

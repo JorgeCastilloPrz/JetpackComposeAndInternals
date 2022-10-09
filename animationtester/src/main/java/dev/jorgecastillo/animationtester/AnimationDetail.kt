@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.jorgecastillo.animationtester.detail.BetweenComposables
 import dev.jorgecastillo.animationtester.detail.LazyListItemChanges
 import dev.jorgecastillo.animationtester.detail.Properties
 import dev.jorgecastillo.animationtester.detail.SizeChanges
@@ -50,7 +51,7 @@ class AnimationDetail : ComponentActivity() {
     @Composable
     private fun ContentForOption(option: Option): Unit {
         when (option) {
-            is Option.BetweenComposables -> Visibility()
+            is Option.BetweenComposables -> BetweenComposables()
             is Option.LazyListItemChanges -> LazyListItemChanges()
             is Option.MultipleProperties -> Visibility()
             is Option.Properties -> Properties()
