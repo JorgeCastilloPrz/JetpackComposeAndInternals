@@ -495,10 +495,6 @@ Button(onClick = { /*TODO*/ }) {
 
 <img src="slides/images/semantics_merged.png" width=250 />
 
-```kotlin
-Modifier.semantics(mergeDescendants = true) {}
-```
-
 ---
 
 #### **Merged vs Unmerged** 🌲
@@ -532,36 +528,9 @@ private fun PostMetadata(metadata: Metadata) {
 
 ---
 
-#### **Semantic goodies**
+#### **Case Study** 🧐
 
-```kotlin
-Modifier.clickable(
- // R.string.action_read_artcle = "read article"
- onClickLabel = stringResource(R.string.action_read_article),
- onClick = openArticle
-)
-
-// Or directly via semantics modifier
-Modifier.semantics {
- onClick(label = readArticleLabel, action = openArticle)
-}
-```
-
----
-
-#### **Semantic goodies**
-
-* Android can't figure out what you're showing on visual elements like **`Image`** or **`Icon`**
-* Use **`contentDescription`**
-
-<img src="slides/images/semantics_content_desc.png" width=500 />
-
-```kotlin
-Icon(
-  imageVector = Icons.Filled.Share,
-  contentDescription = stringResource(R.string.label_share)
-)
-```
+* **Mosaic:** Writing a client library for the Compose compiler and runtime
 
 ---
 
