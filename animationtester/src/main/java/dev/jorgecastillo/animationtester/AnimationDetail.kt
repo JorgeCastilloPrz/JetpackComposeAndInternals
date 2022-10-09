@@ -16,6 +16,7 @@ import dev.jorgecastillo.animationtester.detail.BetweenComposables
 import dev.jorgecastillo.animationtester.detail.LazyListItemChanges
 import dev.jorgecastillo.animationtester.detail.MultipleProperties
 import dev.jorgecastillo.animationtester.detail.Properties
+import dev.jorgecastillo.animationtester.detail.RepeatAnimation
 import dev.jorgecastillo.animationtester.detail.SizeChanges
 import dev.jorgecastillo.animationtester.detail.Visibility
 import dev.jorgecastillo.animationtester.detail.VisibilityCustom
@@ -56,7 +57,7 @@ class AnimationDetail : ComponentActivity() {
             is Option.LazyListItemChanges -> LazyListItemChanges()
             is Option.MultipleProperties -> MultipleProperties()
             is Option.Properties -> Properties()
-            is Option.RepeatAnimation -> Visibility()
+            is Option.RepeatAnimation -> RepeatAnimation()
             is Option.Sequential -> Visibility()
             is Option.SizeChanges -> SizeChanges()
             is Option.StartOnLaunch -> Visibility()

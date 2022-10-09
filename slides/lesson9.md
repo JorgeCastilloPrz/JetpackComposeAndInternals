@@ -279,4 +279,26 @@ Box(Modifier.border(borderWidth, color, CircleShape))
 
 ---
 
+#### **Repeat an animation**
+
+```kotlin
+val infiniteTransition = rememberInfiniteTransition()
+val color by infiniteTransition.animateColor(
+  initialValue = MaterialTheme.colors.primary,
+  targetValue = MaterialTheme.colors.secondary,
+
+  // or finiteRepeatable to repeat N times
+  animationSpec = infiniteRepeatable(
+    animation = tween(1000, easing = LinearEasing),
+    repeatMode = RepeatMode.Reverse
+  )
+)
+
+Box(Modifier.border(24.dp, color, CircleShape))
+```
+
+<img src="slides/images/anim_infinite_transition.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽
