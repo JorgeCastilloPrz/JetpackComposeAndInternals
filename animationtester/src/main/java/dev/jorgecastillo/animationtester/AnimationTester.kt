@@ -39,7 +39,8 @@ sealed class Option : Parcelable {
         Option()
 
     @Parcelize
-    data class MultipleProperties(override val name: String = "Multiple properties") : Option()
+    data class MultipleProperties(override val name: String = "Multiple properties at once") :
+        Option()
 
     @Parcelize
     data class RepeatAnimation(override val name: String = "Repeat animation") : Option()

@@ -258,4 +258,25 @@ Column {
 
 ---
 
+#### **Multiple properties at once**
+
+```kotlin
+var enabled by remember { mutableStateOf(false) }
+val transition = updateTransition(enabled)
+
+val borderWidth by transition.animateDp { isEnabled ->
+  if (isEnabled) 24.dp else 8.dp
+}
+
+val color by transition.animateColor { isEnabled ->
+  if (isEnabled) Purple else Teal
+}
+
+Box(Modifier.border(borderWidth, color, CircleShape))
+```
+
+<img src="slides/images/anim_multiple_props.gif" width=320 />
+
+---
+
 #### **Gestures** 🤏🏽

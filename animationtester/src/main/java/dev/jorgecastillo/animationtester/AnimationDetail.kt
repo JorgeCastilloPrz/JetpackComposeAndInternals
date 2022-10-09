@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.jorgecastillo.animationtester.detail.BetweenComposables
 import dev.jorgecastillo.animationtester.detail.LazyListItemChanges
+import dev.jorgecastillo.animationtester.detail.MultipleProperties
 import dev.jorgecastillo.animationtester.detail.Properties
 import dev.jorgecastillo.animationtester.detail.SizeChanges
 import dev.jorgecastillo.animationtester.detail.Visibility
@@ -53,7 +54,7 @@ class AnimationDetail : ComponentActivity() {
         when (option) {
             is Option.BetweenComposables -> BetweenComposables()
             is Option.LazyListItemChanges -> LazyListItemChanges()
-            is Option.MultipleProperties -> Visibility()
+            is Option.MultipleProperties -> MultipleProperties()
             is Option.Properties -> Properties()
             is Option.RepeatAnimation -> Visibility()
             is Option.Sequential -> Visibility()
