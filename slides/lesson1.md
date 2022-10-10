@@ -125,10 +125,6 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
-**Why** would it execute multiple times?
-
----
-
 **(Infix) recomposition**
 
 <img src="slides/images/recomposition.png" width=900 />
@@ -143,9 +139,6 @@ fun NamePlate(name: String, $composer: Composer) {
 
 * Always re-execute (idempotence):
   * Composables not returning `Unit` (not skippable)
-  ```kotlin
-  val a = remember { heavyCalculation() }
-  ```
   * Unstable (unreliable) inputs
 
 ---
@@ -346,9 +339,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeAndInternalsTheme {
-                // Composables
-            }
+            // Composables
         }
     }
 }
@@ -360,7 +351,7 @@ class MainActivity : ComponentActivity() {
 
 #### **Integration points**
 
-`ComposeView`
+`ComposeView` (`ViewGroup`)
 
 ```kotlin
 class ExampleFragment : Fragment() {
@@ -372,16 +363,12 @@ class ExampleFragment : Fragment() {
               DisposeOnViewTreeLifecycleDestroyed
             )
             setContent {
-                MaterialTheme {
-                    Text("Hello Compose!")
-                }
+                // Composables
             }
         }
     }
 }
 ```
-
-`ViewGroup` (Composables into Views)
 
 ---
 
@@ -403,24 +390,17 @@ class MyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // ...
-
         val greeting = findViewById(R.id.greeting)
         greeting.setContent {
-            MdcTheme { // or AppCompatTheme
-                Greeting()
-            }
+            // Composables
         }
     }
 }
 ```
 
-A `ViewGroup`. Adding Composables to Views.
-
 ---
 
-#### **Integration points**
-
-ComposeView in RecyclerView
+#### **ComposeView in RecyclerView**
 
 ```kotlin
 class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
@@ -433,15 +413,14 @@ class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
         holder.bind("$position")
     }
 }
-
+```
+```kotlin
 class MyViewHolder(
     val composeView: ComposeView
 ) : RecyclerView.ViewHolder(composeView) {
     fun bind(input: String) {
         composeView.setContent {
-            MdcTheme {
-                Text(input)
-            }
+            // Composables
         }
     }
 }
@@ -451,10 +430,10 @@ class MyViewHolder(
 
 #### **ViewCompositionStrategy**
 
-DisposeOnDetachedFromWindowOrReleasedFromPool
-DisposeOnDetachedFromWindow
 DisposeOnLifecycleDestroyed
 DisposeOnViewTreeLifecycleDestroyed
+DisposeOnDetachedFromWindow
+DisposeOnDetachedFromWindowOrReleasedFromPool
 
 ---
 
