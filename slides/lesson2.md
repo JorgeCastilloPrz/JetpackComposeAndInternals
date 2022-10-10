@@ -48,13 +48,13 @@ modifier = Modifier
 
 ---
 
-#### Multiple **types**
+#### **Multiple types**
 
 * layout
-* alignment (within `Box`, `Row`, `Column`)
+* alignment
 * draw (alpha, bg, clip, canvas, indication, shadows)
 * focus
-* graphics (draw into draw layer - performance)
+* graphics layer (efficient / granular redraw)
 * border
 * animations
 * semantics (test / tooling / accessibility)
@@ -64,7 +64,7 @@ modifier = Modifier
 
 ---
 
-#### Modifier **internals** 🕵️‍♀️
+#### **internals** 🕵️‍♀️
 
 ```kotlin
 interface Modifier {
@@ -75,10 +75,7 @@ interface Modifier {
   fun all(predicate: (Element) -> Boolean): Boolean
 
   infix fun then(other: Modifier): Modifier =
-    if (other === Modifier)
-      this
-    else
-      CombinedModifier(this, other)
+    CombinedModifier(this, other) // chaining
 }
 ```
 
@@ -88,26 +85,26 @@ interface Modifier {
 
 #### **`CombinedModifier`**
 
-* Links two consecutive modifiers
-* `outer` wraps `inner`
-* `inner` can also be combined 👉 linked list
+* Linked list
+* `outer` (head / current)
+* `inner` (`CombinedModifier`)
 
 ```kotlin
 class CombinedModifier(
-    private val outer: Modifier,
-    private val inner: Modifier
+  val outer: Modifier,
+  val inner: Modifier
 ) : Modifier {
-    override fun <R> foldIn(initial: R, operation: (R, Modifier.Element) -> R): R =
-        inner.foldIn(outer.foldIn(initial, operation), operation)
+  override fun <R> foldIn(initial: R, operation: (R, Modifier.Element) -> R): R =
+    inner.foldIn(outer.foldIn(initial, operation), operation)
 
-    override fun <R> foldOut(initial: R, operation: (Modifier.Element, R) -> R): R =
-        outer.foldOut(inner.foldOut(initial, operation), operation)
+  override fun <R> foldOut(initial: R, operation: (Modifier.Element, R) -> R): R =
+    outer.foldOut(inner.foldOut(initial, operation), operation)
 
-    override fun any(predicate: (Modifier.Element) -> Boolean): Boolean =
-        outer.any(predicate) || inner.any(predicate)
+  override fun any(predicate: (Modifier.Element) -> Boolean): Boolean =
+    outer.any(predicate) || inner.any(predicate)
 
-    override fun all(predicate: (Modifier.Element) -> Boolean): Boolean =
-        outer.all(predicate) && inner.all(predicate)
+  override fun all(predicate: (Modifier.Element) -> Boolean): Boolean =
+    outer.all(predicate) && inner.all(predicate)
 }
 ```
 
@@ -119,7 +116,7 @@ class CombinedModifier(
 
 ---
 
-#### **Setting modifiers to the node**
+#### **Reusing modifiers**
 
 * When emitting a layout
 * Creates a new chain of modifiers that **reuses as many as possible from the previous chain**
