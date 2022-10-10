@@ -17,8 +17,6 @@ import dev.jorgecastillo.compose.app.ui.composables.SpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
 import org.junit.Test
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.LazyColumn
 
 /**
  * ### Exercise 4 👩🏾‍💻
