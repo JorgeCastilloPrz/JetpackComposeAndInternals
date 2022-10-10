@@ -142,8 +142,8 @@ class CombinedModifier(
 
 #### **custom modifiers**
 
+* Use `layout` modifier to modify how **a single element** is measured and laid out (placed)
 * Let's create a custom `layout` modifier
-* Use `layout` modifier to modify how **a single element** is measured and laid out (placed).
 
 ```kotlin
 fun Modifier.customLayoutModifier(...) =
