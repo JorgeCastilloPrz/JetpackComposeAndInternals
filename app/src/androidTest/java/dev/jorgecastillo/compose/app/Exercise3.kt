@@ -6,15 +6,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.printToLog
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
 import dev.jorgecastillo.compose.app.ui.composables.SpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,6 +22,22 @@ import org.junit.Test
  *
  * Please use the exercise3.png image from the screenshots directory at the root of this project as
  * a reference for this exercise.
+ *
+ * There is a preview that you can use for all this work to double check it looks the way it
+ * needs. On top of that, you can check the provided screenshot, or even set the SpeakersScreen
+ * Composable as the content of the MainActivity in order to run the app in an emulator like:
+ *
+ *     override fun onCreate(savedInstanceState: Bundle?) {
+ *       super.onCreate(savedInstanceState)
+ *       setContent {
+ *         val speakersRepository = FakeSpeakerRepository()
+ *         ComposeAndInternalsTheme {
+ *           SpeakersScreen(speakers = speakersRepository.getSpeakers())
+ *         }
+ *       }
+ *      }
+ *
+ *    The fake repository will provide the speakers we need.
  *
  * To complete this exercise:
  *
@@ -88,24 +100,7 @@ import org.junit.Test
  *    speaker.name and speaker.company on them. We will learn material and theming in Compose
  *    in-depth later in this course.
  *
- * 10. There is a preview that you can use for all this work to double check it looks the way it
- *     needs. On top of that, you can check the screenshot called exercise3.png from the screenshots
- *     directory at the root folder, or even set the SpeakersScreen Composable as the content of the
- *     MainActivity in order to run the app in an emulator like:
- *
- *     override fun onCreate(savedInstanceState: Bundle?) {
- *       super.onCreate(savedInstanceState)
- *       setContent {
- *         val speakersRepository = FakeSpeakerRepository()
- *         ComposeAndInternalsTheme {
- *           SpeakersScreen(speakers = speakersRepository.getSpeakers())
- *         }
- *       }
- *      }
- *
- *    The fake repository will provide the speakers we need.
- *
- * 11. Run the test.
+ * 10. Run the test.
  */
 class Exercise3Test {
 
@@ -151,7 +146,8 @@ class Exercise3Test {
 
         composeTestRule.onRoot().printToLog("Exercise 3")
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Jagoda Viktorija"))
+        composeTestRule.onNodeWithTag("SpeakersList")
+            .performScrollToNode(hasText("Jagoda Viktorija"))
         composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
         composeTestRule.onNodeWithText("Google").assertIsDisplayed()
 
