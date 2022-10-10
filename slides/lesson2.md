@@ -474,19 +474,7 @@ fun Spacer(modifier: Modifier) {
 
 ---
 
-#### **Intrinsics 🤯**
-
-* **`minIntrinsicWidth`**: min width given specific height (so content is painted properly)
-
-* **`maxIntrinsicWidth`**: max width given specific height (so content is painted properly)
-
-* **`minIntrinsicHeight`**: min height given specific width (so content is painted properly)
-
-* **`maxIntrinsicHeight`**: max height given specific width (so content is painted properly)
-
----
-
-#### Yeah but, **how to use them?** 😆
+#### **Intrinsics**
 
 Intrinsic versions of `width` and `height` modifiers
 
