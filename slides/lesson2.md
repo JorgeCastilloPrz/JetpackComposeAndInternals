@@ -338,14 +338,14 @@ Box(
 
 ```kotlin
 Modifier.layout { measurable, constraints ->
-  // measure and place this node
+  // measure and place the modified node
 }
 
 Layout(
     modifier = modifier,
     content = content
 ) { measurables, constraints ->
-    // measure and place this node and children
+    // measure and place children
 }
 ```
 
