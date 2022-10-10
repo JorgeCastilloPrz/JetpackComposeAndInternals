@@ -1,5 +1,7 @@
 package dev.jorgecastillo.compose.app
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -27,12 +29,13 @@ import org.junit.Test
  * To complete this exercise:
  *
  * 1. Feel free to copy the body of the [SpeakersScreen] Composable from exercise 3 into the
- * [LazySpeakersScreen] one. Do not copy anything else. This Composable will reuse the [SpeakerCard]
- * from the previous exercise as is.
+ *   [LazySpeakersScreen] one. Do not copy anything else. This Composable will reuse the
+ *   [SpeakerCard] from the previous exercise as is.
  *
- * 2. Replace the Column used to list the Speakers by a LazyColumn. You should be able to remove
- * the verticalScroll modifier now. DO NOT remove the testTag, that is still needed for the test
- * validation.
+ * 2. Replace the Column used to list the Speakers by a [LazyColumn]. Use the [items] function with
+ *    the speakers collection to provide the Composable you want to show for each one of the
+ *    speakers (SpeakerCard). You should be able to remove the verticalScroll modifier now. DO NOT
+ *    remove the testTag, that is still needed for the test validation.
  *
  * 3. Run the test.
  */
