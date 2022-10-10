@@ -151,22 +151,19 @@ fun Modifier.alignToCorner(corner: Corner) = layout { measurable, constraints ->
         // Where the composable gets placed
         when (corner) {
             Corner.TopLeft -> {
-                placeable.placeRelative(0, 0)
+
             }
 
             Corner.TopRight -> {
-                placeable.placeRelative(constraints.maxWidth - placeable.width, 0)
+
             }
 
             Corner.BottomLeft -> {
-                placeable.placeRelative(0, constraints.maxHeight - placeable.height)
+
             }
 
             Corner.BottomRight -> {
-                placeable.placeRelative(
-                    constraints.maxWidth - placeable.width,
-                    constraints.maxHeight - placeable.height
-                )
+
             }
         }
     }
