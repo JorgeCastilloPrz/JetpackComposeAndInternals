@@ -1,6 +1,7 @@
 package dev.jorgecastillo.compose.app
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -21,7 +22,7 @@ import org.junit.Test
  *
  * To complete this exercise:
  *
- * 1. Use a Box that fills the complete screen (width and height). To achieve that you can pass a
+ * 1. Use a [Box] that fills the complete screen (width and height). To achieve that you can pass a
  *    modifier = Modifier.fillMaxSize() to it. We will learn modifiers later in this course, but for
  *    now we can think of them as the View attributes we are familiar with. They allow to tweak how
  *    Composables look and behave.
