@@ -283,8 +283,6 @@ fun MyComposable() {
 
 #### The **Slot Table**
 
-* Ops done via injected `$composer`
-
 * get, move, insert, delete 👉 **constant time**
 
 * moving the gap 👉 **O(n)**
