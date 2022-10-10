@@ -507,15 +507,15 @@ fun DropdownMenuContent(...) {
 
 #### **Drawing** 👩‍🎨
 
-* For each wrapper:
+* Each node:
 
   1. Offsets drawing to match layout definition
 
   2. Checks if **drawing layer** available, draws it
 
-  3. Checks if **`DrawModifiers`** available, draws them (in order)
+  3. Draws **`DrawModifiers`** in order (if available)
 
-  4. Calls `draw()` on the next wrapper
+  4. Calls `draw()` on next wrapper
 
 ---
 
@@ -525,9 +525,9 @@ fun DropdownMenuContent(...) {
 
 * Can be invalidated separately from parents
 
-* To be more granular, minimize invalidated content
+* Granularity, minimize invalidated content
 
-* `Modifier.graphicsLayer`
+* **`Modifier.graphicsLayer`**
 
 ---
 
@@ -564,10 +564,9 @@ fun AnimatedText() {
         "Hello World",
         Modifier.graphicsLayer {
             alpha = animatedAlpha.value
-            clip = true
         }
     )
-    // To run suspend effect safely
+    // animations are suspend
     LaunchedEffect(animatedAlpha) {
         animatedAlpha.animateTo(1f)
     }
@@ -615,9 +614,7 @@ internal class AndroidRenderEffect(
 
 * Modifiers like `alpha`, `rotate`, `clip`, `scale`, `clipToBounds` are built on top of `Modifier.graphicsLayer`
 
-* There are many more
-
-* Use to update Composable properties efficiently
+* Use to update Composable **properties** efficiently
 
 ---
 
