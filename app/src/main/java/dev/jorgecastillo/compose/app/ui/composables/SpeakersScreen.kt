@@ -40,55 +40,12 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun SpeakersScreen(speakers: List<Speaker>) {
-    Scaffold(topBar = {
-        TopAppBar(title = { Text("Speakers") })
-    }, floatingActionButton = {
-        FloatingActionButton(onClick = { /*TODO*/ }) {
-            Icon(
-                painter = rememberVectorPainter(image = Icons.Default.Add),
-                contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
-            )
-        }
-    }, content = { contentPadding ->
-        Column(
-            Modifier
-                .padding(contentPadding)
-                .verticalScroll(rememberScrollState())
-                .testTag("SpeakersList")
-        ) {
-            speakers.forEach { speaker ->
-                SpeakerCard(speaker)
-            }
-        }
-    })
+
 }
 
 @Composable
 fun SpeakerCard(speaker: Speaker, onClick: (Speaker) -> Unit = {}) {
-    Card(
-        onClick = { onClick(speaker) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.spacing_small))
-    ) {
-        Row(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
-            Image(
-                painter = painterResource(avatarResForId(speaker.id)),
-                contentDescription = stringResource(
-                    id = R.string.content_desc_speaker_avatar,
-                    speaker.name
-                ),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.avatar_size))
-                    .clip(CircleShape)
-            )
-            Column(Modifier.padding(start = dimensionResource(id = R.dimen.spacing_regular))) {
-                Text(text = speaker.name, style = MaterialTheme.typography.h6)
-                Text(text = speaker.company, style = MaterialTheme.typography.caption)
-            }
-        }
-    }
+    
 }
 
 @SuppressLint("DiscouragedApi")
