@@ -620,15 +620,13 @@ internal class AndroidRenderEffect(
 
 #### **Drawing layer types**
 
-* Both identical from high level use
-
 * Both **hardware accelerated** ⏭
 
 * Transparent for the user (decided by Compose)
 
-  * **RenderNodeLayer**: Most efficient. `RenderNode`: draw once, redraw cheap multiple times.
+  * **RenderNodeLayer**: Most efficient. `RenderNode`: draw once, redraw cheap multiple times
 
-  * **ViewLayer**: Fallback when direct access to RenderNodes not supported. Uses Android Views as holders of RenderNodes (More like a hack).
+  * **ViewLayer**: Fallback when direct access to RenderNodes not supported. Uses Android Views as holders of RenderNodes (hack)
 
 ---
 
