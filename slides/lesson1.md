@@ -70,6 +70,7 @@
 📝 Exercise 1: Our first Composable function
 
 ---
+<!-- .slide: data-scene="Coding" -->
 
 📝 Exercise 1b: Showcase Compose Previews
 
