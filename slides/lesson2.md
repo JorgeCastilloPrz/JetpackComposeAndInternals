@@ -201,7 +201,7 @@ Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
 #### **Custom layouts**
 
 * Use `Layout` Composable to measure and layout **multiple Composables**
-* All UI Composables are defined as `Layout`s
+* All UI Composables are layouts
 
 ```kotlin
 @Composable
@@ -223,32 +223,31 @@ fun MyCustomLayout(
 ```kotlin
 @Composable
 fun StairedBox(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+  modifier: Modifier = Modifier,
+  content: @Composable () -> Unit
 ) {
-    Layout(modifier = modifier, content = content) {
-            measurables, constraints ->
-        // measure children, don't constraint them further
-        val placeables = measurables.map { measurable ->
-            measurable.measure(constraints)
-        }
-
-        layout(constraints.maxWidth, constraints.maxHeight) {
-            // Track the x and y coord
-            var xPosition = 0
-            var yPosition = 0
-            // place children
-            placeables.forEach { placeable ->
-                placeable.placeRelative(
-                  x = xPosition,
-                  y = yPosition
-                )
-
-                xPosition += placeable.width
-                yPosition += placeable.height
-            }
-        }
+  Layout(modifier, content) { measurables, constraints ->
+    // measure children, don't constraint them further
+    val placeables = measurables.map { measurable ->
+      measurable.measure(constraints)
     }
+
+    layout(constraints.maxWidth, constraints.maxHeight) {
+      // Track the x and y coord
+      var xPosition = 0
+      var yPosition = 0
+      // place children
+      placeables.forEach { placeable ->
+        placeable.placeRelative(
+          x = xPosition,
+          y = yPosition
+        )
+
+        xPosition += placeable.width
+        yPosition += placeable.height
+      }
+    }
+  }
 }
 ```
 
@@ -269,18 +268,18 @@ StairedBox {
 
 ---
 
-#### **Measuring** in Compose
-
----
-
 <img src="slides/images/compose_phases.png" width="600">
 
 ---
 
-#### The **LayoutNode tree** 🌲
+#### **Measuring**
 
-* `Layout`s emit a node of type **`LayoutNode`**
-* It is a representation of the node in memory
+---
+
+#### **The LayoutNode tree** 🌲
+
+* `Layout` emits a node of type **`LayoutNode`**
+* A representation of the node in memory
 
 <img src="slides/images/layout_node_tree.png" width="600">
 
@@ -325,7 +324,6 @@ Box(
 ```
 
 * Measure the node + its layout modifiers
-* 👉 They are **also wrapped**
 
 ---
 
