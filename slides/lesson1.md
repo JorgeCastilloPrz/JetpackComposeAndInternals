@@ -114,15 +114,13 @@ fun NamePlate(name: String, $composer: Composer) {
 
 #### The **composer**
 
-* ⛓ Connects the code we write with the runtime
-* 🗣 Informs the runtime about the shape of the tree by executing the Composable functions
+⛓ Connects the code we write with the runtime
 
 ---
 
 #### **2. Idempotent**
 
 * Executing a Composable multiple times should produce **same result** (if its inputs have not changed)
-* The Composition should not vary as a result
 * **Consistency**
 
 ---
@@ -187,29 +185,6 @@ fun MainScreen() {
 ```
 
 They can run in any order or in parallel 🤷‍
-
----
-
-#### **3. Free of side effects**
-
-* Example of the risk of concurrency
-* Setting external var holding state
-* Can run from different threads 👉 accessing var **not thread-safe**
-
-```kotlin
-@Composable
-fun EventFeed(events: List<Event>) {
-  var count = 0
-
-  Column {
-    Text(if (count == 0) "No events." else "$count")
-    events.forEach { event ->
-      Text("Item: ${event.name}")
-      count++ // 🔥
-    }
-  }
-}
-```
 
 ---
 
