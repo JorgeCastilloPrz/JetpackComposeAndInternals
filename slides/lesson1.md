@@ -213,14 +213,6 @@ fun EventFeed(events: List<Event>) {
 
 ---
 
-#### **3. Free of side effects**
-
-✅ Use **effect handlers** to keep effects under control
-
-(more later)
-
----
-
 #### **4. Restartable**
 
 <img src="slides/images/restartable1.png" width=900 />
