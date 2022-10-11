@@ -5,23 +5,21 @@
 
 #### **Conditional Composition**
 
-* Different Composables depending on some value that is **not yet available**
-
-* E.g: phone/tablet UI depending on available space
-
 ```kotlin
-if (maxWidth < 560.dp) { // not available in this phase
+if (maxWidth < 560.dp) {
     MyPhoneUi()
 } else {
     MyTabletUi()
 }
 ```
 
-* **Can't do with custom layout** 👉 we are still building up the Composition! 🤔
+* What if condition value **not yet available**?
+* E.g: Available space unknown until layout phase
+* **Can't do with custom layout** 👉 too late 🤔
 
 ---
 
-#### A **solution** 🤩
+#### **A solution***
 
 * **Delay Composition** until data is available
 * **`BoxWithConstraints`** 👇
@@ -53,13 +51,11 @@ interface BoxWithConstraintsScope : BoxScope {
 
 #### **`BoxWithConstraints`**
 
-* Doesn't compose children during composition
-
-* Delays it until measure/layout phase
+* Delays composition until measure/layout phase
 
 * **Not as efficient** as normal Composition ⚠️
 
-* Achieved via ✨ **Subcomposition** ✨
+* Achieved via **Subcomposition** ✨
 
 ---
 <!-- .slide: data-scene="Coding" -->
