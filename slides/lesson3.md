@@ -19,7 +19,7 @@ if (maxWidth < 560.dp) {
 
 ---
 
-#### **A solution***
+#### **A solution**
 
 * **Delay Composition** until data is available
 * **`BoxWithConstraints`** 👇
@@ -35,7 +35,6 @@ BoxWithConstraints { // BoxWithConstraintsScope
 ```
 
 ```kotlin
-@Stable
 interface BoxWithConstraintsScope : BoxScope {
     val constraints: Constraints
     // Direct access in Dp

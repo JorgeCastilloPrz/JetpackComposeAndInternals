@@ -479,7 +479,7 @@ fun Spacer(modifier: Modifier) {
 Intrinsic versions of `width` and `height` modifiers
 
 ```kotlin
-// Part of the DropdownMenu Material Composable impl
+// Part of the DropdownMenu Material Composable
 @Composable
 fun DropdownMenuContent(...) {
   Column(
@@ -622,11 +622,11 @@ internal class AndroidRenderEffect(
 
 * Both **hardware accelerated** ⏭
 
-* Transparent for the user (decided by Compose)
+* Transparent for user (decided by Compose)
 
-  * **RenderNodeLayer**: Most efficient. `RenderNode`: draw once, redraw cheap multiple times
+  * **RenderNodeLayer:** Most efficient. `RenderNode`: draw once, redraw cheap multiple times
 
-  * **ViewLayer**: Fallback when direct access to RenderNodes not supported. Uses Android Views as holders of RenderNodes (hack)
+  * **ViewLayer:** Fallback when direct access to RenderNodes unsupported. Uses Android Views as holders of RenderNodes (hack)
 
 ---
 
@@ -665,14 +665,6 @@ private fun Modifier.drawTextAndSelectionBehind(): Modifier =
 
 #### **More examples 🤔**
 
-Canvas is a Spacer with a drawBehind modifier
-
-```kotlin
-@Composable
-fun Canvas(mod: Modifier, onDraw: DrawScope.() -> Unit) =
-    Spacer(mod.drawBehind(onDraw))
-```
-
 Surface is a Box with a Modifier.surface
 
 ```kotlin
@@ -689,7 +681,7 @@ fun Modifier.surface(shape: Shape,
 
 #### **Canvas** 🖌
 
-* `Canvas` interface (MPP - Android, Desktop)
+* `Canvas` abstraction (MPP - Android, Desktop)
 
 * Android **delegates to native `Canvas`**
 
@@ -697,7 +689,7 @@ fun Modifier.surface(shape: Shape,
 
 ---
 
-#### The **Canvas Composable** 🖌
+#### **`@Composable Canvas()`** 🖌
 
 ```kotlin
 Canvas(modifier = Modifier.fillMaxSize()) {
@@ -716,7 +708,7 @@ Equivalent apis than native canvas
 
 ---
 
-#### Canvas **via modifiers**
+#### **Canvas via modifiers**
 
 * Canvas is actually `Spacer` + `Modifier.drawBehind` 🤯
 
@@ -730,11 +722,9 @@ fun Canvas(modifier: Modifier, onDraw: DrawScope.() -> Unit) =
 
 #### **DrawScope**
 
-* Canvas **provides a `DrawScope` in the lambda**
-
 * Gives access to all the drawing apis
 
-* Also available via drawing modifiers like `Modifier.drawBehind`
+* Available for `Canvas` and draw modifiers
 
 ```kotlin
 Box(
@@ -756,11 +746,10 @@ Box(
 * `Modifier.drawWithContent` to draw **behind or over content** 👇
 
 ```kotlin
-internal fun Modifier.drawIndicatorLine(indicatorBorder: BorderStroke): Modifier {
-    val strokeWidthDp = indicatorBorder.width
+internal fun Modifier.drawIndicatorLine(...): Modifier {
+    // ...
     return drawWithContent {
         drawContent()
-        if (strokeWidthDp == Dp.Hairline) return@drawWithContent
         val strokeWidth = strokeWidthDp.value * density
         val y = size.height - strokeWidth / 2
         drawLine(
