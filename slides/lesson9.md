@@ -319,6 +319,3 @@ Box(Modifier.alpha(alphaAnimation.value)) {
 
 <img src="slides/images/anim_start_on_launch.gif" width=320 />
 
----
-
-#### **Gestures** 🤏🏽
