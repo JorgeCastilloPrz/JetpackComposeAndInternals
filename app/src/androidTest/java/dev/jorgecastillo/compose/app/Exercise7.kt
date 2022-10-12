@@ -67,7 +67,7 @@ import org.junit.Test
  * 2. For phones (maxWidth < 600.dp) it shows the [ProfileScreen] only, filling all the available
  *    screen space (Modifier.fillMaxSize()).
  *
- * 2. Run the test.
+ * 3. Run the test.
  */
 class Exercise7Test {
 
