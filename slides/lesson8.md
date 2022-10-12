@@ -60,7 +60,7 @@ fun SpeakersScreen(eventId: String, service: Service) {
 ```kotlin
 @Composable
 fun BackButtonHandler(onBackPressed: () -> Unit) {
-  val dispatcher = LocalOnBackPressedDispatcherOwner.current.onBackPressedDispatcher
+  val dispatcher = // get backpressed dispatcher from lifecycle owner
   val backCallback = remember {
     object : OnBackPressedCallback {
       override fun handleOnBackPressed() {
@@ -154,26 +154,20 @@ LaunchedEffect(Unit) { ... }
 * For **`suspend`** effects
 
 ```kotlin
-@Composable
-fun SearchScreen() {
+@Composable fun SearchScreen() {
   val scope = rememberCoroutineScope()
   var currentJob by remember { mutableStateOf(null) }
   var items by remember { mutableStateOf(emptyList()) }
 
-  Column {
-    Row {
-      TextField("Start typing to search",
-        onValueChange = { text ->
-          currentJob?.cancel()
-          currentJob = scope.async {
-            delay(1000)
-            items = viewModel.search(query = text)
-          }
-        }
-      )
+  TextField("Start typing to search",
+    onValueChange = { text ->
+      currentJob?.cancel()
+      currentJob = scope.async {
+        delay(1000)
+        items = viewModel.search(query = text)
+      }
     }
-  }
-}
+  )}
 ```
 
 ---
@@ -238,10 +232,6 @@ private class DisposableEffectImpl(
     override fun onForgotten() {
         onDispose?.dispose()
         onDispose = null
-    }
-
-    override fun onAbandoned() {
-        // Nothing to do as [onRemembered] was not called.
     }
 }
 ```
