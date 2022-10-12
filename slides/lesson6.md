@@ -294,7 +294,7 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
 
 ---
 
-#### **Smart** recomposition
+#### **Smart recomposition**
 
 * Avoid recomposing the entire UI
 
@@ -304,7 +304,7 @@ fun A(x: Int, $composer: Composer, $changed: Int) {
 
 ---
 
-#### **Smart** recomposition
+#### **Smart recomposition**
 
 ```kotlin
 @Composable
@@ -365,7 +365,7 @@ fun Counter() {
 
 ---
 
-#### Class **stability**
+#### **Class stability**
 
 * Input state **must be reliable (stable)**...
 * ...so Compose knows whether it changed...
@@ -417,7 +417,7 @@ fun PersonView(person: Person) {
 * Especially for UI state
 * <span class="error">If not:</span>
   * Removes any chance of runtime optimization
-  * Opens the door to bugs and race conditions (modifying data before comparing)
+  * Opens the door to bugs and race conditions
 
 ---
 
@@ -443,7 +443,7 @@ fun Conference(talks: List<Talk>) {
 
 ---
 
-#### Class **stability**
+#### **Class stability**
 
 * Compose compiler **can infer** class stability 🧠
 * Flags classes (& properties) as stable/unstable
@@ -451,7 +451,7 @@ fun Conference(talks: List<Talk>) {
 
 ---
 
-#### When **inference** fails
+#### **Aiding the compiler**
 
 * Compiler can't infer **how** our code is used
   * Mutable data structure w/ immutable public api
@@ -523,7 +523,7 @@ data class MyScreenState(val screenName: String) {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### How to know **if I need them?**
+#### **How to know if I need them?**
 
 * [📝 Measure Compose Compiler metrics](https://github.com/androidx/androidx/blob/androidx-main/compose/compiler/design/compiler-metrics.md)
 
