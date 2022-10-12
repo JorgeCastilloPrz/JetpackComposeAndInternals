@@ -276,12 +276,10 @@ fun MyScreen(
 * **Avoid useless recompositions** (optimization)
 
 ```kotlin
-// scrollState: Int updates with high frequency. We want to
-// update our counter every 100 pixels scrolled only, not
-// on every single pixel change.
+// scrollState: Int updates with high frequency.
 val counter = remember {
     derivedStateOf {
-        // Recompose only when this changes!
+        // Recompose every 100 pixels only!
         (scrollState / 100).roundToInt()
     }
 }
