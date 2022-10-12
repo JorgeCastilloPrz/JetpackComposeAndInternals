@@ -2,7 +2,7 @@
 
 ---
 
-#### **Where** to put state? 🤷
+#### **Where to put state?** 🤷
 
 ---
 
