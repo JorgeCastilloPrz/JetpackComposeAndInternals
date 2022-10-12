@@ -7,8 +7,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -19,8 +17,6 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun NameGenerator(repo: NameRepository) {
-    val name = remember { mutableStateOf(repo.next()) }
-
     Column(
         Modifier
             .fillMaxWidth()
@@ -29,12 +25,12 @@ fun NameGenerator(repo: NameRepository) {
     ) {
         Text(
             modifier = Modifier.testTag("name"),
-            text = name.value,
+            text = "John Doe",
             style = MaterialTheme.typography.h4
         )
         Button(
             modifier = Modifier.padding(top = 8.dp),
-            onClick = { name.value = repo.next() }
+            onClick = { }
         ) {
             Text("Generate")
         }
