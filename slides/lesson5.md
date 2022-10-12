@@ -545,16 +545,16 @@ val Shapes.card: Shape
 // 1. Create a class to wrap the new colors
 @Immutable
 data class ExtendedColors(
-    val tertiary: Color,
-    val onTertiary: Color
+  val tertiary: Color,
+  val onTertiary: Color
 )
 
 // 2. Create a CompositionLocal to provide it down the tree
 val LocalExtendedColors = staticCompositionLocalOf {
-    ExtendedColors(
-        tertiary = Color.Unspecified,
-        onTertiary = Color.Unspecified
-    )
+  ExtendedColors(
+    tertiary = Color.Unspecified,
+    onTertiary = Color.Unspecified
+  )
 }
 ```
 
@@ -564,13 +564,13 @@ val LocalExtendedColors = staticCompositionLocalOf {
 // 3. Wrap the MaterialTheme with `CompositionLocalProvider`
 @Composable
 fun ExtendedTheme(..., content: @Composable () -> Unit) {
-    val extendedColors = ExtendedColors(
-        tertiary = Color(0xFFA8EFF0),
-        onTertiary = Color(0xFF002021)
-    )
-    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
-        MaterialTheme(content = content)
-    }
+  val extendedColors = ExtendedColors(
+    tertiary = Color(0xFFA8EFF0),
+    onTertiary = Color(0xFF002021)
+  )
+  CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+    MaterialTheme(content = content)
+  }
 }
 ```
 
@@ -606,86 +606,6 @@ fun ExtendedButton(
         onClick = onClick,
         modifier = modifier,
         content = content
-    )
-}
-```
-
----
-
-#### **Replacing material systems**
-
-* Replace typography, colors or shapes
-* Same approach
-
-```kotlin
-@Immutable
-data class ReplacementTypography(
-    val body: TextStyle,
-    val title: TextStyle
-)
-
-val LocalReplacementTypography = staticCompositionLocalOf {
-    ReplacementTypography(
-        body = TextStyle.Default,
-        title = TextStyle.Default
-    )
-}
-```
-
----
-
-#### **Replacing material systems**
-
-```kotlin
-@Composable
-fun ReplacementTheme(..., content: @Composable () -> Unit) {
-    val replacementTypography = ReplacementTypography(
-        body = TextStyle(fontSize = 16.sp),
-        title = TextStyle(fontSize = 32.sp)
-    )
-
-    CompositionLocalProvider(
-        LocalReplacementTypography provides replacementTypography
-    ) {
-        MaterialTheme(content = content)
-    }
-}
-```
-```kotlin
-// Use with eg. ReplacementTheme.typography.body
-object ReplacementTheme {
-    val typography: ReplacementTypography
-        @Composable
-        get() = LocalReplacementTypography.current
-}
-```
-
----
-
-#### **And from material components?** 🤔
-
-* Again, wrap them & replace defaults
-* Wrap `content` lambdas with provider funcs for values not exposed as params
-
-```kotlin
-@Composable
-fun ReplacementButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
-) {
-    Button(
-        shape = ReplacementTheme.shapes.component,
-        onClick = onClick,
-        modifier = modifier,
-        content = {
-            // When no params available to set it
-            ProvideTextStyle(
-                value = ReplacementTheme.typography.body
-            ) {
-                content()
-            }
-        }
     )
 }
 ```
