@@ -90,7 +90,7 @@ setValue("New name")
 
 ---
 
-#### State **hoisting**
+#### **State hoisting**
 
 * ⏬ **State passed down** (function args)
 * ⏫ **Events propagated up** (callbacks)
@@ -140,7 +140,7 @@ fun SpeakerDetails(name: String, company: String, onFollow: () -> Unit) {
 
 ---
 
-#### State **hoisting**
+#### **State hoisting**
 
 Another example: `TextField`
 
@@ -163,7 +163,7 @@ Will **not display** the inserted characters 😲
 
 ---
 
-#### State **hoisting**
+#### **State hoisting**
 
 * `TextField` hoists its state
 * We create and pass the state to it
@@ -188,11 +188,9 @@ fun TextBox() {
 
 ---
 
-#### State **hoisting**
+#### **State hoisting**
 
-* Makes Composables **dummy**
-
-* Makes Composables **reusable**
+* Makes Composables **dummy**, **reusable**
 
 * They simply display the state we pass to them
 
