@@ -573,7 +573,7 @@ interface State<out T>{
 
 ---
 
-#### Why to **isolate** State? 🤔
+#### **Why to isolate State?** 🤔
 
 ---
 
@@ -627,7 +627,7 @@ fun MyComposable() {
 
 ---
 
-#### The Snapshot State **system**
+#### **The Snapshot State system**
 
 * Models and coordinates **state changes** and **state propagation**
 * Part of the Jetpack Compose runtime
@@ -672,7 +672,7 @@ println(name) // Jessica Jones
 
 ---
 
-#### **Nested** snapshots
+#### **Nested snapshots**
 
 * taking a snapshot within the `enter` block
 
