@@ -12,7 +12,7 @@
 
 ```groovy
 dependencies {
-  implementation "androidx.compose.material:material:$version"
+ implementation "androidx.compose.material:material:$version"
 }
 ```
 
@@ -44,12 +44,12 @@ class MainActivity : ComponentActivity() {
 // MainActivity.kt
 setContent {
     MyAppTheme { // Our app MaterialTheme
-        LazySpeakersScreen(someSpeakers())
+        SpeakersScreen(someSpeakers())
     }
 }
 ```
 ```kotlin
-@Composable fun LazySpeakersScreen(...) {
+@Composable fun SpeakersScreen(...) {
     LazyColumn {
         items(speakers) { speaker ->
             if (speaker.company == "Lyft") {
@@ -72,8 +72,7 @@ setContent {
 
 #### **Material components**
 
-* They read colors, typography and shapes from it
-* `Text`, `TextField`, `TopAppBar`, `Card`, `Button`, `Scaffold`, `FloatingActionButton`...
+* They read colors, typography and shapes from it **(`CompositionLocal`s)**
 
 ---
 
@@ -95,9 +94,6 @@ MaterialTheme(
 
 #### **implicit config (defaults)**
 
-* Ripple indication, text selection colors, content alpha, and ripple theme (color and alpha).
-* Via **`CompositionLocal`** ⏬
-
 ```kotlin
 @Composable
 fun MaterialTheme(/*colors, typography, shapes*/) {
@@ -106,12 +102,12 @@ fun MaterialTheme(/*colors, typography, shapes*/) {
 
   CompositionLocalProvider(
       LocalColors provides colors,
+      LocalTypography provides typography,
+      LocalShapes provides shapes,
       LocalContentAlpha provides ContentAlpha.high,
       LocalIndication provides rippleIndication,
       LocalRippleTheme provides MaterialRippleTheme,
-      LocalShapes provides shapes,
-      LocalTextSelectionColors provides selectionColors,
-      LocalTypography provides typography
+      LocalTextSelectionColors provides selectionColors
   ) {
       // Overrides LocalTextStyle to merge text style
       // with current one (might be nested theme)
@@ -250,7 +246,7 @@ val rgbaWhiteInt = Color(
 
 ---
 
-#### **Where** to define them?
+#### **Where to define them?**
 
 * Close to your theme! (private if possible)
 * **Avoid direct access at all costs**
