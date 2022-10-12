@@ -263,11 +263,6 @@ fun MyScreen(
 ```
 
 ---
-<!-- .slide: data-scene="Coding" -->
-
-📝 Exercise 11: Compose Navigation
-
----
 <!-- .slide: data-scene="Slides" -->
 
 #### **Derived State**
