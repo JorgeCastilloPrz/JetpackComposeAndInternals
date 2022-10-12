@@ -50,13 +50,7 @@ fun Feed(speakers: List<Speaker>) {
                 .testTag("SpeakersList")
         ) {
             items(speakers) { speaker ->
-                if (speaker.company == "Lyft") {
-                    PinkTheme {
-                        SpeakerCard(speaker)
-                    }
-                } else {
-                    SpeakerCard(speaker)
-                }
+                SpeakerCard(speaker)
             }
         }
     })
