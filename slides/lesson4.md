@@ -2,7 +2,7 @@
 
 ---
 
-#### An **agnostic runtime** 🤷🏾‍♀️
+#### **An agnostic runtime** 🤷🏾‍♀️
 
 * Runtime works with **generic node type `N`**
 
@@ -17,49 +17,25 @@
 #### **Feeding the node type**
 
 * Done when emitting the node
-* Teaches the runtime **how to create & initialize** it
+* Teaches runtime **how to create & initialize it**
 
 ```kotlin
-@Composable
 fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
   val density = LocalDensity.current
   val layoutDirection = LocalLayoutDirection.current
   val viewConfiguration = LocalViewConfiguration.current
 
-  // LayoutNode is a child of ComposeUiNode
-  ReusableComposeNode<ComposeUiNode, Applier<Any>>(
-    factory = ComposeUiNode.Constructor,
+  ReusableComposeNode<LayoutNode, ...>(
+    factory = { LayoutNode() },
     update = {
-      set(mp, ComposeUiNode.SetMeasurePolicy)
-      set(density, ComposeUiNode.SetDensity)
-      set(layoutDirection, ComposeUiNode.SetLayoutDirection)
-      set(viewConfiguration, ComposeUiNode.SetViewConfiguration)
-      set(modif, ComposeUiNode.SetModifier)
+      set(mp, { this.measurePolicy = it })
+      set(density, { this.density = it })
+      set(layoutDirection, { this.layoutDirection = it })
+      set(viewConfiguration, { this.viewConfiguration = it })
+      set(modif, { this.modifier = it })
     },
   )
 }
-```
-
----
-
-#### **`ComposeUiNode`** and **`LayoutNode`**
-
-```kotlin
-@PublishedApi
-internal interface ComposeUiNode {
-    var measurePolicy: MeasurePolicy
-    var layoutDirection: LayoutDirection
-    var density: Density
-    var modifier: Modifier
-    var viewConfiguration: ViewConfiguration
-    // ...
-}
-```
-
-Represents a Compose UI `Layout` for the runtime
-
-```kotlin
-internal class LayoutNode(...)) : ComposeUiNode, ...
 ```
 
 ---
@@ -68,7 +44,7 @@ internal class LayoutNode(...)) : ComposeUiNode, ...
 
 ---
 
-#### **VNode** (vectors)
+#### **VNode (vectors)**
 
 Models a vector in Compose UI
 
@@ -302,7 +278,7 @@ class VectorApplier(root: VNode) : AbstractApplier<VNode>(root) {
 private fun ComposeView.setContent(...): Composition {
     // We pick applier and the layout type here
     val original = Composition(UiApplier(owner.root), parent)
-    val wrapped = WrappedComposition(...)
+    val wrapped = WrappedComposition(original)
     wrapped.setContent(content)
     return wrapped
 }
