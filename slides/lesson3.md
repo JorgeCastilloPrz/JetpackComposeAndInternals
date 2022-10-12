@@ -66,7 +66,7 @@ interface BoxWithConstraintsScope : BoxScope {
 
 #### **Subcomposition**
 
-* Creator of a subcomposition can control when the initial composition process happens
+* Creator of a subcomposition controls when initial composition process happens
 * Done via **`SubcomposeLayout`**
 
 ```kotlin
@@ -88,21 +88,15 @@ fun BoxWithConstraints(...) {
 
 ---
 
-#### **SubcomposeLayout**
-
-* Analogue of `Layout` that creates and runs an independent composition during the layout phase
-
----
-
 #### **Composition trees** 🌲
+
+* Compositions are connected as a tree
 
 * Subcomposition is a **child composition**
 
-* Created inline for **independent invalidation** 🔄
+* **Independent invalidation** for a subtree 🔄
 
 * Allows to change node type (not only `LayoutNode`)
-
-* Compositions are connected as a tree
 
 ---
 
@@ -170,27 +164,15 @@ fun SomeTextLabel(labelText: String) {
 
 ---
 
-#### Additional ones **by Material**
-
-* `LocalAbsoluteElevation`
-* `LocalContentAlpha`
-* `LocalContentColor`
-* `LocalElevationOverlay`
-* `LocalMinimumTouchTargetEnforcement`
-* `LocalTextStyle`
-
----
-
-#### Overriding **`CompositionLocal`**
+#### **Overriding**
 
 ```kotlin
-@Composable
-fun CompositionLocalExample() {
+@Composable fun CompositionLocalExample() {
   MaterialTheme { // Sets ContentAlpha.high as default
     Column {
-      Text("Uses default provided alpha")
+      Text("Uses ContentAlpha.high")
       CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-        Text("Uses medium alpha")
+        Text("Uses ContentAlpha.medium")
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
           DescendantExample()
         }
@@ -203,7 +185,7 @@ fun CompositionLocalExample() {
 @Composable
 fun DescendantExample() {
   // Also works across composable functions
-  Text("This Text uses the disabled alpha now")
+  Text("Uses ContentAlpha.disabled")
 }
 ```
 
@@ -213,7 +195,7 @@ fun DescendantExample() {
 
 ---
 
-#### **Custom** `CompositionLocal`
+#### **Custom `CompositionLocal`?**
 
 * Not recommended 🙅🏼
 * Composables harder to reason about
