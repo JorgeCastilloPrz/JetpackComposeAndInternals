@@ -262,15 +262,7 @@ fun MyComposable() {
 
 ---
 
-<img src="slides/images/slottable2.png" width=1000 />
-
----
-
-<img src="slides/images/slottable3.png" width=1000 />
-
----
-
-<img src="slides/images/slottable4.png" width=1000 />
+<img src="slides/images/slottable2.gif" width=500 />
 
 ---
 
