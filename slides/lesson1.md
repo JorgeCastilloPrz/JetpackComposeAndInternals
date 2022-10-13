@@ -213,7 +213,7 @@ They can run in any order or in parallel 🤷‍
 
 ---
 
-<img src="slides/images/fastexecution.png" width=900 />
+<img src="slides/images/fastexecution.png" width=800 />
 
 ---
 
@@ -258,7 +258,7 @@ fun MyComposable() {
 
 ---
 
-<img src="slides/images/slottable1.png" width=1000 />
+<img src="slides/images/slottable.gif" width=500 />
 
 ---
 
