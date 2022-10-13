@@ -258,7 +258,7 @@ fun MyComposable() {
 
 ---
 
-<img src="slides/images/slottable.gif" width=500 />
+<img src="slides/images/slottable1.gif" width=500 />
 
 ---
 
