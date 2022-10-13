@@ -266,7 +266,7 @@ fun MyComposable() {
 
 ---
 
-#### The **Slot Table**
+#### **Slot Table**
 
 * get, move, insert, delete 👉 **constant time**
 
@@ -276,7 +276,7 @@ fun MyComposable() {
 
 ---
 
-#### **Slot Table** with code
+#### **Slot Table with code**
 
 Compiler translates this
 
