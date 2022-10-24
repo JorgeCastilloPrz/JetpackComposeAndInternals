@@ -125,7 +125,7 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
-**(Infix) recomposition**
+#### **(Infix) recomposition**
 
 <img src="slides/images/recomposition.png" width=900 />
 
@@ -135,7 +135,7 @@ fun NamePlate(name: String, $composer: Composer) {
 
 ---
 
-**(Infix) other reasons to re-execute**
+#### **Other reasons to re-execute**
 
 * Always re-execute (idempotence):
   * Composables not returning `Unit` (not skippable)
