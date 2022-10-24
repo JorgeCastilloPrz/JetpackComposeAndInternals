@@ -258,7 +258,9 @@ fun MyComposable() {
 
 ---
 
-<img src="slides/images/slottable1.gif" width=500 />
+<video width="700" controls>
+  <source src="slides/images/slottable.mov" type="video/mp4">
+</video>
 
 ---
 
