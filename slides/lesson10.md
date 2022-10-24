@@ -1,4 +1,4 @@
-## **10. Architecture, accessibility, testing**
+## **10. Architecture, accessibility, testing.**
 
 ---
 

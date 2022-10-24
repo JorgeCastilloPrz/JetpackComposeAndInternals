@@ -1,4 +1,4 @@
-## **4. Compose from the runtime**
+## **4. Runtime.**
 
 ---
 
@@ -202,16 +202,13 @@ interface Applier<N> {
 
 #### **`UiApplier (LayoutNode)`**
 
-* Builds up UI tree bottom-up
 * Inserts, removes, moves `LayoutNode`s
 
 ```kotlin
 internal class UiApplier(root: LayoutNode) : AbstractApplier<LayoutNode>(root) {
 
   override fun insertTopDown(index: Int, instance: LayoutNode) {
-    // Ignored. Insert is performed in [insertBottomUp]
-    // to build the tree bottom-up to avoid duplicate
-    // notification when the child nodes enter the tree.
+    // Ignored. Insert is performed in [insertBottomUp].
   }
 
   override fun insertBottomUp(index: Int, instance: LayoutNode) {
@@ -226,10 +223,6 @@ internal class UiApplier(root: LayoutNode) : AbstractApplier<LayoutNode>(root) {
     current.move(from, to, count)
   }
 
-  override fun onClear() {
-    root.removeAll()
-  }
-
   // ...
 }
 ```
@@ -238,7 +231,6 @@ internal class UiApplier(root: LayoutNode) : AbstractApplier<LayoutNode>(root) {
 
 #### **`VectorApplier (VNode)`**
 
-* Builds up UI tree top-down (no reason)
 * Inserts, removes, moves `VNode`s
 
 ```kotlin
@@ -255,15 +247,9 @@ class VectorApplier(root: VNode) : AbstractApplier<VNode>(root) {
         current.asGroup().remove(index, count)
     }
 
-    override fun onClear() {
-        root.asGroup().let { it.remove(0, it.numChildren) }
-    }
-
     override fun move(from: Int, to: Int, count: Int) {
         current.asGroup().move(from, to, count)
     }
-
-    // ...
 }
 ```
 

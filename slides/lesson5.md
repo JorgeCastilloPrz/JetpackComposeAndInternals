@@ -1,4 +1,4 @@
-## **5. Theming** 🎨
+## **5. Theming.** 🎨
 
 ---
 
@@ -648,7 +648,7 @@ data class CustomElevation(
 
 #### **Fully custom design systems** ✨
 
-* 2nd, create the `CompositionLocal` to provide them down the tree
+* 2nd, create the `CompositionLocal`s
 
 ```kotlin
 val LocalCustomColors = staticCompositionLocalOf {
@@ -676,7 +676,7 @@ val LocalCustomElevation = staticCompositionLocalOf {
 
 #### **Fully custom design systems** ✨
 
-* 3rd, wrap the content with `CompositionLocalProvider`
+* 3rd, wrap with `CompositionLocalProvider`
 
 ```kotlin
 @Composable
@@ -690,10 +690,9 @@ fun CustomTheme(..., content: @Composable () -> Unit) {
         body = TextStyle(fontSize = 16.sp),
         title = TextStyle(fontSize = 32.sp)
     )
-    val customElevation = CustomElevation(
-        default = 4.dp,
-        pressed = 8.dp
-    )
+    val customElevation =
+      CustomElevation(default = 4.dp, pressed = 8.dp)
+
     CompositionLocalProvider(
         LocalCustomColors provides customColors,
         LocalCustomTypography provides customTypography,

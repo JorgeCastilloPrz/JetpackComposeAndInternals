@@ -1,5 +1,5 @@
 <!-- .slide: data-scene="Slides" -->
-## **2. Advanced UI**
+## **2. UI.**
 
 ---
 

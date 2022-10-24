@@ -1,5 +1,5 @@
 <!-- .slide: data-scene="Slides" -->
-## **3. Composition**
+## **3. Composition.**
 
 ---
 

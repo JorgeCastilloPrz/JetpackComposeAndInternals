@@ -1,4 +1,4 @@
-## **1. Essentials**
+## **1. Essentials.**
 
 ---
 
@@ -248,7 +248,7 @@ fun MyComposable() {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### The **Slot Table**
+#### **Slot Table**
 
 * In-memory structure
 * Stores **the data of the Composition**

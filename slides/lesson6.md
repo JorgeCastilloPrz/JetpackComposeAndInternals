@@ -1,4 +1,4 @@
-## **6. Snapshot State**
+## **6. Snapshot State.**
 
 ---
 
@@ -97,7 +97,7 @@ setValue("New name")
 
 ---
 
-<img src="slides/images/speakerpanel.png" width="400">
+<img src="slides/images/speakerpanel.png" width="300">
 
 ```kotlin
 @Composable

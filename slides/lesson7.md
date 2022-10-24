@@ -1,4 +1,4 @@
-## **7. State within an architecture**
+## **7. State and architecture.**
 
 ---
 

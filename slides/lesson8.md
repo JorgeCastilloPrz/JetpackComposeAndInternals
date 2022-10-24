@@ -1,4 +1,4 @@
-## **8. Composable lifecycle and side effects**
+## **8. Lifecycle and effects.**
 
 ---
 
