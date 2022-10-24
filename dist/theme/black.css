@@ -79,11 +79,10 @@ section.has-light-background, section.has-light-background h1, section.has-light
 .reveal h6 {
   margin: var(--r-heading-margin);
   color: var(--r-heading-color);
-  font-family: var(--r-heading-font);
+  font-family: 'Roboto Serif', serif;
   font-weight: var(--r-heading-font-weight);
   line-height: var(--r-heading-line-height);
   letter-spacing: var(--r-heading-letter-spacing);
-  text-transform: var(--r-heading-text-transform);
   text-shadow: var(--r-heading-text-shadow);
   word-wrap: break-word;
 }
