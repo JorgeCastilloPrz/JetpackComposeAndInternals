@@ -10,3 +10,7 @@
 
 * Golden screenshots are already taken and in this repo
 * Run `./gradlew screenshottests:verifyPaparazziDebug` to verify against the golden screenshots.
+
+## Slides
+
+Slides are automatically deployed to [this url](https://jorgecastillo.dev/JetpackComposeAndInternals/) using GitHub pages via a GitHub action. 
