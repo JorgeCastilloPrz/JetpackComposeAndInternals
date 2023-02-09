@@ -1,4 +1,4 @@
-package dev.jorgecastillo.compose.app.ui.composables
+package dev.jorgecastillo.screenshottests.theme
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

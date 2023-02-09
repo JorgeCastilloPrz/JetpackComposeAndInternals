@@ -2,6 +2,7 @@
 
 package dev.jorgecastillo.screenshottests
 
+import androidx.compose.foundation.layout.Box
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
 import app.cash.paparazzi.androidHome
@@ -9,12 +10,13 @@ import app.cash.paparazzi.detectEnvironment
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import dev.jorgecastillo.screenshottests.theme.FakeSpeakerRepository
 import dev.jorgecastillo.screenshottests.theme.LazySpeakersScreen
+import dev.jorgecastillo.screenshottests.theme.NamePlate
 import dev.jorgecastillo.screenshottests.theme.SpeakerCard
 import org.junit.Rule
 import org.junit.Test
 
 /**
- * ### Exercise 8 👩🏾‍💻
+ * ### Exercise 1 👩🏾‍💻
  *
  * This exercise is validated via screenshot tests using Paparazzi to render our app without a
  * physical device or emulator. That will let us pick a fixed device configuration so tests work the
@@ -22,37 +24,20 @@ import org.junit.Test
  *
  * Paparazzi does not support app modules yet, that is why this test is on a library module.
  *
- * Use the screenshot named exercise8.png in the screenshots directory from the project root as a
- * reference.
+ * This UI test runs the [NamePlate] Composable within an empty Activity and asserts over the value of
+ * the displayed name, and its alignment within the parent.
  *
- * 1. Add the following color definitions to the app:
- *    val Pink200 = Color(0xFFF48FB1)
- *    val Pink500 = Color(0xFFE91E63)
- *    val Pink700 = Color(0xFFC2185B)
+ * To complete this exercise:
  *
- * 2. Create a PinkTheme along with the [ComposeAndInternalsTheme] that uses the following color
- *    palettes but the same typography and shapes than the former:
- *
- *    private val DarkPinkColorPalette = darkColors(
- *      primary = Pink200,
- *      primaryVariant = Pink700,
- *      secondary = Teal200,
- *      surface = Pink200
- *    )
- *
- *    private val LightPinkColorPalette = lightColors(
- *      primary = Pink500,
- *      primaryVariant = Pink700,
- *      secondary = Teal200,
- *      surface = Pink700
- *    )
- *
- * 3. Before displaying a [SpeakerCard] for the [LazySpeakersScreen], check the speaker company. If
- *    it is a Lyft worker, use the PinkTheme. Otherwise keep the default theme.
- *
- * 4. Run the test.
+ * 1. Use a [Box] that fills the complete screen (width and height). To achieve that you can pass a
+ *    modifier = Modifier.fillMaxSize() to it. We will learn modifiers later in this course, but for
+ *    now we can think of them as the View attributes we are familiar with. They allow to tweak how
+ *    Composables look and behave.
+ * 2. Fit a Text inside with the provided text. Center it within the Box using the Box configuration
+ *    options.
+ * 3. Run the test.
  */
-class Exercise8Test {
+class Exercise1Test {
 
     @get:Rule
     val paparazzi = Paparazzi(
@@ -66,10 +51,10 @@ class Exercise8Test {
     )
 
     @Test
-    fun pink_theme_applied_as_expected() {
+    fun text_displayed_and_centered_within_the_box() {
         paparazzi.snapshot {
             ComposeAndInternalsTheme {
-                LazySpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(4))
+                NamePlate("John Doe")
             }
         }
     }

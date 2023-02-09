@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
-import dev.jorgecastillo.compose.app.ui.composables.NamePlate
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
+import dev.jorgecastillo.screenshottests.theme.NamePlate
 import kotlin.time.ExperimentalTime
 
 class MainActivity : ComponentActivity() {
