@@ -308,9 +308,6 @@ Box(
 
 #### **`MeasurePolicy`**
 
-* `LayoutNodeWrapper` relies on the provided `MeasurePolicy` to measure a node
-* How to measure and place the node 📐 📌
-
 ```kotlin
 Modifier.layout { measurable, constraints ->
   // measure and place the modified node
@@ -324,7 +321,9 @@ Layout(
 }
 ```
 
-Must return a **`MeasureResult`**
+* `LayoutNodeWrapper` relies on the provided `MeasurePolicy` to measure a node
+* How to measure and place the node 📐 📌
+* Returns a **`MeasureResult`**
 
 ---
 
