@@ -173,9 +173,9 @@ Box(Modifier.fillMaxWidth().background(Color.Yellow)) {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### **Custom layouts**
+#### **The `Layout` composable**
 
-* Use `Layout` Composable to measure and layout **multiple Composables**
+* Measure + layout **multiple elements (children)**
 * All UI Composables are layouts
 
 ```kotlin
