@@ -415,11 +415,7 @@ fun Spacer(modifier: Modifier) {
 * `Spacer` always needs constraints imposed, **via parent or layout modifier**
 
 ---
-<!-- .slide: data-scene="Coding" -->
 
-📝 Exercise 6: Go over `Box` measure policy together
-
----
 <!-- .slide: data-scene="Slides" -->
 
 #### **Intrinsics**
