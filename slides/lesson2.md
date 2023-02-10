@@ -338,7 +338,7 @@ interface MeasureResult {
 }
 ```
 
-* Created via **`layout()`** call
+Created via **`layout()`** call
 
 ```kotlin
 fun Modifier.customLayoutModifier(...) =
@@ -350,9 +350,6 @@ fun Modifier.customLayoutModifier(...) =
     }
   })
 ```
-
-* Same for `Layout` Composable
-
 
 ---
 
