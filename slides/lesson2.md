@@ -357,7 +357,6 @@ fun Modifier.customLayoutModifier(...) =
 
 * Measuring goes **from top to bottom** ⏬
 * Parent imposes constraints to children
-* **Also `Modifier.layout`**
 
 ```kotlin
 Layout(
@@ -369,6 +368,8 @@ Layout(
     // 3. place children
 }
 ```
+
+* Same for Modifier.layout
 
 ---
 
@@ -387,25 +388,21 @@ value class Constraints(val value: Long) {
     val hasBoundedHeight: Boolean // if maxHeight != Infinity
     val hasFixedWidth: Boolean // maxWidth == minWidth
     val hasFixedHeight: Boolean // maxHeight == minHeight
-
-    fun fixed(width: Int, height: Int): Constraints
-    fun fixedWidth(width: Int): Constraints
-    fun fixedHeight(height: Int): Constraints
+    // ...
 }
 ```
 
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### **Constraints**
-
-* Example: `Spacer`
+#### **Example 👀 - `Spacer`**
 
 ```kotlin
 fun Spacer(modifier: Modifier) {
   // No measurables since Spacer has no children
   Layout({}, modifier) { _, constraints ->
     with(constraints) {
+      // If no fixed dimensions, it takes no space (0)
       val width = if (hasFixedWidth) maxWidth else 0
       val height = if (hasFixedHeight) maxHeight else 0
 
@@ -415,7 +412,6 @@ fun Spacer(modifier: Modifier) {
 }
 ```
 
-* If no fixed dimensions, it takes no space (0)
 * `Spacer` always needs constraints imposed, **via parent or layout modifier**
 
 ---
