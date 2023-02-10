@@ -55,10 +55,9 @@ modifier = Modifier
 * draw (alpha, bg, clip, canvas, indication, shadows)
 * focus
 * graphics layer (efficient / granular redraw)
-* border
 * animations
 * semantics (test / tooling / accessibility)
-* interactions (click, scroll, drag, zoom, select, swipe)
+* interactions (click, scroll, drag, zoom, swipe)
 * padding
 * **...**
 
@@ -68,14 +67,14 @@ modifier = Modifier
 
 ```kotlin
 interface Modifier {
-  fun <R> foldIn(initial: R, operation: (R, Element) -> R): R
-  fun <R> foldOut(initial: R, operation: (Element, R) -> R): R
+  fun <R> foldIn(initial: R, op: (R, Element) -> R): R
+  fun <R> foldOut(initial: R, op: (Element, R) -> R): R
 
   fun any(predicate: (Element) -> Boolean): Boolean
   fun all(predicate: (Element) -> Boolean): Boolean
 
   infix fun then(other: Modifier): Modifier =
-    CombinedModifier(this, other) // chaining
+    CombinedModifier(this, other) // chaining (linked list)
 }
 ```
 
@@ -83,34 +82,9 @@ interface Modifier {
 
 ---
 
-#### **`CombinedModifier`**
+#### **`CombinedModifier(this, other)`**
 
-* Linked list
-* `outer` (head / current)
-* `inner` (`CombinedModifier`)
-
-```kotlin
-class CombinedModifier(
-  val outer: Modifier,
-  val inner: Modifier
-) : Modifier {
-  override fun <R> foldIn(initial: R, operation: (R, Modifier.Element) -> R): R =
-    inner.foldIn(outer.foldIn(initial, operation), operation)
-
-  override fun <R> foldOut(initial: R, operation: (Modifier.Element, R) -> R): R =
-    outer.foldOut(inner.foldOut(initial, operation), operation)
-
-  override fun any(predicate: (Modifier.Element) -> Boolean): Boolean =
-    outer.any(predicate) || inner.any(predicate)
-
-  override fun all(predicate: (Modifier.Element) -> Boolean): Boolean =
-    outer.all(predicate) && inner.all(predicate)
-}
-```
-
----
-
-#### **Modifier chain**
+🔗 `other` can also be a `CombinedModifier`
 
 <img src="slides/images/modifiers3.png" width=1000 />
 
@@ -140,9 +114,10 @@ class CombinedModifier(
 
 ---
 
-#### **custom modifiers**
+#### **`Modifier.layout`**
 
-* Use `layout` modifier to modify how **a single element** is measured and laid out (placed)
+* Measure and layout (place) **a single element**
+
 * Let's create a custom `layout` modifier
 
 ```kotlin
