@@ -170,8 +170,6 @@ internal class UiApplier(root: LayoutNode) : AbstractApplier<LayoutNode>(root) {
   override fun move(from: Int, to: Int, count: Int) {
     current.move(from, to, count)
   }
-
-  // ...
 }
 ```
 
@@ -205,7 +203,7 @@ class VectorApplier(root: VNode) : AbstractApplier<VNode>(root) {
 
 #### **Creating the `Applier`**
 
-* Appliers are created when creating the Composition
+* Done when creating the Composition
 
 ```kotlin
 // Integration point with the platform
