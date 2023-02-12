@@ -470,7 +470,7 @@ fun DropdownMenuContent(...) {
 
 #### **Drawing** 👩‍🎨
 
-* Each node:
+* Each delegate:
 
   1. Offsets drawing to match layout definition
 
@@ -478,7 +478,7 @@ fun DropdownMenuContent(...) {
 
   3. Draws **`DrawModifiers`** in order (if available)
 
-  4. Calls `draw()` on next wrapper
+  4. Calls `draw()` on next delegate
 
 ---
 
