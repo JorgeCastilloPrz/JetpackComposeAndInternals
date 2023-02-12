@@ -21,18 +21,13 @@
 
 ```kotlin
 fun Layout(modif: Modifier = Modifier, mp: MeasurePolicy) {
-  val density = LocalDensity.current
-  val layoutDirection = LocalLayoutDirection.current
-  val viewConfiguration = LocalViewConfiguration.current
-
-  ReusableComposeNode<LayoutNode, ...>(
+  // ...
+  ReusableComposeNode<LayoutNode, /*...*/>(
     factory = { LayoutNode() },
     update = {
       set(mp, { this.measurePolicy = it })
-      set(density, { this.density = it })
-      set(layoutDirection, { this.layoutDirection = it })
-      set(viewConfiguration, { this.viewConfiguration = it })
-      set(modif, { this.modifier = it })
+      set(modif, { this.modifier = it }) 
+      // ...
     },
   )
 }
