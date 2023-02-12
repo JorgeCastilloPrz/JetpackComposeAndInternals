@@ -116,7 +116,6 @@ fun BoxWithConstraints(...) {
 
 * Make **implicit** params available to a subtree
 * Avoids flooding function params transitively
-* Implicit DI scoped to a subtree
 * Some of them built-in in Compose UI
 
 ```kotlin
