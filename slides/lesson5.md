@@ -775,7 +775,7 @@ fun CustomButton(/*...*/) {
 ```
 
 ```kotlin
-// Colors, typography, and shapes read from the Context theme
+// Colors, typography, shapes read from Context theme
 
 MdcTheme {
   // For Theme.MaterialComponents.* XML themes
@@ -802,19 +802,18 @@ implementation "androidx.compose.material3:material3:$version"
 ```kotlin
 MaterialTheme(
     colorScheme = …,
-    typography = …
-    // Updates to shapes coming soon
+    typography = …,
+    shapes = …
 ) {
-    // M3 app content (and M3 components)
+    // M3 app content
 }
 ```
 
 ---
 
-**Material Design 3 and Material You**
+**Dynamic color (Android 12+)**
 
 ```kotlin
-// Dynamic color available on Android 12+
 val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 val colorScheme = when {
     dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
@@ -824,4 +823,4 @@ val colorScheme = when {
 }
 ```
 
-<img src="slides/images/material_you.png" width=600 />
+<img src="slides/images/material_you.png" width=350 />
