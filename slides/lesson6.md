@@ -51,7 +51,7 @@ The **source of truth** of our Composables
 
 #### **Triggering recomposition**
 
-* Just write to the state 🤷‍♂️
+Just write to the state ✍️
 
 ```kotlin
 @Composable fun ProfileScreen() {
@@ -92,12 +92,15 @@ setValue("New name")
 
 #### **State hoisting**
 
-* ⏬ **State passed down** (function args)
-* ⏫ **Events propagated up** (callbacks)
+* ⏬ **Pass state down** (function args)
+
+* ⏫ **Notify events up** (callbacks)
 
 ---
 
-<img src="slides/images/speakerpanel.png" width="300">
+<img src="slides/images/speakerpanel.png" width="500">
+
+---
 
 ```kotlin
 @Composable
