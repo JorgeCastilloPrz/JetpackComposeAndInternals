@@ -20,7 +20,7 @@ dependencies {
 
 #### **Using material**
 
-* Applying material to a subtree 🌲
+Applying material to a subtree 🌲
 
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -725,7 +725,7 @@ object CustomTheme {
 
 ---
 
-#### **And for material components?** 🤔
+#### **Read from material components?** 🤔
 
 * Read from your `CustomTheme` where possible
 * Set values for missing systems manually
@@ -764,41 +764,27 @@ fun CustomButton(/*...*/) {
 
 #### **Bridging XML themes** 🌉
 
-* Make `MaterialTheme` inherit values from MaterialComponents XML theme
+* Inherit values from MaterialComponents XML theme - ♬ **Accompanist** ♬
 
 ```xml
 <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
   <item name="colorPrimary">@color/purple_500</item>
-  <item name="colorSecondary">@color/green_200</item>
-
   <item name="textAppearanceBody1">@style/TextAppearance.MyApp.Body1</item>
-  <item name="textAppearanceBody2">@style/TextAppearance.MyApp.Body2</item>
-
   <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent</item>
 </style>
 ```
 
 ```kotlin
+// Colors, typography, and shapes read from the Context theme
+
 MdcTheme {
-  // MaterialTheme Colors, Typography and Shapes will now
-  // contain copies of the Context's theme
+  // For Theme.MaterialComponents.* XML themes
 }
-```
-
----
-
-#### **Bridging XML themes** 🌉
-
-* For `AppCompat`, use **Accompanist** AppCompat Theme Adapter instead
-
-```gradle
-implementation "com.google.accompanist:accompanist-appcompat-theme:<version>"
-```
-
-```kotlin
+Mdc3Theme {
+  // For Theme.Material3.* XML themes
+}
 AppCompatTheme {
-  // MaterialTheme Colors, Typography and Shapes will now
-  // contain copies of the Context's theme
+  // For AppCompat XML themes
 }
 ```
 
