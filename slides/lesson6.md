@@ -336,7 +336,7 @@ fun Counter() {
 
 #### **Recomposition scopes**
 
-* Recompose the smallest possible scope
+Recompose the smallest possible scope
 
 <img src="slides/images/recomposition_scopes.png" width="1000">
 
@@ -469,7 +469,7 @@ fun Conference(talks: List<Talk>) {
 
 * **`a.equals(b)`** always returns the same value for the same instances
 * Changes to public props are notified to Compose
-* All public properties are also stable
+* All public properties are stable
 
 ```kotlin
 // a.equals(b) doesn't vary even if the states are mutated.
@@ -492,7 +492,8 @@ This test passes ✅
 fun `mutation does not affect equals comparison`() {
     val state1 = MyScreenState("Screen 1")
     val state2 = MyScreenState("Screen 1")
-    state2.isLoading = true // defaults to false
+    state1.isLoading = false
+    state2.isLoading = true
 
     assertThat(state1, `is`(state2))
 }
@@ -509,7 +510,7 @@ fun `mutation does not affect equals comparison`() {
 * All public props will not change after construction
 * Compose can detect changes easily
 * **`@Immutable` implies `@Stable`**
-* **`@Stable` does not imply `@Immutable`** 👉 stable class can hold mutable data but still notify changes
+* **`@Stable` does not imply `@Immutable`** 👉 stable class can be mutable but still notify changes
 
 ```kotlin
 @Immutable
