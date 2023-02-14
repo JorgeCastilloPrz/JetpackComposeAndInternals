@@ -541,7 +541,7 @@ data class MyScreenState(val screenName: String) {
 ---
 <!-- .slide: data-scene="Slides" -->
 
-#### **Snapshots** 📸
+### **Snapshots** 📸
 
 ---
 
@@ -718,7 +718,7 @@ println(name) // Cassandra Higgins
 
 #### **Snapshots in Compose**
 
-* For initial composition & every recomposition
+For initial composition & every recomposition
 
 <img src="slides/images/snapshot_state2.png" width=600 />
 
