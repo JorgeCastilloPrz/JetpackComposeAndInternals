@@ -63,14 +63,9 @@ BoxWithConstraints { // gives access to constraints
 fun BoxWithConstraints(...) {
   val measurePolicy = rememberBoxMeasurePolicy(...)
 
-  // Delays subcomposition until layout phase
   SubcomposeLayout(modifier) { constraints ->
-    val scope = BoxWithConstraintsScopeImpl(
-      this,
-      constraints
-    )
-    val measurables = subcompose(Unit) { scope.content() }
-    with(measurePolicy) { measure(measurables, constraints) }
+    val measurables = subcompose(Unit) { content() }
+    measurePolicy.measure(measurables, constraints)
   }
 }
 ```
@@ -110,8 +105,7 @@ fun BoxWithConstraints(...) {
 ```kotlin
 @Composable
 fun FruitText(fruitSize: Int) {
-  // Access host context via LocalContext CompositionLocal
-  // Use `current` to access its current value
+  // LocalContext is a CompositionLocal
   val resources = LocalContext.current.resources
 
   val fruitText = resources
@@ -129,7 +123,7 @@ fun FruitText(fruitSize: Int) {
 
 #### **Themes are `CompositionLocal`s** 😲
 
-* `MaterialTheme` provides `LocalColors`, `LocalShapes`, `LocalTypography`
+`MaterialTheme` 👉 `LocalColors`, `LocalShapes`, `LocalTypography`
 
 ```kotlin
 @Composable
@@ -185,7 +179,7 @@ fun DescendantExample() {
 
 #### **Custom `CompositionLocal`?**
 
-* Not recommended 🙅🏼
+* Careful ⚠️
 * Composables harder to reason about
 * Callers need to ensure values are provided
 * Harder debugging 👉 (not a single source of truth)

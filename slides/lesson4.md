@@ -8,9 +8,7 @@
 
 * Supports any node type
 
-* Node type picked by clients (e.g: Compose UI)
-
-* Clients can feed multiple types (e.g: `LayoutNode`, `VNode`)
+* Node type picked by clients (e.g: Compose UI - `LayoutNode`, `VNode`)
 
 ---
 
@@ -85,9 +83,9 @@ sealed class VNode {
 
 #### **List of changes**
 
-* Nodes are not really inserted right away
-* Emitting a node 👉 **records an operation to add it**
-* The composition process creates a list of changes yet to be applied
+* Nodes are not inserted right away
+* Executing a composable 👇
+* Produces a list of changes (lambdas)
 
 <img src="slides/images/closing_the_circle_1.png" width=1000 />
 
@@ -106,12 +104,12 @@ sealed class VNode {
 
 #### **Applying the changes**
 
-* Once composition is done (or recomposition), the list of changes is fed to the `Applier`.
-* The **`Applier`** applies the changes 👉 materializes them
+* Once composition is done (or recomposition), the list of changes is sent to the `Applier`.
+* The **`Applier`** applies (materializes) them.
 
 ---
 
-<img src="slides/images/closing_the_circle_2.png" width=1000 />
+<img src="slides/images/closing_the_circle_2.png" width=700 />
 
 ---
 
