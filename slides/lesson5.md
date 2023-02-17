@@ -102,18 +102,14 @@ fun MaterialTheme(/*colors, typography, shapes*/) {
 
   CompositionLocalProvider(
       LocalColors provides colors,
-      LocalTypography provides typography,
-      LocalShapes provides shapes,
       LocalContentAlpha provides ContentAlpha.high,
       LocalIndication provides rippleIndication,
       LocalRippleTheme provides MaterialRippleTheme,
-      LocalTextSelectionColors provides selectionColors
+      LocalShapes provides shapes,
+      LocalTextSelectionColors provides selectionColors,
+      LocalTypography provides typography
   ) {
-      // Overrides LocalTextStyle to merge text style
-      // with current one (might be nested theme)
-      ProvideTextStyle(value = typography.body1) {
-          content()
-      }
+      content()
   }
 }
 ```
@@ -151,22 +147,15 @@ object MaterialTheme {
 @Composable
 fun buttonColors(
     bgColor: Color = MaterialTheme.colors.primary,
-    contentColor: Color = contentColorFor(bgColor),
-    disabledBgColor: Color = MaterialTheme.colors
-        .onSurface.copy(alpha = 0.12f)
-        .compositeOver(MaterialTheme.colors.surface),
-    disabledContentColor: Color = MaterialTheme.colors
-        .onSurface.copy(alpha = ContentAlpha.disabled)
-): ButtonColors = ...
-```
 
-```kotlin
-// primary -> onPrimary, secondary -> onSecondary...
-// Public, you can also use it
-@Composable
-fun contentColorFor(backgroundColor: Color) =
-    MaterialTheme.colors.contentColorFor(backgroundColor)
-      .takeOrElse { LocalContentColor.current }
+    disabledBgColor: Color = MaterialTheme.colors.onSurface
+        .copy(alpha = 0.12f)
+        .compositeOver(MaterialTheme.colors.surface),
+
+    disabledContentColor: Color = MaterialTheme.colors
+        .onSurface.copy(alpha = ContentAlpha.disabled),
+    // ...
+): ButtonColors = ...
 ```
 
 <img src="slides/images/button.png" width=350 />
@@ -242,6 +231,12 @@ val fromLongBlue = Color(0xFF0000FF)
 // from SRGB integer component values. Alpha is optional
 val rgbaWhiteInt = Color(
       red = 0xFF, green = 0xFF, blue = 0xFF, alpha = 0xFF)
+
+// Or load from resources
+Text(
+    text = "Ohi 🙋‍♂️",
+    color = colorResource(R.color.purple_200)
+)
 ```
 
 ---
@@ -271,8 +266,6 @@ MaterialTheme { // provides ContentAlpha.high
   }
 }
 ```
-
-De-emphasize content via content alpha
 
 ---
 
