@@ -25,23 +25,12 @@ if (maxWidth < 560.dp) {
 * **`BoxWithConstraints`** 👇
 
 ```kotlin
-BoxWithConstraints { // BoxWithConstraintsScope
+BoxWithConstraints { // gives access to constraints
     if (maxWidth < 560.dp) {
         MyPhoneUi()
     } else {
         MyTabletUi()
     }
-}
-```
-
-```kotlin
-interface BoxWithConstraintsScope : BoxScope {
-    val constraints: Constraints
-    // Direct access in Dp
-    val minWidth: Dp
-    val maxWidth: Dp
-    val minHeight: Dp
-    val maxHeight: Dp
 }
 ```
 
