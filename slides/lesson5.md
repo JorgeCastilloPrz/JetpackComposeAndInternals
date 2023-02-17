@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 ```kotlin
 // MainActivity.kt
 setContent {
-    MyAppTheme { // Our app MaterialTheme
+    MaterialTheme {
         SpeakersScreen(someSpeakers())
     }
 }
