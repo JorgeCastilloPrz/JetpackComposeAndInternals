@@ -515,7 +515,7 @@ Our own design systems like `material`
 ```kotlin
 // Use with MaterialTheme.colors.snackbarAction
 val Colors.snackbarAction: Color
-    get() = if (isLight) Red300 else Red700
+    get() = Red700
 
 // Use with MaterialTheme.typography.textFieldInput
 val Typography.textFieldInput: TextStyle
@@ -536,7 +536,6 @@ val Shapes.card: Shape
 
 ```kotlin
 // 1. Create a class to wrap the new colors
-@Immutable
 data class ExtendedColors(
   val tertiary: Color,
   val onTertiary: Color
@@ -561,6 +560,7 @@ fun ExtendedTheme(..., content: @Composable () -> Unit) {
     tertiary = Color(0xFFA8EFF0),
     onTertiary = Color(0xFF002021)
   )
+
   CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
     MaterialTheme(content = content)
   }
@@ -730,25 +730,15 @@ fun CustomButton(/*...*/) {
     colors = ButtonDefaults.buttonColors(
       backgroundColor = CustomTheme.colors.component,
       contentColor = CustomTheme.colors.content,
-      disabledBackgroundColor = CustomTheme.colors.content
-        .copy(alpha = 0.12f)
-        .compositeOver(CustomTheme.colors.component),
-      disabledContentColor = CustomTheme.colors.content
-        .copy(alpha = ContentAlpha.disabled)
     ),
     shape = ButtonShape,
     elevation = ButtonDefaults.elevation(
       defaultElevation = CustomTheme.elevation.default,
       pressedElevation = CustomTheme.elevation.pressed
-      /* disabledElevation = 0.dp */
     ),
     onClick = onClick,
     modifier = modifier,
-    content = {
-      ProvideTextStyle(value = CustomTheme.typography.body) {
-        content()
-      }
-    }
+    content = content
   )
 }
 ```
@@ -757,7 +747,7 @@ fun CustomButton(/*...*/) {
 
 #### **Bridging XML themes** 🌉
 
-* Inherit values from MaterialComponents XML theme - ♬ **Accompanist** ♬
+* Inherit values from MaterialComponents XML theme - ♬ <a href="https://google.github.io/accompanist/">Accompanist</a> ♬
 
 ```xml
 <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
