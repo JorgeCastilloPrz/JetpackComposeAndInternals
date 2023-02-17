@@ -43,9 +43,7 @@ The **source of truth** of our Composables
 ```
 
 * Cache state **across recompositions**
-* Calculated on 1st execution (composition)
-* Reused cached value after recomposition/s
-* Forgotten if Composable removed/replaced, or host `ComposeView` detached
+* Forgotten if Composable removed/replaced, or Composition is disposed
 
 ---
 
