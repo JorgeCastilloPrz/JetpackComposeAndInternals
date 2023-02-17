@@ -704,23 +704,30 @@ Box(
 
 ---
 
-#### **DrawScope**
+#### **`Modifier.drawWithContent`**
 
-* `Modifier.drawWithContent` to draw **behind or over content** 👇
+Draw **behind or over content**
 
 ```kotlin
-internal fun Modifier.drawIndicatorLine(...): Modifier {
-    // ...
-    return drawWithContent {
-        drawContent()
-        val strokeWidth = strokeWidthDp.value * density
-        val y = size.height - strokeWidth / 2
-        drawLine(
-            indicatorBorder.brush,
-            Offset(0f, y), // start
-            Offset(size.width, y), // end
-            strokeWidth
+fun Modifier.rainbowBorder(strokeWidth: Float): Modifier =
+    drawWithContent {
+        drawRect(color = Color.White, size = size)
+        drawContent() // Text("Hey")
+        drawRect(
+            brush = Brush.linearGradient(
+                listOf(Color.Magenta, Color.Cyan)),
+            size = size,
+            style = Stroke(width = strokeWidth)
         )
     }
-}
 ```
+
+<img src="slides/images/drawWithContent.png" width=160 />
+
+---
+
+<a href="https://developer.android.com/jetpack/compose/graphics/draw/modifiers">🤓 Graphics Modifiers docs</a>
+
+<video width="250" controls>
+  <source src="slides/images/flashlight.mp4" type="video/mp4">
+</video>
