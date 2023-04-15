@@ -1,7 +1,9 @@
-package dev.jorgecastillo.screenshottests.theme
+package dev.jorgecastillo.compose.app.ui.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,15 +12,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
-fun NamePlate(name: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(name)
+fun NamePlateWithThemeSupport(name: String) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.surface),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(name, color = MaterialTheme.colors.onSurface)
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun NamePlatePreview() {
+fun NamePlateWithThemeSupportPreview() {
     ComposeAndInternalsTheme {
         NamePlate(name = "Test name")
     }
