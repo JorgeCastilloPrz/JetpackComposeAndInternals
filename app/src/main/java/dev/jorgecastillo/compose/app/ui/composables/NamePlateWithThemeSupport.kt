@@ -27,6 +27,6 @@ fun NamePlateWithThemeSupport(name: String) {
 @Preview(showBackground = true)
 fun NamePlateWithThemeSupportPreview() {
     ComposeAndInternalsTheme {
-        NamePlate(name = "Test name")
+        NamePlateWithThemeSupport(name = "Test name")
     }
 }
