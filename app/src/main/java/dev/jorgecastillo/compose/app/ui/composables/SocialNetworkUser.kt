@@ -27,7 +27,7 @@ fun SocialNetworkUser(name: String, location: String, onFollow: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun UserCardPreview() {
+fun SocialNetworkUserPreview() {
     SocialNetworkUser(name = "John Doe", location = "New York City") {
         Log.d("Test", "Clicked!")
     }
