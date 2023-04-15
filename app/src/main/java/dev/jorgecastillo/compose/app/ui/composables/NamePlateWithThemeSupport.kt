@@ -24,7 +24,7 @@ fun NamePlateWithThemeSupport(name: String) {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 fun NamePlateWithThemeSupportPreview() {
     ComposeAndInternalsTheme {
         NamePlateWithThemeSupport(name = "Test name")
