@@ -416,6 +416,12 @@ fun Spacer(modifier: Modifier) {
 
 ---
 
+<!-- .slide: data-scene="Coding" -->
+
+📝 Case study - Box MeasurePolicy
+
+---
+
 <!-- .slide: data-scene="Slides" -->
 
 #### **Intrinsics**
