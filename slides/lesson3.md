@@ -175,7 +175,7 @@ fun DescendantExample() {
 <img src="slides/images/composition_locals2.png" width=500 />
 
 ---
-
+<!-- .slide: data-scene="Slides" -->
 #### **Custom `CompositionLocal`?**
 
 * Careful ⚠️
