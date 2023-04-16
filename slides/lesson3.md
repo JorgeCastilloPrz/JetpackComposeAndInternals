@@ -46,11 +46,6 @@ BoxWithConstraints { // gives access to constraints
 * Achieved via **Subcomposition** ✨
 
 ---
-<!-- .slide: data-scene="Coding" -->
-
-📝 Exercise 7: Use BoxWithConstraints to write our Composable
-
----
 <!-- .slide: data-scene="Slides" -->
 
 #### **Subcomposition**
@@ -64,10 +59,14 @@ fun BoxWithConstraints(...) {
   val measurePolicy = rememberBoxMeasurePolicy(...)
 
   SubcomposeLayout(modifier) { constraints ->
-    val measurables = subcompose(Unit) { content() }
-    measurePolicy.measure(measurables, constraints)
+
+    val scope = BoxWithConstraintsScope(this, constraints)
+    val measurables = subcompose(Unit) { scope.content() }
+
+    with(measurePolicy) { measure(measurables, constraints) }
   }
 }
+
 ```
 
 ---
@@ -184,3 +183,8 @@ fun DescendantExample() {
 * Callers need to ensure values are provided
 * Harder debugging 👉 (not a single source of truth)
 * Do only for very good reasons
+
+---
+<!-- .slide: data-scene="Coding" -->
+
+📝 Exercise 7: Use BoxWithConstraints to write our Composable
