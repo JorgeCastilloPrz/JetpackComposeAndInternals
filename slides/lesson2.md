@@ -709,6 +709,7 @@ Box(
 ```
 
 ---
+<!-- .slide: data-scene="Slides" -->
 
 #### **`Modifier.drawWithContent`**
 
@@ -731,9 +732,16 @@ fun Modifier.rainbowBorder(strokeWidth: Float): Modifier =
 <img src="slides/images/drawWithContent.png" width=160 />
 
 ---
+<!-- .slide: data-scene="Coding" -->
+
+📝 Exercise 6: Drawing a circled rainbow border
+
+---
+<!-- .slide: data-scene="Slides" -->
 
 <a href="https://developer.android.com/jetpack/compose/graphics/draw/modifiers">🤓 Graphics Modifiers docs</a>
 
 <video width="250" controls>
   <source src="slides/images/flashlight.mp4" type="video/mp4">
 </video>
+
