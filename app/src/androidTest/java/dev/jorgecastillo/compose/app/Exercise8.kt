@@ -1,5 +1,5 @@
 @file:OptIn(ExperimentalMaterialApi::class)
-@file:Suppress("TestFunctionName", "LocalVariableName")
+@file:Suppress("TestFunctionName", "LocalVariableName", "PrivatePropertyName")
 
 package dev.jorgecastillo.compose.app
 
@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
@@ -95,6 +96,9 @@ class Exercise8 {
 
     data class Elevations(val card: Dp = 0.dp, val default: Dp = 0.dp)
 
+    private lateinit var LocalElevations: ProvidableCompositionLocal<Elevations>
+    private val repo: FakeFollowerRepository = FakeFollowerRepository()
+
     @Test
     fun static_composition_local_does_not_trigger_granular_recomposition() {
         composeTestRule.setContent {
@@ -108,103 +112,77 @@ class Exercise8 {
                 }
 
                 CompositionLocalProvider(LocalElevations provides elevations) {
-                    FollowersTimeline(followers = FakeFollowerRepository().getFollowers())
+                    FollowersTimeline(followers = repo.getFollowers()) { follower ->
+                        FollowerCard(
+                            follower = follower,
+                            elevation = LocalElevations.current.card
+                        )
+                    }
                 }
                 LazySpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(7))
             }
         }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("John Doe"))
+        composeTestRule.onNodeWithTag("FollowersTimeline").performScrollToNode(hasText("John Doe"))
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
         composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 4")
+        composeTestRule.onRoot().printToLog("Exercise 8")
+    }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
-        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
 
-        composeTestRule.onRoot().printToLog("Exercise 4")
+    @Composable
+    private fun FollowersTimeline(
+        followers: List<Follower>,
+        rowCard: @Composable (Follower) -> Unit
+    ) {
+        Scaffold(topBar = {
+            TopAppBar(title = { Text("Speakers") })
+        }, floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = rememberVectorPainter(image = Icons.Default.Add),
+                    contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
+                )
+            }
+        }, content = { contentPadding ->
+            LazyColumn(
+                Modifier
+                    .padding(contentPadding)
+                    .testTag("FollowersTimeline")
+            ) {
+                items(followers) { follower ->
+                    rowCard(follower)
+                }
+            }
+        })
+    }
 
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
-        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
+    @Composable
+    private fun FollowerCard(follower: Follower, elevation: Dp, onClick: (Follower) -> Unit = {}) {
+        Card(
+            elevation = elevation,
+            onClick = { onClick(follower) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.spacing_small))
+        ) {
+            Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
+                Text(text = follower.name, style = MaterialTheme.typography.h6)
+                Text(text = follower.country, style = MaterialTheme.typography.caption)
+            }
+        }
+    }
 
-        composeTestRule.onRoot().printToLog("Exercise 4")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
-        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 4")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
-        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 4")
-
-        composeTestRule.onNodeWithTag("SpeakersList")
-            .performScrollToNode(hasText("Jagoda Viktorija"))
-        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 4")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
-        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 4")
+    @Composable
+    @Preview(showBackground = true)
+    private fun FollowersTimelinePreview() {
+        ComposeAndInternalsTheme {
+            FollowersTimeline(followers = FakeFollowerRepository().getFollowers()) {
+                FollowerCard(follower = it, elevation = 16.dp)
+            }
+        }
     }
 }
 
 data class Follower(val name: String, val country: String)
-
-@Composable
-private fun FollowersTimeline(followers: List<Follower>) {
-    Scaffold(topBar = {
-        TopAppBar(title = { Text("Speakers") })
-    }, floatingActionButton = {
-        FloatingActionButton(onClick = { /*TODO*/ }) {
-            Icon(
-                painter = rememberVectorPainter(image = Icons.Default.Add),
-                contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
-            )
-        }
-    }, content = { contentPadding ->
-        LazyColumn(
-            Modifier
-                .padding(contentPadding)
-                .testTag("FollowersTimeline")
-        ) {
-            items(followers) { follower ->
-                FollowerCard(follower)
-            }
-        }
-    })
-}
-
-@Composable
-private fun FollowerCard(follower: Follower, onClick: (Follower) -> Unit = {}) {
-    Card(
-        elevation = LocalElevations.current.card,
-        onClick = { onClick(follower) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.spacing_small))
-    ) {
-        Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
-            Text(text = follower.name, style = MaterialTheme.typography.h6)
-            Text(text = follower.country, style = MaterialTheme.typography.caption)
-        }
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun FollowersTimelinePreview() {
-    ComposeAndInternalsTheme {
-        FollowersTimeline(followers = FakeFollowerRepository().getFollowers())
-    }
-}
