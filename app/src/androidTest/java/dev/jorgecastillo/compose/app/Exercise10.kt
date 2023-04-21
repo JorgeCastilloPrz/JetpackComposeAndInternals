@@ -1,45 +1,79 @@
+@file:Suppress("TestFunctionName")
+
 package dev.jorgecastillo.compose.app
 
-import dev.jorgecastillo.compose.app.ui.composables.SpeakersRecompositionScreen
-import dev.jorgecastillo.compose.app.viewmodel.SpeakersViewModel
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
+import dev.jorgecastillo.compose.app.data.NameRepository
+import dev.jorgecastillo.compose.app.ui.composables.NameGenerator
+import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
+import org.junit.Rule
+import org.junit.Test
 
 /**
  * ### Exercise 10 👩🏾‍💻
  *
- * Let's improve exercise 3 (SpeakersScreen) in this one. I have created a copy of it in
- * [SpeakersRecompositionScreen]. This copy changes the Scaffold content by a SwipeToRefresh that
- * loads the list of speakers from a ViewModel. The [SpeakersViewModel] is a stub, so every time
- * it loads the list (or refreshes it), it returns the same exact list. The list is displayed using
- * [SpeakersRecompositionScreen], which is just the same content we had before for the screen.
+ * This test runs the [NameGenerator] composable within an empty Activity, and asserts
+ * over the value of the name. The name Composable is referenced using a test tag since Composables
+ * do not support ids (see the [NameGenerator] implementation).
  *
- * The goal of this exercise is to show how returning a List (kotlin stdlib) is considered unstable
- * by the Compose compiler, and it makes the Column and all its items recompose every time, even if
- * it is exactly the same list.
+ * The test asserts over the name text, then clicks the button, asserts again, and so on. Until all
+ * the names have been verified. After each name change, we print the name to log so you can use
+ * logs as a reference to see the name updates.
  *
  * To complete this exercise:
  *
- * 1. Replace the content within the theme in MainActivity by SpeakersRecompositionScreen(), and
- *    run the app. Open the LayoutInspector, and enable recomposition counts (in the eye icon). Do
- *    several pull to refreshes, and you'll see how all the elements within the column recompose
- *    every time.
+ * 1. Create a mutable state to represent the name (String) in `NameGenerator`.
  *
- * 2. Now, go to the [SpeakersViewModel] and you'll find a SpeakersState, which is the class we are
- *    using to represent our UI state. Every time the ViewModel emits, it emits an instance of this
- *    class. Create a new class to wrap the List<Speaker> we have in the [SpeakersState], and
- *    annotate it with @Immutable (Compose). Use this new class in the [SpeakersState], instead of
- *    the raw List<Speaker>. With this, we are aiding the Compiler and letting it know that the
- *    List we are using is truly immutable.
+ * 2. Default the state value to the first generated name (`repo.next()` to generate a name).
  *
- * 3. Go back to [SpeakersRecompositionScreen] and update the SpeakersRecompositionScreen(speakers: List<Speaker>) call
- *    to support the new Immutable wrapper class instead of the raw List<Speaker>. I.e:
+ * 3. Make the name text Composable read from the state just created.
  *
- *    SpeakersRecompositionScreen(speakers: ImmutableList<Speaker>) (or whatever you have called the wrapper)
- *
- * 4. Run the app again and perform several pull to refresh actions. Note how the column items are
- *    not recomposed anymore! The runtime can trust the input state now thanks to our help.
- *
- * 5. This test is not validated. We'll go over the solution together at the end.
+ * 4. Update the name on button click. (`repo.next()` to generate a new name).
  */
-class Exercise10Test {
-    // This test is not validated. We'll go over it together at the end.
+class Exercise10 {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    @Test
+    fun text_always_reflects_the_most_fresh_state() {
+        // Start the app
+        composeTestRule.setContent {
+            ComposeAndInternalsTheme {
+                NameGenerator(NameRepository())
+            }
+        }
+
+        // Assert for the names from the repo in order: "Jane Smith", "Aleesha Salgado",
+        // "Alayna Bradley", "Zunaira English", "Cassandra Higgins", then starts again from the
+        // beginning.
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Jane Smith")
+        composeTestRule.onRoot().printToLog("TEST")
+        composeTestRule.onNodeWithText("Generate").performClick()
+
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Aleesha Salgado")
+        composeTestRule.onRoot().printToLog("TEST")
+        composeTestRule.onNodeWithText("Generate").performClick()
+
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Alayna Bradley")
+        composeTestRule.onRoot().printToLog("TEST")
+        composeTestRule.onNodeWithText("Generate").performClick()
+
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Zunaira English")
+        composeTestRule.onRoot().printToLog("TEST")
+        composeTestRule.onNodeWithText("Generate").performClick()
+
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Cassandra Higgins")
+        composeTestRule.onRoot().printToLog("TEST")
+        composeTestRule.onNodeWithText("Generate").performClick()
+
+        composeTestRule.onNodeWithTag("name").assertTextEquals("Jane Smith")
+        composeTestRule.onRoot().printToLog("TEST")
+    }
 }

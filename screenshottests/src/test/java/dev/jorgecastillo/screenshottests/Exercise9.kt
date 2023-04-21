@@ -14,7 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * ### Exercise 8 👩🏾‍💻
+ * ### Exercise 9 👩🏾‍💻
  *
  * This exercise is validated via screenshot tests using Paparazzi to render our app without a
  * physical device or emulator. That will let us pick a fixed device configuration so tests work the
@@ -22,7 +22,7 @@ import org.junit.Test
  *
  * Paparazzi does not support app modules yet, that is why this test is on a library module.
  *
- * Use the screenshot named exercise8.png in the screenshots directory from the project root as a
+ * Use the screenshot named exercise9.png in the screenshots directory from the project root as a
  * reference.
  *
  * 1. Add the following color definitions to the app:
@@ -52,7 +52,7 @@ import org.junit.Test
  *
  * 4. Run the test.
  */
-class Exercise8Test {
+class Exercise9Test {
 
     @get:Rule
     val paparazzi = Paparazzi(

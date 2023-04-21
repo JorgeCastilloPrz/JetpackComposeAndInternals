@@ -1,86 +1,45 @@
 package dev.jorgecastillo.compose.app
 
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToNode
-import androidx.compose.ui.test.printToLog
-import androidx.navigation.compose.composable
-import dev.jorgecastillo.compose.app.ui.composables.MainScreen
-import dev.jorgecastillo.compose.app.ui.composables.SpeakerFeed
-import dev.jorgecastillo.compose.app.ui.composables.SpeakerProfileScreen
-import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
-import org.junit.Rule
-import org.junit.Test
+import dev.jorgecastillo.compose.app.ui.composables.SpeakersRecompositionScreen
+import dev.jorgecastillo.compose.app.viewmodel.SpeakersViewModel
 
 /**
  * ### Exercise 11 👩🏾‍💻
  *
- * This exercise adds Compose Navigation to our app. The screen to implement is [MainScreen].
+ * Let's improve exercise 3 (SpeakersScreen) in this one. I have created a copy of it in
+ * [SpeakersRecompositionScreen]. This copy changes the Scaffold content by a SwipeToRefresh that
+ * loads the list of speakers from a ViewModel. The [SpeakersViewModel] is a stub, so every time
+ * it loads the list (or refreshes it), it returns the same exact list. The list is displayed using
+ * [SpeakersRecompositionScreen], which is just the same content we had before for the screen.
  *
- * Please use exercise11.gif, exercise11a.png, and exercise11b.png from the screenshots directory at
- * the root of this project as a references for this exercise.
+ * The goal of this exercise is to show how returning a List (kotlin stdlib) is considered unstable
+ * by the Compose compiler, and it makes the Column and all its items recompose every time, even if
+ * it is exactly the same list.
  *
  * To complete this exercise:
  *
- * 1. Add a Scaffold to the [MainScreen] with a TopAppBar with a title (see images).
+ * 1. Replace the content within the theme in MainActivity by SpeakersRecompositionScreen(), and
+ *    run the app. Open the LayoutInspector, and enable recomposition counts (in the eye icon). Do
+ *    several pull to refreshes, and you'll see how all the elements within the column recompose
+ *    every time.
  *
- * 2. In the content lambda, remember a navigation controller to hoist the navigation state
- *    (rememberNavController()).
+ * 2. Now, go to the [SpeakersViewModel] and you'll find a SpeakersState, which is the class we are
+ *    using to represent our UI state. Every time the ViewModel emits, it emits an instance of this
+ *    class. Create a new class to wrap the List<Speaker> we have in the [SpeakersState], and
+ *    annotate it with @Immutable (Compose). Use this new class in the [SpeakersState], instead of
+ *    the raw List<Speaker>. With this, we are aiding the Compiler and letting it know that the
+ *    List we are using is truly immutable.
  *
- * 3. Add a NavHost to the content lambda, set the navigation controller to it, and set the start
- *    destination to be "speakers".
+ * 3. Go back to [SpeakersRecompositionScreen] and update the SpeakersRecompositionScreen(speakers: List<Speaker>) call
+ *    to support the new Immutable wrapper class instead of the raw List<Speaker>. I.e:
  *
- * 4. Add a couple composable routes to the NavHost via the [composable] function. One of them will
- *    have the route "speakers", the other one will be "speaker/{speakerId}".
+ *    SpeakersRecompositionScreen(speakers: ImmutableList<Speaker>) (or whatever you have called the wrapper)
  *
- * 5. Make the NavHost show the [SpeakerFeed] in the "speakers" route, and set a callback so it
- *    navigates to speaker/{speakerId} onClick using the nav controller (navController.navigate()).
- *    You'll need to forward the clicked speaker id.
+ * 4. Run the app again and perform several pull to refresh actions. Note how the column items are
+ *    not recomposed anymore! The runtime can trust the input state now thanks to our help.
  *
- * 6. In the "speaker/{speakerId}" route, show the [SpeakerProfileScreen] and pass the speaker id to
- *    it. You can use the backStackEntry.arguments?.getString("speakerId") to retrieve it.
- *
- * 7. Run the test.
+ * 5. This test is not validated. We'll go over the solution together at the end.
  */
-class Exercise11Test {
-
-    @get:Rule
-    val composeTestRule = createComposeRule()
-
-    @Test
-    fun feed_shows_first_and_clicking_a_speaker_shows_profile() {
-        // Start the app
-        composeTestRule.setContent {
-            ComposeAndInternalsTheme {
-                MainScreen()
-            }
-        }
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("John Doe"))
-        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 11")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
-        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 11")
-
-        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
-        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 11")
-
-        composeTestRule.onNodeWithText("Apis Anoubis").performClick()
-
-        composeTestRule.onNodeWithText("Follow").assertIsDisplayed()
-    }
+class Exercise11 {
+    // This test is not validated. We'll go over it together at the end.
 }
