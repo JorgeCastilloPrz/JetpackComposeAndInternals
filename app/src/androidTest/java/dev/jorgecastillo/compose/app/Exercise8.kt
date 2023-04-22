@@ -3,7 +3,6 @@
 
 package dev.jorgecastillo.compose.app
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,39 +10,27 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.performScrollToNode
-import androidx.compose.ui.test.printToLog
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.jorgecastillo.compose.app.Exercise8.Elevations
-import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
-import dev.jorgecastillo.compose.app.ui.composables.LazySpeakersScreen
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
 import org.junit.Test
@@ -94,74 +81,45 @@ class Exercise8 {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    data class Elevations(val card: Dp = 0.dp, val default: Dp = 0.dp)
-
-    private lateinit var LocalElevations: ProvidableCompositionLocal<Elevations>
+    private lateinit var LocalCardElevation: ProvidableCompositionLocal<Dp>
     private val repo: FakeFollowerRepository = FakeFollowerRepository()
 
     @Test
     fun static_composition_local_does_not_trigger_granular_recomposition() {
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                val LocalElevations = compositionLocalOf { Elevations() }
+                LocalCardElevation = compositionLocalOf { 0.dp }
+                var cardElevation by remember { mutableStateOf(0.dp) }
 
-                val elevations = if (isSystemInDarkTheme()) {
-                    Elevations(card = 1.dp, default = 1.dp)
-                } else {
-                    Elevations(card = 0.dp, default = 0.dp)
-                }
+                CompositionLocalProvider(LocalCardElevation provides cardElevation) {
+                    LazyColumn(Modifier.padding(16.dp)) {
+                        item {
+                            Switch(
+                                modifier = Modifier.testTag("toggle"),
+                                checked = cardElevation != 0.dp,
+                                onCheckedChange = {
+                                    cardElevation = if (cardElevation == 0.dp) 8.dp else 0.dp
+                                }
+                            )
+                        }
 
-                CompositionLocalProvider(LocalElevations provides elevations) {
-                    FollowersTimeline(followers = repo.getFollowers()) { follower ->
-                        FollowerCard(
-                            follower = follower,
-                            elevation = LocalElevations.current.card
-                        )
+                        items(repo.getFollowers()) { follower ->
+                            FollowerCard(follower)
+                        }
                     }
                 }
-                LazySpeakersScreen(speakers = FakeSpeakerRepository().getSpeakers().take(7))
             }
         }
 
-        composeTestRule.onNodeWithTag("FollowersTimeline").performScrollToNode(hasText("John Doe"))
-        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
-
-        composeTestRule.onRoot().printToLog("Exercise 8")
-    }
-
-
-    @Composable
-    private fun FollowersTimeline(
-        followers: List<Follower>,
-        rowCard: @Composable (Follower) -> Unit
-    ) {
-        Scaffold(topBar = {
-            TopAppBar(title = { Text("Speakers") })
-        }, floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    painter = rememberVectorPainter(image = Icons.Default.Add),
-                    contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
-                )
-            }
-        }, content = { contentPadding ->
-            LazyColumn(
-                Modifier
-                    .padding(contentPadding)
-                    .testTag("FollowersTimeline")
-            ) {
-                items(followers) { follower ->
-                    rowCard(follower)
-                }
-            }
-        })
+        composeTestRule.onNodeWithTag("toggle").performClick()
+        composeTestRule.onNodeWithTag("toggle").performClick()
+        composeTestRule.onNodeWithTag("toggle").performClick()
     }
 
     @Composable
-    private fun FollowerCard(follower: Follower, elevation: Dp, onClick: (Follower) -> Unit = {}) {
+    private fun FollowerCard(follower: Follower, onClick: (Follower) -> Unit = {}) {
         Card(
-            elevation = elevation,
+            elevation = LocalCardElevation.current,
             onClick = { onClick(follower) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -170,16 +128,6 @@ class Exercise8 {
             Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
                 Text(text = follower.name, style = MaterialTheme.typography.h6)
                 Text(text = follower.country, style = MaterialTheme.typography.caption)
-            }
-        }
-    }
-
-    @Composable
-    @Preview(showBackground = true)
-    private fun FollowersTimelinePreview() {
-        ComposeAndInternalsTheme {
-            FollowersTimeline(followers = FakeFollowerRepository().getFollowers()) {
-                FollowerCard(follower = it, elevation = 16.dp)
             }
         }
     }
