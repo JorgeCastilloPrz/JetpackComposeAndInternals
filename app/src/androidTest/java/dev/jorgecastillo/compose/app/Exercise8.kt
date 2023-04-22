@@ -16,7 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -81,32 +80,56 @@ class Exercise8 {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private lateinit var LocalCardElevation: ProvidableCompositionLocal<Dp>
     private val repo: FakeFollowerRepository = FakeFollowerRepository()
 
     @Test
     fun static_composition_local_does_not_trigger_granular_recomposition() {
+        val LocalCardElevation = compositionLocalOf { 0.dp }
+
+        @Composable
+        fun FollowerCard(follower: Follower, onClick: (Follower) -> Unit = {}) {
+            Card(
+                elevation = LocalCardElevation.current,
+                onClick = { onClick(follower) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.spacing_small))
+            ) {
+                Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
+                    Text(text = follower.name, style = MaterialTheme.typography.h6)
+                    Text(text = follower.country, style = MaterialTheme.typography.caption)
+                }
+            }
+        }
+
+        @Composable
+        fun FollowerTimeline(cardElevation: Dp, onToggled: () -> Unit) {
+            LazyColumn(Modifier.padding(16.dp)) {
+                item {
+                    Switch(
+                        modifier = Modifier.testTag("toggle"),
+                        checked = cardElevation != 0.dp,
+                        onCheckedChange = { onToggled() }
+                    )
+                }
+
+                items(repo.getFollowers()) { follower ->
+                    FollowerCard(follower)
+                }
+            }
+        }
+
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                LocalCardElevation = compositionLocalOf { 0.dp }
                 var cardElevation by remember { mutableStateOf(0.dp) }
 
                 CompositionLocalProvider(LocalCardElevation provides cardElevation) {
-                    LazyColumn(Modifier.padding(16.dp)) {
-                        item {
-                            Switch(
-                                modifier = Modifier.testTag("toggle"),
-                                checked = cardElevation != 0.dp,
-                                onCheckedChange = {
-                                    cardElevation = if (cardElevation == 0.dp) 8.dp else 0.dp
-                                }
-                            )
+                    FollowerTimeline(
+                        cardElevation = cardElevation,
+                        onToggled = {
+                            cardElevation = if (cardElevation == 0.dp) 8.dp else 0.dp
                         }
-
-                        items(repo.getFollowers()) { follower ->
-                            FollowerCard(follower)
-                        }
-                    }
+                    )
                 }
             }
         }
@@ -114,22 +137,6 @@ class Exercise8 {
         composeTestRule.onNodeWithTag("toggle").performClick()
         composeTestRule.onNodeWithTag("toggle").performClick()
         composeTestRule.onNodeWithTag("toggle").performClick()
-    }
-
-    @Composable
-    private fun FollowerCard(follower: Follower, onClick: (Follower) -> Unit = {}) {
-        Card(
-            elevation = LocalCardElevation.current,
-            onClick = { onClick(follower) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.spacing_small))
-        ) {
-            Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
-                Text(text = follower.name, style = MaterialTheme.typography.h6)
-                Text(text = follower.country, style = MaterialTheme.typography.caption)
-            }
-        }
     }
 }
 
