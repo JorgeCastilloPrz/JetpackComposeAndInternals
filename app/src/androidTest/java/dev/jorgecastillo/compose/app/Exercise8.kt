@@ -4,18 +4,15 @@
 package dev.jorgecastillo.compose.app
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,13 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -80,64 +77,97 @@ class Exercise8 {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val repo: FakeFollowerRepository = FakeFollowerRepository()
+    @Before
+    fun setup() {
+        firstRecompositionCounter.reset()
+        secondRecompositionCounter.reset()
+        thirdRecompositionCounter.reset()
+    }
 
     @Test
-    fun static_composition_local_does_not_trigger_granular_recomposition() {
-        val LocalCardElevation = compositionLocalOf { 0.dp }
-
-        @Composable
-        fun FollowerCard(follower: Follower, onClick: (Follower) -> Unit = {}) {
-            Card(
-                elevation = LocalCardElevation.current,
-                onClick = { onClick(follower) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.spacing_small))
-            ) {
-                Column(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
-                    Text(text = follower.name, style = MaterialTheme.typography.h6)
-                    Text(text = follower.country, style = MaterialTheme.typography.caption)
-                }
-            }
-        }
-
-        @Composable
-        fun FollowerTimeline(cardElevation: Dp, onToggled: () -> Unit) {
-            LazyColumn(Modifier.padding(16.dp)) {
-                item {
-                    Switch(
-                        modifier = Modifier.testTag("toggle"),
-                        checked = cardElevation != 0.dp,
-                        onCheckedChange = { onToggled() }
-                    )
-                }
-
-                items(repo.getFollowers()) { follower ->
-                    FollowerCard(follower)
-                }
-            }
-        }
-
+    fun composition_local_skips_intermediate_composable_calls_not_reading_from_it() {
         composeTestRule.setContent {
             ComposeAndInternalsTheme {
-                var cardElevation by remember { mutableStateOf(0.dp) }
+                var value by remember { mutableStateOf(1) }
 
-                CompositionLocalProvider(LocalCardElevation provides cardElevation) {
-                    FollowerTimeline(
-                        cardElevation = cardElevation,
-                        onToggled = {
-                            cardElevation = if (cardElevation == 0.dp) 8.dp else 0.dp
+                Column {
+                    CompositionLocalProvider(localTest1 provides value) {
+                        SideEffect { firstRecompositionCounter.increment() }
+
+                        MyRow {
+                            Text("Text is ${localTest1.current}")
                         }
-                    )
+                    }
+
+                    Button(
+                        modifier = Modifier.testTag("button"),
+                        onClick = { value++ }
+                    ) {
+                        SideEffect { secondRecompositionCounter.increment() }
+                        Text("Increment")
+                    }
                 }
             }
         }
 
-        composeTestRule.onNodeWithTag("toggle").performClick()
-        composeTestRule.onNodeWithTag("toggle").performClick()
-        composeTestRule.onNodeWithTag("toggle").performClick()
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.runOnIdle {
+            assertThat(firstRecompositionCounter.count(), `is`(1))
+            assertThat(secondRecompositionCounter.count(), `is`(1))
+            assertThat(thirdRecompositionCounter.count(), `is`(1))
+        }
+    }
+
+    @Test
+    fun static_composition_local_recomposes_full_provider_content_lambda() {
+        composeTestRule.setContent {
+            ComposeAndInternalsTheme {
+                var value by remember { mutableStateOf(1) }
+
+                Column {
+                    CompositionLocalProvider(localTest2 provides value) {
+                        SideEffect { firstRecompositionCounter.increment() }
+
+                        MyRow {
+                            Text("Text is ${localTest2.current}")
+                        }
+                    }
+
+                    Button(
+                        modifier = Modifier.testTag("button"),
+                        onClick = { value++ }
+                    ) {
+                        SideEffect { secondRecompositionCounter.increment() }
+                        Text("Increment")
+                    }
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.onNodeWithTag("button").performClick()
+        composeTestRule.runOnIdle {
+            assertThat(firstRecompositionCounter.count(), `is`(4))
+            assertThat(secondRecompositionCounter.count(), `is`(4))
+            assertThat(thirdRecompositionCounter.count(), `is`(4))
+        }
     }
 }
 
-data class Follower(val name: String, val country: String)
+private val localTest1 = compositionLocalOf { -1 }
+private val localTest2 = staticCompositionLocalOf { -1 }
+
+val firstRecompositionCounter = RecompositionCounter()
+val secondRecompositionCounter = RecompositionCounter()
+val thirdRecompositionCounter = RecompositionCounter()
+
+@Composable
+private fun MyRow(content: @Composable () -> Unit) {
+    Row {
+        SideEffect { thirdRecompositionCounter.increment() }
+        content()
+    }
+}
