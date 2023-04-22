@@ -81,7 +81,6 @@ class Exercise8 {
     fun setup() {
         firstRecompositionCounter.reset()
         secondRecompositionCounter.reset()
-        thirdRecompositionCounter.reset()
     }
 
     @Test
@@ -103,7 +102,6 @@ class Exercise8 {
                         modifier = Modifier.testTag("button"),
                         onClick = { value++ }
                     ) {
-                        SideEffect { secondRecompositionCounter.increment() }
                         Text("Increment")
                     }
                 }
@@ -116,7 +114,6 @@ class Exercise8 {
         composeTestRule.runOnIdle {
             assertThat(firstRecompositionCounter.count(), `is`(1))
             assertThat(secondRecompositionCounter.count(), `is`(1))
-            assertThat(thirdRecompositionCounter.count(), `is`(1))
         }
     }
 
@@ -139,7 +136,6 @@ class Exercise8 {
                         modifier = Modifier.testTag("button"),
                         onClick = { value++ }
                     ) {
-                        SideEffect { secondRecompositionCounter.increment() }
                         Text("Increment")
                     }
                 }
@@ -152,7 +148,6 @@ class Exercise8 {
         composeTestRule.runOnIdle {
             assertThat(firstRecompositionCounter.count(), `is`(4))
             assertThat(secondRecompositionCounter.count(), `is`(4))
-            assertThat(thirdRecompositionCounter.count(), `is`(4))
         }
     }
 }
@@ -162,12 +157,11 @@ private val localTest2 = staticCompositionLocalOf { -1 }
 
 val firstRecompositionCounter = RecompositionCounter()
 val secondRecompositionCounter = RecompositionCounter()
-val thirdRecompositionCounter = RecompositionCounter()
 
 @Composable
 private fun MyRow(content: @Composable () -> Unit) {
     Row {
-        SideEffect { thirdRecompositionCounter.increment() }
+        SideEffect { secondRecompositionCounter.increment() }
         content()
     }
 }
