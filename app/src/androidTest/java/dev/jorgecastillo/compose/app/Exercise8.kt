@@ -43,7 +43,7 @@ import org.junit.Test
  *
  *    When updated, invalidates only the Composables reading its current value. Use it for cases
  *    where the value is expected to change over time, since it is more performant in those
- *    scenarios than the alternative below 👇
+ *    scenarios than the alternative below.
  *
  * 2. [staticCompositionLocalOf]:
  *
@@ -53,24 +53,28 @@ import org.junit.Test
  *
  * Now, time for the exercise.
  *
- * Imagine that we have a custom design system where we need to provide some custom elevation value
- * for all the elevated components like [Card]s.
+ * There are two tests on this class. For each one of these tests, we must provide a
+ * CompositionLocal. That is [localTest1] and [localTest2]. (They are defined at a file level to
+ * avoid compose lambdas to capture them, since that would invalidate those lambdas on every
+ * recomposition and therefore defeat the purpose of these tests).
  *
- * There are two tests on this test class. In both of them, we must provide the elevation via a
- * [CompositionLocal] so it is exposed to the whole subtree, and then read from its current value to
- * set the elevation of a nested [Card] Composable. The elevation will be defined via the
- * [Elevations] data class.
  *
  * To complete this exercise:
  *
- * 1. Provide the elevation using a static [CompositionLocal] in the first test. Read from it to set
- *    the [Card] elevation.
- * 2. Run the test, it should verify that all Composables are recomposed once the value is updated.
+ * 1. For the first test, initialize [localTest1] as a non-static [CompositionLocal].
+ * 2. Read from its value when setting the text to the nested [Text] Composable inside [MyRow].
+ * 3. Run the test. It will click the button to increase the counter state 3 times. That will cause
+ *    3 recompositions on top of the initial one. For any components within the
+ *    CompositionLocalProvider content lambda, only the ones reading from the CompositionLocal will
+ *    recompose. The test verifies this by checking how many times the other components recompose.
+ *    Those should only recompose once. The test should pass.
  *
- * 3. Provide the elevation using a non-static [CompositionLocal] in the second test. Read from it
- *    to set the [Card] elevation.
- * 4. Run the test, it should verify that only the Composables reading from the value are
- *    recomposed.
+ * 4. For the second test, initialize [localTest2] as a **static** [CompositionLocal] this time.
+ * 5. Read from its value when setting the text to the nested [Text] Composable inside [MyRow].
+ * 6. Run the test. It will click the button to increase the counter state 3 times. That will cause
+ *    3 recompositions on top of the initial one. This time, all components within the
+ *    CompositionLocalProvider content lambda will recompose. The test verifies this and should
+ *    pass.
  */
 class Exercise8 {
 
