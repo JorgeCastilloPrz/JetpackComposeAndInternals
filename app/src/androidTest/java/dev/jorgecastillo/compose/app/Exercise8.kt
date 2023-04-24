@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
@@ -156,8 +157,8 @@ class Exercise8 {
     }
 }
 
-private val localTest1 = compositionLocalOf { -1 }
-private val localTest2 = staticCompositionLocalOf { -1 }
+private val localTest1: ProvidableCompositionLocal<Int> = compositionLocalOf { -1 }
+private val localTest2: ProvidableCompositionLocal<Int> = staticCompositionLocalOf { -1 }
 
 val firstRecompositionCounter = RecompositionCounter()
 val secondRecompositionCounter = RecompositionCounter()
