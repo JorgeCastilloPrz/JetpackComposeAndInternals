@@ -4,7 +4,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
-import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -14,30 +13,31 @@ import org.junit.Test
  * This exercise is not validated, so you should validate your implementation by comparing it with
  * the provided screenshots/exercise9.png picture.
  *
- * 1. Add the following color definitions to the app:
+ * 1. Add the following color definitions to the Color.kt file in this same package:
+ *
  *    val Pink200 = Color(0xFFF48FB1)
  *    val Pink500 = Color(0xFFE91E63)
  *    val Pink700 = Color(0xFFC2185B)
  *
- * 2. Create a PinkTheme along with the [ComposeAndInternalsTheme] that uses the following color
+ * 2. Create a PinkTheme along with the [MyAppTheme] that uses the following color
  *    palettes but the same typography and shapes than the former:
  *
- *    private val DarkPinkColorPalette = darkColors(
+ *    private val DarkPinkColors = darkColors(
  *      primary = Pink200,
  *      primaryVariant = Pink700,
  *      secondary = Teal200,
  *      surface = Pink200
  *    )
  *
- *    private val LightPinkColorPalette = lightColors(
+ *    private val LightPinkColors = lightColors(
  *      primary = Pink500,
  *      primaryVariant = Pink700,
  *      secondary = Teal200,
  *      surface = Pink700
  *    )
  *
- * 3. Before displaying a [SpeakerCard] for the [LazySpeakersScreen], check the speaker company. If
- *    it is a Lyft worker, use the PinkTheme. Otherwise keep the default theme.
+ * 3. Before displaying a [SpeakerCard] for the [Feed], check the speaker company. If it is a Lyft
+ *    worker and theme it with the PinkTheme in that case. Otherwise keep the default [MyAppTheme].
  *
  * 4. Run the test.
  */
