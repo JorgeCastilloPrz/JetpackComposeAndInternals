@@ -1,6 +1,6 @@
 @file:Suppress("TestFunctionName")
 
-package dev.jorgecastillo.screenshottests.theme
+package dev.jorgecastillo.compose.app
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -29,11 +29,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import dev.jorgecastillo.compose.app.ui.theme.PinkTheme
-import dev.jorgecastillo.screenshottests.R
+import dev.jorgecastillo.compose.app.models.Speaker
+import dev.jorgecastillo.compose.app.ui.composables.avatarResForId
 
 @Composable
-fun LazySpeakersScreen(speakers: List<Speaker>) {
+fun Feed(speakers: List<Speaker>) {
     Scaffold(topBar = {
         TopAppBar(title = { Text("Speakers") })
     }, floatingActionButton = {
@@ -71,7 +71,7 @@ fun SpeakerCard(speaker: Speaker) {
     ) {
         Row(Modifier.padding(dimensionResource(id = R.dimen.spacing_regular))) {
             Image(
-                painter = painterResource(R.drawable.avatar_1),
+                painter = painterResource(avatarResForId(speaker.id)),
                 contentDescription = stringResource(
                     id = R.string.content_desc_speaker_avatar,
                     speaker.name

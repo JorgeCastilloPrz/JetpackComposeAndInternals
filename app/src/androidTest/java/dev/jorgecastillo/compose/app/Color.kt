@@ -1,4 +1,4 @@
-package dev.jorgecastillo.screenshottests.theme
+package dev.jorgecastillo.compose.app
 
 import androidx.compose.ui.graphics.Color
 

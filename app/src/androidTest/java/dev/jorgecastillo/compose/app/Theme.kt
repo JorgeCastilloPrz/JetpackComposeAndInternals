@@ -1,50 +1,35 @@
-@file:Suppress("TestFunctionName")
+@file:Suppress("TestFunctionName", "PrivatePropertyName")
 
-package dev.jorgecastillo.compose.app.ui.theme
-
+package dev.jorgecastillo.compose.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import dev.jorgecastillo.screenshottests.theme.Pink200
-import dev.jorgecastillo.screenshottests.theme.Pink500
-import dev.jorgecastillo.screenshottests.theme.Pink700
-import dev.jorgecastillo.screenshottests.theme.Purple200
-import dev.jorgecastillo.screenshottests.theme.Purple500
-import dev.jorgecastillo.screenshottests.theme.Purple700
-import dev.jorgecastillo.screenshottests.theme.Teal200
+import dev.jorgecastillo.compose.app.ui.theme.Shapes
+import dev.jorgecastillo.compose.app.ui.theme.Typography
 
-private val DarkColorPalette = darkColors(
+private val DarkColors = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200
 )
 
-private val LightColorPalette = lightColors(
+private val LightColors = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
-private val DarkPinkColorPalette = darkColors(
+private val DarkPinkColors = darkColors(
     primary = Pink200,
     primaryVariant = Pink700,
     secondary = Teal200,
     surface = Pink200
 )
 
-private val LightPinkColorPalette = lightColors(
+private val LightPinkColors = lightColors(
     primary = Pink500,
     primaryVariant = Pink700,
     secondary = Teal200,
@@ -52,14 +37,14 @@ private val LightPinkColorPalette = lightColors(
 )
 
 @Composable
-fun ComposeAndInternalsTheme(
+fun MyAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        DarkColors
     } else {
-        LightColorPalette
+        LightColors
     }
 
     MaterialTheme(
@@ -76,9 +61,9 @@ fun PinkTheme(
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
-        DarkPinkColorPalette
+        DarkPinkColors
     } else {
-        LightPinkColorPalette
+        LightPinkColors
     }
 
     MaterialTheme(
