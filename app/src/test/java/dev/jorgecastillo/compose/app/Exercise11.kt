@@ -122,7 +122,7 @@ class Exercise11 {
     private fun takeReadOnlySnapshot(): Snapshot = Snapshot.takeSnapshot()
     private fun takeMutableSnapshot(): MutableSnapshot = Snapshot.takeMutableSnapshot()
 
-    private fun takeMutableSnapshot(readWriteCounter: ReadWriteCounter) =
+    private fun takeMutableSnapshot(readWriteCounter: ReadWriteCounter): MutableSnapshot =
         Snapshot.takeMutableSnapshot(
             readObserver = { readWriteCounter.trackRead() },
             writeObserver = { readWriteCounter.trackWrite() }
