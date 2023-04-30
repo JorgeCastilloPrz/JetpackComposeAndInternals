@@ -97,6 +97,16 @@ class Exercise11 {
         assertThat(name, `is`("Cassandra Higgins"))
     }
 
+    /**
+     * 1. Implement [takeMutableSnapshot] (variant that requires a [ReadWriteCounter]) to take a
+     *    mutable snapshot that forwards any writes and reads to the passed
+     *    [ReadWriteCounter] by calling [ReadWriteCounter.trackRead()] and
+     *    [ReadWriteCounter.trackWrite()].
+     *
+     * 2. Run the test. Since we are not reading any state objects from within the snapshot context,
+     *    the counter should track 0 reads. Also, since we are writing to state once from the
+     *    snapshot context, the write counter should track 1 write (see assertions).
+     */
     @Test
     fun `track reads and writes within a snapshot`() {
         var name by mutableStateOf("")
