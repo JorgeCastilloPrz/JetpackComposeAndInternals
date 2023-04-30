@@ -57,13 +57,13 @@ class Exercise11 {
         name = "Aleesha Salgado"
         val snapshot = takeMutableSnapshot()
 
-        snapshot.enter { name = "Jessica Jones" }
+        // enter the snapshot and update the name here
 
         assertThat(name, `is`("Aleesha Salgado"))
         snapshot.enter { assertThat(name, `is`("Jessica Jones")) }
         assertThat(name, `is`("Aleesha Salgado"))
 
-        snapshot.apply() // propagate changes
+        // apply the snapshot here to propagate the changes
         assertThat(name, `is`("Jessica Jones"))
     }
 
@@ -87,13 +87,13 @@ class Exercise11 {
 
         val first = takeMutableSnapshot()
         first.enter {
-            name = "Jessica Jones"
+            // Update the name here
 
             val second = takeMutableSnapshot()
-            second.enter { name = "Cassandra Higgins" }
-            second.apply()
+            second.enter { /* modify the name again here */ }
+            // Apply [second] changes here
         }
-        first.apply()
+        // Apply [first] changes here
         assertThat(name, `is`("Cassandra Higgins"))
     }
 
@@ -119,12 +119,9 @@ class Exercise11 {
         assertThat(readWriteCounter.writes(), `is`(1))
     }
 
-    private fun takeReadOnlySnapshot(): Snapshot = Snapshot.takeSnapshot()
-    private fun takeMutableSnapshot(): MutableSnapshot = Snapshot.takeMutableSnapshot()
+    private fun takeReadOnlySnapshot(): Snapshot = TODO()
+    private fun takeMutableSnapshot(): MutableSnapshot = TODO()
 
     private fun takeMutableSnapshot(readWriteCounter: ReadWriteCounter): MutableSnapshot =
-        Snapshot.takeMutableSnapshot(
-            readObserver = { readWriteCounter.trackRead() },
-            writeObserver = { readWriteCounter.trackWrite() }
-        )
+        TODO()
 }
