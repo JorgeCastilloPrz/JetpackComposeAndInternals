@@ -63,7 +63,6 @@ fun SpeakersRecompositionScreen(speakers: List<Speaker>) {
         Modifier
             .verticalScroll(rememberScrollState())
             .testTag("SpeakersList")
-            .recomposeHighlighter()
     ) {
         speakers.forEach { speaker ->
             SpeakerCard(speaker)
