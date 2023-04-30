@@ -3,6 +3,7 @@ package dev.jorgecastillo.compose.app
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.MutableSnapshot
 import androidx.compose.runtime.snapshots.Snapshot
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -108,8 +109,8 @@ class Exercise11 {
         assertThat(readWriteCounter.writes(), `is`(1))
     }
 
-    private fun takeReadOnlySnapshot() = Snapshot.takeSnapshot()
-    private fun takeMutableSnapshot() = Snapshot.takeMutableSnapshot()
+    private fun takeReadOnlySnapshot(): Snapshot = Snapshot.takeSnapshot()
+    private fun takeMutableSnapshot(): MutableSnapshot = Snapshot.takeMutableSnapshot()
 
     private fun takeMutableSnapshot(readWriteCounter: ReadWriteCounter) =
         Snapshot.takeMutableSnapshot(
