@@ -92,7 +92,7 @@ sealed interface HeroesUiState {
   // ...
   data class Content(
     val heroes: List<Hero>,
-    var loading: Boolean // loading without content? 🤔
+    val loading: Boolean? = null // loading without content?
   ): HeroesUiState
 }
 ```
@@ -459,12 +459,9 @@ Node #1 at (l=0, t=171, r=1080, b=2148)px
 #### **Matching from tests**
 
 ```kotlin
-val mySwitch = SemanticsMatcher.expectValue(
-    SemanticsProperties.Role, Role.Switch
-)
-composeTestRule.onNode(mySwitch)
+composeTestRule.onNode(hasText("Button"))
     .performClick()
-    .assertIsOff()
+    .assertIsDisplayed()
 ```
 
 ---
