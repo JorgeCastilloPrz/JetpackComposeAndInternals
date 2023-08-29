@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "dev.jorgecastillo.compose.app"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -47,20 +47,20 @@ android {
 }
 
 dependencies {
-    implementation "androidx.compose.ui:ui:$compose_version_alpha"
-    implementation "androidx.compose.material:material:$compose_version_alpha"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version_alpha"
-    implementation "androidx.compose.animation:animation:$compose_version_alpha"
-    implementation "androidx.compose.animation:animation-graphics:$compose_version_alpha"
-    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    implementation "androidx.compose.animation:animation-graphics:$compose_version"
+    implementation 'androidx.activity:activity-compose:1.7.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.26.3-beta'
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation "androidx.navigation:navigation-compose:2.7.1"
 
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version_alpha"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     // Test rules and transitive dependencies:
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version_alpha")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
     // Needed for createComposeRule, but not createAndroidComposeRule:
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version_alpha")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     testImplementation('junit:junit:4.13.2')
 }

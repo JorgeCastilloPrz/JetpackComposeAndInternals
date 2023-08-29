@@ -19,7 +19,7 @@ class ItemProvider constructor(
         get() = itemsState.value.size
 
     @Composable
-    override fun Item(index: Int) {
+    override fun Item(index: Int, key: Any) {
         val item = itemsState.value.getOrNull(index)
         item?.itemContent?.invoke(item.item)
     }
