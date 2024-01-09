@@ -12,29 +12,5 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun MainScreen() {
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Speakers App") })
-        }, content = { contentPadding ->
-            val navController = rememberNavController()
-
-            NavHost(
-                modifier = Modifier.padding(contentPadding),
-                navController = navController,
-                startDestination = "speakers"
-            ) {
-                composable("speakers") {
-                    SpeakerFeed { speaker ->
-                        navController.navigate("speaker/${speaker.id}") {
-                            popUpTo("speakers")
-                        }
-                    }
-                }
-                composable(
-                    "speaker/{speakerId}"
-                ) { backStackEntry ->
-                    SpeakerProfileScreen(backStackEntry.arguments?.getString("speakerId"))
-                }
-            }
-        })
+    // Write your code here
 }

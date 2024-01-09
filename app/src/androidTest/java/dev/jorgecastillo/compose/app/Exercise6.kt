@@ -38,14 +38,7 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
  */
 fun Modifier.circledRainbowBorder(strokeWidth: Float): Modifier =
     drawWithContent {
-        drawCircle(color = Color.White, radius = size.width / 2 - strokeWidth)
-        drawContent()
-        drawCircle(
-            brush = Brush.linearGradient(
-                listOf(Color.Magenta, Color.Cyan)),
-            radius = size.width / 2  - strokeWidth,
-            style = Stroke(width = strokeWidth)
-        )
+
     }
 
 @Preview
