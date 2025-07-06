@@ -22,7 +22,7 @@ class Exercise11 {
      * 1. Implement [takeReadOnlySnapshot] to take a snapshot that will only be used to read state
      *    objects.
      *
-     * 2. Run the test. Since we are taking the screenshot right after setting the name to "Aleesha
+     * 2. Run the test. Since we are taking the snapshot right after setting the name to "Aleesha
      *    Salgado", that is the value the name should have when entering the snapshot. Outside of
      *    it, it will stay as "Jessica Jones" (see the assertions).
      */
