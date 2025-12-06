@@ -11,7 +11,6 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun NamePlate(name: String) {
-
 }
 
 @Composable
