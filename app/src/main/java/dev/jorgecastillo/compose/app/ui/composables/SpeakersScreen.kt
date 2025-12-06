@@ -20,8 +20,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +44,7 @@ fun SpeakersScreen(speakers: List<Speaker>) {
     }, floatingActionButton = {
         FloatingActionButton(onClick = { /*TODO*/ }) {
             Icon(
-                painter = rememberVectorPainter(image = Icons.Default.Add),
+                painter = painterResource(R.drawable.add_icon),
                 contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
             )
         }

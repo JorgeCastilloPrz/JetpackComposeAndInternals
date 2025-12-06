@@ -10,13 +10,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,7 +23,6 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.jorgecastillo.compose.app.R
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
 import dev.jorgecastillo.compose.app.models.Speaker
-import dev.jorgecastillo.compose.app.recomposeHighlighter
 import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import dev.jorgecastillo.compose.app.viewmodel.SpeakersViewModel
 
@@ -36,7 +33,7 @@ fun SpeakersRecompositionScreen() {
     }, floatingActionButton = {
         FloatingActionButton(onClick = { /*TODO*/ }) {
             Icon(
-                painter = rememberVectorPainter(image = Icons.Default.Add),
+                painter = painterResource(R.drawable.add_icon),
                 contentDescription = stringResource(id = R.string.content_desc_fab_add_speaker)
             )
         }
