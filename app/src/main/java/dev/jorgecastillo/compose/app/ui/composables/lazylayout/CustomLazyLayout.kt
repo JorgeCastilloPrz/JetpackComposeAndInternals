@@ -25,7 +25,7 @@ fun CustomLazyLayout(
         modifier = modifier
             .clipToBounds()
             .lazyLayoutPointerInput(state),
-        itemProvider = itemProvider,
+        itemProvider = {itemProvider},
     ) { constraints ->
         val boundaries = state.getBoundaries(constraints)
         val indexes = itemProvider.getItemIndexesInRange(boundaries)

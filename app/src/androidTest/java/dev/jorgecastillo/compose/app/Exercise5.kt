@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -52,7 +51,7 @@ class Exercise5Test {
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            painter = painterResource(R.drawable.add_icon),
                             contentDescription = ""
                         )
                     }
@@ -77,7 +76,7 @@ class Exercise5Test {
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            painter = painterResource(R.drawable.add_icon),
                             contentDescription = ""
                         )
                     }
@@ -102,7 +101,7 @@ class Exercise5Test {
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            painter = painterResource(R.drawable.add_icon),
                             contentDescription = ""
                         )
                     }
@@ -127,7 +126,7 @@ class Exercise5Test {
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = rememberVectorPainter(image = Icons.Default.Add),
+                            painter = painterResource(R.drawable.add_icon),
                             contentDescription = ""
                         )
                     }
